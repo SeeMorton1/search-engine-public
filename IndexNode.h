@@ -13,14 +13,34 @@ using namespace std;
 class IndexNode {
 public:
     IndexNode();
+//GETTERS
 
-    string getTerm();
+
+    string getTerm() { return term; };
 
     int getCount();
 
-    int getLeft();
+    IndexNode *getLeft() { return left; };
 
-    int getRight();
+    IndexNode *getRight() { return right; };
+
+    int getHeight();
+
+//SETTERS
+    void setLeft(IndexNode *l);
+
+    void setRight(IndexNode *r);
+
+    void setTerm(string s);
+
+    void setCount(int count);
+
+    void setHeight(int height);
+
+//FUNCTIONS
+    void findHeight();
+
+    void incrementCount() { count++; }
 
 private:
     string term;

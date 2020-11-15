@@ -9,7 +9,7 @@
 #include <string>
 
 class AVLTree {
-    std::string name;
+
 };
 
 
