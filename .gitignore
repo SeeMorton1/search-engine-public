@@ -49,7 +49,7 @@ _deps
 .idea/.gitignore
 .idea/.name
 .idea/misc.xml
-.idea/modules.Qxml
+.idea/modules.xml
 .idea/search-engine-lin-morton.iml
 .idea/vcs.xml
 CMakeLists.txt
