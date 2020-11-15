@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="search_engine_lin_morton" targetName="search_engine_lin_morton" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2527a603-abeb-4a67-be50-1099d580540b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1kJBUpCriCNpRcSfLQ0Sc8ZuzsN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="add_unversioned_files" value="true" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="CMakeSettings" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="Application" factoryName="Application">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="search_engine_lin_morton" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="search_engine_lin_morton" TARGET_NAME="search_engine_lin_morton" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="search_engine_lin_morton" RUN_TARGET_NAME="search_engine_lin_morton">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2527a603-abeb-4a67-be50-1099d580540b" name="Default Changelist" comment="" />
+      <created>1605408831343</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1605408831343</updated>
+      <workItem from="1605408832460" duration="209000" />
+      <workItem from="1605409043084" duration="4258000" />
+    </task>
+    <task id="LOCAL-00001" summary="initial commit">
+      <created>1605411532464</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1605411532464</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added AVLTree class">
+      <created>1605413412752</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1605413412752</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added AVLTree class">
+      <created>1605414027619</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1605414027619</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
+    <MESSAGE value="initial commit" />
+    <MESSAGE value="Added AVLTree class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added AVLTree class" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2974" y="296" width="1092" height="714" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605413736655">
+      <screen x="2560" y="121" width="1920" height="1040" />
+    </state>
+    <state x="2974" y="296" width="1092" height="714" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1400/2560.121.1920.1040/-2560.0.2560.1400@2560.121.1920.1040" timestamp="1605413736655" />
+    <state x="3042" y="123" key="CommitChangelistDialog2" timestamp="1605414027193">
+      <screen x="2560" y="121" width="1920" height="1040" />
+    </state>
+    <state x="3042" y="123" key="CommitChangelistDialog2/0.0.2560.1400/2560.121.1920.1040/-2560.0.2560.1400@2560.121.1920.1040" timestamp="1605414027193" />
+    <state x="987" y="370" key="FileChooserDialogImpl" timestamp="1605414295281">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="987" y="370" key="FileChooserDialogImpl/0.0.2560.1400/2560.0.1920.1040@0.0.2560.1400" timestamp="1605414295281" />
+    <state x="3300" y="396" key="FileChooserDialogImpl/0.0.2560.1400/2560.121.1920.1040/-2560.0.2560.1400@2560.121.1920.1040" timestamp="1605409034615" />
+    <state width="2517" height="401" key="GridCell.Tab.0.bottom" timestamp="1605414307139">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="401" key="GridCell.Tab.0.bottom/0.0.2560.1400/2560.0.1920.1040@0.0.2560.1400" timestamp="1605414307139" />
+    <state width="1879" height="276" key="GridCell.Tab.0.bottom/0.0.2560.1400/2560.121.1920.1040/-2560.0.2560.1400@2560.121.1920.1040" timestamp="1605413634918" />
+    <state width="2517" height="401" key="GridCell.Tab.0.center" timestamp="1605414307139">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="401" key="GridCell.Tab.0.center/0.0.2560.1400/2560.0.1920.1040@0.0.2560.1400" timestamp="1605414307139" />
+    <state width="1879" height="276" key="GridCell.Tab.0.center/0.0.2560.1400/2560.121.1920.1040/-2560.0.2560.1400@2560.121.1920.1040" timestamp="1605413634918" />
+    <state width="2517" height="401" key="GridCell.Tab.0.left" timestamp="1605414307139">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="401" key="GridCell.Tab.0.left/0.0.2560.1400/2560.0.1920.1040@0.0.2560.1400" timestamp="1605414307139" />
+    <state width="1879" height="276" key="GridCell.Tab.0.left/0.0.2560.1400/2560.121.1920.1040/-2560.0.2560.1400@2560.121.1920.1040" timestamp="1605413634917" />
+    <state width="2517" height="401" key="GridCell.Tab.0.right" timestamp="1605414307139">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="401" key="GridCell.Tab.0.right/0.0.2560.1400/2560.0.1920.1040@0.0.2560.1400" timestamp="1605414307139" />
+    <state width="1879" height="276" key="GridCell.Tab.0.right/0.0.2560.1400/2560.121.1920.1040/-2560.0.2560.1400@2560.121.1920.1040" timestamp="1605413634918" />
+    <state x="3112" y="370" key="Vcs.Push.Dialog.v2" timestamp="1605414031487">
+      <screen x="2560" y="121" width="1920" height="1040" />
+    </state>
+    <state x="3112" y="370" key="Vcs.Push.Dialog.v2/0.0.2560.1400/2560.121.1920.1040/-2560.0.2560.1400@2560.121.1920.1040" timestamp="1605414031487" />
+  </component>
+</project>
