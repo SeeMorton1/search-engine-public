@@ -8,7 +8,6 @@ int main() {
     cout << "Hi zihao gladd you downloaded" << endl;
     std::ofstream output("output.txt");
     output << "wrote to file";
-    cout << "test" << endl;
 
 
     output.close();
