@@ -1,4 +1,4 @@
-    # Created by .ignore support plugin (hsz.mobi)
+  # Created by .ignore support plugin (hsz.mobi)
 ### C++ template
 # Prerequisites
 *.d
@@ -51,7 +51,9 @@ _deps
 .idea/misc.xml
 .idea/modules.xml
 .idea/search-engine-lin-morton.iml
+.idea/search_engine_lin_morton.iml
 .idea/vcs.xml
+.idea/workspace.xml
 CMakeLists.txt
 cmake-build-debug/
 cs2341_data

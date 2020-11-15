@@ -3,9 +3,9 @@
 //
 #include <iostream>
 #include <fstream>
-
+using namespace std;
 int main() {
-    std::cout << "Hi zihao gladd you downloaded" << std::endl;
+    cout << "Hi zihao gladd you downloaded" << endl;
     std::ofstream output("output.txt");
     output << "wrote to file";
 
