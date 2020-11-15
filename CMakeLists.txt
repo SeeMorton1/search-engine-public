@@ -9,4 +9,4 @@ endforeach ()
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(search_engine_lin_morton main.cpp)
+add_executable(search_engine_lin_morton main.cpp DocParser.cpp DocParser.h)
