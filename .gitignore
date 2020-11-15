@@ -52,6 +52,6 @@ _deps
 .idea/modules.xml
 .idea/search-engine-lin-morton.iml
 .idea/vcs.xml
-#CMakeLists.txt
+CMakeLists.txt
 cmake-build-debug/
 cs2341_data
