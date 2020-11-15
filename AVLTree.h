@@ -6,8 +6,10 @@
 #define SEARCH_ENGINE_LIN_MORTON_AVLTREE_H
 
 
-class AVLTree {
+#include <string>
 
+class AVLTree {
+    std::string name;
 };
 
 
