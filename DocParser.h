@@ -18,6 +18,7 @@ using namespace std;
 
 class DocParser{
 private:
+
     string author;
     string text;
     string jsonfile;

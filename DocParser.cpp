@@ -28,16 +28,21 @@ int DocParser::parseFiles(const char *file) {
                 if (d.IsObject()) {
                     if (d.HasMember("metadata")) {
                          const Value &metadata = d["metadata"];
-//                         string title = metadata["title"].GetString();
-//                         cout << title << endl;
-                             if (metadata["authors"].IsObject()) {
-                                     const Value &authors = metadata["authors"];
-                                     string first = authors["first"].GetString();
-                                     cout << first << endl;
-                                     cout << "print" << endl;
+                         if (metadata["title"].GetString()!="") {
+                             string title = metadata["title"].GetString();
+                             cout << title << endl;
+                             if (metadata["authors"].IsArray()) {
+
+                                 cout << metadata["authors"].Size() << endl;
+//                                     const Value &authors = metadata["authors"];
+//                                     string first = authors["first"].GetString();
+//                                     cout << first << endl;
+//                                     cout << "print" << endl;
                              }
+                         }
                     }
                 }
+                cout << endl;
                 fclose(fp);
             }
         closedir(dir);
