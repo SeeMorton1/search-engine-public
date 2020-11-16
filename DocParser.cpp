@@ -25,21 +25,42 @@ int DocParser::parseFiles(const char *file) {
 
             if (d.IsObject()) {
                 if (d.HasMember("metadata")) {
+                    //Parses in Title
                     const Value &metadata = d["metadata"];
                     string title = metadata["title"].GetString();
                     cout << title << endl;
-                        if (metadata["authors"].IsArray()) {
-                            for (int i = 0; i < metadata["authors"].Size(); i++) {
-                                const Value &authors = metadata[i]["authors"];
-                                string first = authors["first"].GetString();
-                                cout << first << endl;
+
+                    //Parsing in Authors
+                    //https://github.com/Tencent/rapidjson/issues/1235
+                    if (metadata["authors"].IsArray()) {
+                        const Value &authors = metadata["authors"];
+                        for (rapidjson::Value::ConstValueIterator itr = authors.Begin(); itr != authors.End(); ++itr) {
+                            const Value &attribute = *itr;
+                            assert(attribute.IsObject());
+                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
+                                 itr2 != attribute.MemberEnd(); ++itr2) {
+                                if (attribute.HasMember("first"))
+                                {
+                                    author = attribute["first"].GetString();
+                                    author += " ";
+                                    author += attribute["last"].GetString();
+                                }
                             }
+                            cout << author << endl;
                         }
+                    }
+
+                    //Parsing in Abstract
+
+
+
                 }
                 cout << endl;
                 fclose(fp);
+
             }
         }
+
             closedir(dir);
         }
     else {
