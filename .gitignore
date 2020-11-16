@@ -58,3 +58,4 @@ CMakeLists.txt
 cmake-build-debug/
 cs2341_data
 .gitignore
+rapidjson
