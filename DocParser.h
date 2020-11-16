@@ -7,12 +7,12 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+
+#include "rapidjson/filereadstream.h"
 #include "rapidjson/document.h"
-#include "rapidjson/istreamwrapper.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
-#include "rapidjson/ostreamwrapper.h"
+
 #include <dirent.h>
+#include <cstdio>
 using namespace rapidjson;
 using namespace std;
 
@@ -20,12 +20,13 @@ class DocParser{
 private:
     string author;
     string text;
-    ifstream jsonfile;
+    string jsonfile;
 
 
 public:
 
     int parseFiles(const char *file);
+    void toLower();
     void removeStop();
     void removeStem();
 
