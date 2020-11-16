@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
 
 
     DocParser docParser;
-    docParser.parseFiles(argv[1]);
+    docParser.parseFiles(argv[1]); //1 is the path to the .json folder
     output.close();
     return 0;
 }

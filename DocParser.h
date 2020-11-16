@@ -20,7 +20,7 @@ class DocParser{
 private:
     string author;
     string text;
-    ifstream file;
+    ifstream jsonfile;
 
 
 public:
