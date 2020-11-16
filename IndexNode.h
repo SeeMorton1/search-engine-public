@@ -18,7 +18,7 @@ public:
 
     string getTerm() { return term; };
 
-    int getCount();
+    int getCount() const;
 
     IndexNode *getLeft() { return left; };
 
@@ -27,9 +27,11 @@ public:
     int getHeight();
 
 //SETTERS
-    void setLeft(IndexNode *l);
+    void setRoot(IndexNode* roo);
 
-    void setRight(IndexNode *r);
+    void setLeft(IndexNode* l);
+
+    void setRight(IndexNode* r);
 
     void setTerm(string s);
 
@@ -45,6 +47,7 @@ public:
 private:
     string term;
     int count;
+    IndexNode *root;
     IndexNode *left;
     IndexNode *right;
     int height;

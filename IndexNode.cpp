@@ -13,12 +13,14 @@ IndexNode::IndexNode() {
     left = nullptr;
     right = nullptr;
 }
-
-void IndexNode::setLeft(IndexNode *l) {
+void IndexNode::setRoot(IndexNode* roo) {
+    root = roo;
+}
+void IndexNode::setLeft(IndexNode* l) {
     left = l;
 }
 
-void IndexNode::setRight(IndexNode *r) {
+void IndexNode::setRight(IndexNode* r) {
     right = r;
 }
 
@@ -41,3 +43,9 @@ void IndexNode::findHeight() {
         curr = curr->left;
     }
 }
+
+int IndexNode::getCount() const {
+    return count;
+}
+
+

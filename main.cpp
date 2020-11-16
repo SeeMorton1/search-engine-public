@@ -3,7 +3,7 @@
 //
 #include <iostream>
 #include <fstream>
-
+#include "IndexNodesTest.h"
 #include "DocParser.h"
 
 using namespace std;
@@ -13,8 +13,14 @@ int main(int argc, char **argv) {
     output << "wrote to file";
 
 
+
 //    DocParser docParser;
 //    docParser.parseFiles(argv[1]); //1 is the path to the .json folder
+
+    IndexNodesTest::runTests();
+    //DocParser docParser;
+    //docParser.parseFiles(argv[1]); //1 is the path to the .json folder
+
     output.close();
     return 0;
 }
