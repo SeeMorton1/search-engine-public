@@ -28,19 +28,20 @@ int DocParser::parseFiles(const char *file) {
                     //Parses in Title
                     const Value &metadata = d["metadata"];
                     string title = metadata["title"].GetString();
+                    cout << "-Title:" << endl;
                     cout << title << endl;
 
                     //Parsing in Authors
                     //https://github.com/Tencent/rapidjson/issues/1235
                     if (metadata["authors"].IsArray()) {
                         const Value &authors = metadata["authors"];
+                        cout << "-Authors:" << endl;
                         for (rapidjson::Value::ConstValueIterator itr = authors.Begin(); itr != authors.End(); ++itr) {
                             const Value &attribute = *itr;
                             assert(attribute.IsObject());
                             for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
                                  itr2 != attribute.MemberEnd(); ++itr2) {
-                                if (attribute.HasMember("first"))
-                                {
+                                if (attribute.HasMember("first")) {
                                     author = attribute["first"].GetString();
                                     author += " ";
                                     author += attribute["last"].GetString();
@@ -49,21 +50,52 @@ int DocParser::parseFiles(const char *file) {
                             cout << author << endl;
                         }
                     }
+                }
 
-                    //Parsing in Abstract
-
-
-
+                //Parsing in Abstract
+                if (d.HasMember("abstract")) {
+                    const Value &abstract = d["abstract"];
+                    cout << "-Abstract:" << endl;
+                    if (abstract.IsArray()) {
+                        string abstractText;
+                        for (rapidjson::Value::ConstValueIterator itr = abstract.Begin(); itr != abstract.End(); ++itr) {
+                            const Value &attribute = *itr;
+                            assert(attribute.IsObject());
+                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();itr2 != attribute.MemberEnd(); ++itr2) {
+                                if (attribute.HasMember("text")) {
+                                    abstractText = attribute["text"].GetString();
+                                }
+                            }
+                            cout << abstractText << endl;
+                        }
+                    }
+                }
+                
+                //Parsing in BodyText
+                if (d.HasMember("body_text")){
+                    const Value& body_text = d["body_text"];
+                    cout << "-Body:" << endl;
+                    if (body_text.IsArray()){
+                        string BodyText;
+                        for (rapidjson::Value::ConstValueIterator itr = body_text.Begin(); itr != body_text.End(); ++itr) {
+                            const Value &attribute = *itr;
+                            assert(attribute.IsObject());
+                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();itr2 != attribute.MemberEnd(); ++itr2) {
+                                if (attribute.HasMember("text")) {
+                                    BodyText = attribute["text"].GetString();
+                                }
+                            }
+                            cout << BodyText << endl;
+                        }
+                    }
                 }
                 cout << endl;
                 fclose(fp);
-
             }
         }
 
-            closedir(dir);
-        }
-    else {
+        closedir(dir);
+    } else {
         /* could not open directory */
         perror("");
         return EXIT_FAILURE;
