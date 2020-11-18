@@ -70,7 +70,7 @@ int DocParser::parseFiles(const char *file) {
                         }
                     }
                 }
-                
+
                 //Parsing in BodyText
                 if (d.HasMember("body_text")){
                     const Value& body_text = d["body_text"];

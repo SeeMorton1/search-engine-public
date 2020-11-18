@@ -1,0 +1,14 @@
+//
+// Created by zihao on 11/17/2020.
+//
+
+#ifndef SEARCH_ENGINE_LIN_MORTON_JSONOBJECT_H
+#define SEARCH_ENGINE_LIN_MORTON_JSONOBJECT_H
+
+
+class JsonObject {
+
+};
+
+
+#endif //SEARCH_ENGINE_LIN_MORTON_JSONOBJECT_H
