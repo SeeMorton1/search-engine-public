@@ -14,11 +14,11 @@ JsonObject::JsonObject(const JsonObject &copy) {
     jsonFileName = copy.jsonFileName;
 }
 
-void JsonObject::addText(string t) {
+void JsonObject::addText(const string& t) {
     text.push_back(t);
 }
 
-void JsonObject::addAuthors(string author) {
+void JsonObject::addAuthors(const string& author) {
     authors.push_back(author);
 }
 

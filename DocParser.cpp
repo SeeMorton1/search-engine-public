@@ -4,11 +4,25 @@
 
 #include "DocParser.h"
 
+DocParser::DocParser() = default;
+
+DocParser::~DocParser() = default;
+
+DocParser::DocParser(const DocParser &copy) {
+    author = copy.author;
+    text = copy.text;
+    jsonfile = copy.jsonfile;
+}
+
 int DocParser::parseFiles(const char *file) {
+    readInStopWords();
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(file)) != nullptr) {
         while ((ent = readdir(dir)) != nullptr) {
+            //Object for Json Class
+            JsonObject newObject;
+
             string path = file;
             jsonfile = ent->d_name;
             path += "\\";
@@ -23,13 +37,23 @@ int DocParser::parseFiles(const char *file) {
             Document d;
             d.ParseStream(is);
 
+            newObject.jsonFileNameSet(jsonfile);
+
             if (d.IsObject()) {
                 if (d.HasMember("metadata")) {
                     //Parses in Title
                     const Value &metadata = d["metadata"];
                     string title = metadata["title"].GetString();
-                    // cout << "-Title:" << endl;
-                    // cout << title << endl;
+
+                    string word = "";
+                    for (auto x:title) {
+                        if (x == ' ') {
+                            newObject.addText(word);
+                            word = "";
+                        } else if (x!= '(' && x!= ',' && x!= ')' && x!='.'&& x!='/'){
+                            word = word + x;
+                        }
+                    }
 
                     //Parsing in Authors
                     //https://github.com/Tencent/rapidjson/issues/1235
@@ -47,7 +71,7 @@ int DocParser::parseFiles(const char *file) {
                                     author += attribute["last"].GetString();
                                 }
                             }
-                            // cout << author << endl;
+                            newObject.addAuthors(author);
                         }
                     }
                 }
@@ -58,42 +82,69 @@ int DocParser::parseFiles(const char *file) {
                     //cout << "-Abstract:" << endl;
                     if (abstract.IsArray()) {
                         string abstractText;
-                        for (rapidjson::Value::ConstValueIterator itr = abstract.Begin(); itr != abstract.End(); ++itr) {
+                        for (rapidjson::Value::ConstValueIterator itr = abstract.Begin();
+                             itr != abstract.End(); ++itr) {
                             const Value &attribute = *itr;
                             assert(attribute.IsObject());
-                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();itr2 != attribute.MemberEnd(); ++itr2) {
+                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
+                                 itr2 != attribute.MemberEnd(); ++itr2) {
                                 if (attribute.HasMember("text")) {
                                     abstractText = attribute["text"].GetString();
                                 }
                             }
-                            //      cout << abstractText << endl;
+
+                            string word = "";
+                            for (auto x:abstractText) {
+                                transform(word.begin(), word.end(), word.begin(), ::tolower);
+                                if (x == ' ') {
+                                    if (word.size() > 1) {
+                                        newObject.addText(word);
+                                        word = "";
+                                    }
+                                } else if (x!= '(' && x!= ',' && x!= ')' && x!='.' && x!='/'){
+                                    word = word + x;
+                                }
+                            }
                         }
                     }
                 }
-                
+
                 //Parsing in BodyText
-                if (d.HasMember("body_text")){
-                    const Value& body_text = d["body_text"];
+                if (d.HasMember("body_text")) {
+                    const Value &body_text = d["body_text"];
                     //cout << "-Body:" << endl;
-                    if (body_text.IsArray()){
+                    if (body_text.IsArray()) {
                         string BodyText;
-                        for (rapidjson::Value::ConstValueIterator itr = body_text.Begin(); itr != body_text.End(); ++itr) {
+                        for (rapidjson::Value::ConstValueIterator itr = body_text.Begin();
+                             itr != body_text.End(); ++itr) {
                             const Value &attribute = *itr;
                             assert(attribute.IsObject());
-                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();itr2 != attribute.MemberEnd(); ++itr2) {
+                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
+                                 itr2 != attribute.MemberEnd(); ++itr2) {
                                 if (attribute.HasMember("text")) {
                                     BodyText = attribute["text"].GetString();
                                 }
                             }
-                            //      cout << BodyText << endl;
+                            string word = "";
+                            for (auto x:BodyText) {
+                                transform(word.begin(), word.end(), word.begin(), ::tolower);
+                                if (x == ' ') {
+                                    if (word.size() > 1) {
+                                        newObject.addText(word);
+                                        word = "";
+                                    }
+                                } else if (x!= '(' && x!= ',' && x!= ')' && x!='.'&& x!= '/'){
+                                    word = word + x;
+                                }
+                            }
                         }
                     }
                 }
-                //cout << endl;
+
+                vectorOfJson.push_back(newObject);
                 fclose(fp);
             }
         }
-
         closedir(dir);
     } else {
         /* could not open directory */
@@ -102,51 +153,45 @@ int DocParser::parseFiles(const char *file) {
     }
 }
 
+void DocParser::printAuthor() {
+    for (int i = 0; i < vectorOfJson.size(); i++) {
+        cout << "-Next File " << endl;
+        for (int j = 0; j < vectorOfJson.at(i).returnAuthor().size(); j++) {
+            cout << vectorOfJson.at(i).returnAuthor().at(j) << endl;
+        }
+        cout << endl;
+    }
+}
 
-//int GetDir_Dirent(){
-//    DIR *dir;
-//
-//    struct dirent *ent;
-//    if ((dir = opendir ("cs2341_data")) != NULL) {
-//        /* print all the files and directories within directory */
-//        printf("List files using DIR:\n ");
-//        while ((ent = readdir (dir)) != NULL) {
-//            //printf ("%lu\n", ent->d_ino);
-//            //printf("%s\n",ent->d_name);
-//            std::string file = "cs2341_data/";
-//
-//            std::string s = ent->d_name;
-//            file+=s;
-//            const char *c = file.c_str();
-//            FILE* fp = fopen(c,"rb");
-//            char readBuffer[65536];
-//            FileReadStream is(fp,readBuffer,sizeof(readBuffer));
-//            Document doc;
-//            doc.ParseStream(is);
-//            if(doc.IsObject()){
-//                if(doc.HasMember("metadata")){
-//                    std::cout<<"Has metadata\n";
-//                    if(doc["metadata"].IsObject()) {
-//
-//                        Value &meta = doc["metadata"];
-//
-//                        for (auto &item:meta.GetObject()) {
-//
-//                            std::cout << item.name.GetString() << std::endl;
-//                        }
-//                    }
-//
-//                    if(doc["metadata"].HasMember("authors")){
-//                        std::cout<<"Has authors\n\n";
-//
-//                    }
-//                }
-//            }
-//        }
-//        closedir (dir);
-//    } else {
-//        /* could not open directory */
-//        perror ("");
-//        return EXIT_FAILURE;
-//    }
-//}
+void DocParser::printjsonfile() {
+    for (int i = 0; i < vectorOfJson.size(); i++) {
+        cout << "-Json" << endl;
+        cout << vectorOfJson.at(i).returnJsonFileName() << endl;
+    }
+}
+
+void DocParser::printText() {
+    for (int i = 0; i < vectorOfJson.size(); i++) {
+        cout << "-Text " << endl;
+        for (int j = 0; j < vectorOfJson.at(i).returnText().size(); j++) {
+            cout << vectorOfJson.at(i).returnText().at(j) << endl;
+        }
+        cout << endl;
+    }
+}
+void DocParser::readInStopWords() {
+    ifstream myfile;
+    myfile.open(R"(C:\Users\zihao\Documents\GitHub\search-engine-lin-morton\stopWords.txt)");
+    string words;
+    if(myfile.is_open()) {
+        while (!myfile.eof()) {
+            getline(myfile, words);
+            stopWords.push_back(words);
+        }
+    }
+    else{
+        cout << "No File" << endl;
+    }
+    myfile.close();
+    cout << stopWords.size() << endl;
+}
