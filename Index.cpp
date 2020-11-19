@@ -33,7 +33,7 @@ Index &Index::operator=(const Index &copy) {
 
 Index::~Index() = default;
 
-void Index::addID(const int &id) {
+void Index::addID(const string &id) {
     IDs.push_back(id);
 }
 

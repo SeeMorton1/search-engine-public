@@ -13,7 +13,7 @@ using namespace std;
 class Index {
 private:
     string word;
-    list<int> IDs;
+    list<string> IDs;
     int count;
 public:
     Index();
@@ -30,7 +30,7 @@ public:
 
     void addCount();
 
-    void addID(const int &id);
+    void addID(const string &id);
 
     bool operator==(const Index &c);
 
@@ -40,7 +40,7 @@ public:
 
 
     int getCount() {
-        int temp = 0;
+        string temp;
         for (auto const &i:IDs) {
             if (i != temp) {
                 count++;
@@ -54,7 +54,7 @@ public:
         return word;
     }
 
-    list<int> &getIDs() {
+    list<string> &getIDs() {
         return IDs;
     }
 };
