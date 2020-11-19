@@ -34,8 +34,8 @@ public:
     ~DocParser();
     DocParser(const DocParser& copy);
 
-    int parseFiles(const char *file);
-    void readInStopWords();
+    int parseFiles(const char *file, ifstream& stopWords);
+    void readInStopWords(ifstream& stopWords);
     void removeStop();
     void removeStem();
 

@@ -14,8 +14,8 @@ DocParser::DocParser(const DocParser &copy) {
     jsonfile = copy.jsonfile;
 }
 
-int DocParser::parseFiles(const char *file) {
-    readInStopWords();
+int DocParser::parseFiles(const char *file, ifstream& stopWords) {
+    readInStopWords(stopWords);
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(file)) != nullptr) {
@@ -179,19 +179,18 @@ void DocParser::printText() {
         cout << endl;
     }
 }
-void DocParser::readInStopWords() {
-    ifstream myfile;
-    myfile.open(R"(C:\Users\zihao\Documents\GitHub\search-engine-lin-morton\stopWords.txt)");
+void DocParser::readInStopWords(ifstream& file) {
+
     string words;
-    if(myfile.is_open()) {
-        while (!myfile.eof()) {
-            getline(myfile, words);
+    if(file.is_open()) {
+        while (!file.eof()) {
+            getline(file, words);
             stopWords.push_back(words);
         }
     }
     else{
         cout << "No File" << endl;
     }
-    myfile.close();
+    file.close();
     cout << stopWords.size() << endl;
 }
