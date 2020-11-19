@@ -13,12 +13,16 @@
 
 #include <dirent.h>
 #include <cstdio>
+#include "JsonObject.h"
+#include<bits/stdc++.h>
+
 using namespace rapidjson;
 using namespace std;
 
 class DocParser{
 private:
 
+    vector<JsonObject> vectorOfJson;
     string author;
     string text;
     string jsonfile;
@@ -26,10 +30,21 @@ private:
 
 public:
 
+    DocParser();
+    ~DocParser();
+    DocParser(const DocParser& copy);
+
     int parseFiles(const char *file);
     void toLower();
     void removeStop();
     void removeStem();
+
+    //Test Functions
+    void printText();
+    void printAuthor();
+    void printjsonfile();
+
+
 
 };
 #endif //SEARCH_ENGINE_LIN_MORTON_DOCPARSER_H

@@ -9,4 +9,4 @@ endforeach ()
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(search_engine_lin_morton main.cpp DocParser.cpp DocParser.h IndexNode.cpp IndexNode.h IndexNodesTest.cpp IndexNodesTest.h Index.cpp Index.h AvLNode.h AvLTree.h)
+add_executable(search_engine_lin_morton main.cpp DocParser.cpp DocParser.h IndexNode.cpp IndexNode.h IndexNodesTest.cpp IndexNodesTest.h Index.cpp Index.h AvLNode.h AvLTree.h JsonObject.cpp JsonObject.h)
