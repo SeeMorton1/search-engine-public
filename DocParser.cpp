@@ -5,6 +5,7 @@
 #include "DocParser.h"
 
 DocParser::DocParser() = default;
+
 DocParser::~DocParser() = default;
 
 DocParser::DocParser(const DocParser &copy) {
@@ -44,12 +45,11 @@ int DocParser::parseFiles(const char *file) {
                     string title = metadata["title"].GetString();
 
                     string word = "";
-                    for (auto x:title){
-                        if (x == ' '|| x==','){
+                    for (auto x:title) {
+                        if (x == ' ') {
                             newObject.addText(word);
                             word = "";
-                        }
-                        else{
+                        } else if (x!= '(' && x!= ',' && x!= ')' && x!='.'){
                             word = word + x;
                         }
                     }
@@ -83,25 +83,26 @@ int DocParser::parseFiles(const char *file) {
                     //cout << "-Abstract:" << endl;
                     if (abstract.IsArray()) {
                         string abstractText;
-                        for (rapidjson::Value::ConstValueIterator itr = abstract.Begin(); itr != abstract.End(); ++itr) {
+                        for (rapidjson::Value::ConstValueIterator itr = abstract.Begin();
+                             itr != abstract.End(); ++itr) {
                             const Value &attribute = *itr;
                             assert(attribute.IsObject());
-                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();itr2 != attribute.MemberEnd(); ++itr2) {
+                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
+                                 itr2 != attribute.MemberEnd(); ++itr2) {
                                 if (attribute.HasMember("text")) {
                                     abstractText = attribute["text"].GetString();
                                 }
                             }
 
                             string word = "";
-                            for (auto x:abstractText){
-                                transform(word.begin(),word.end(),word.begin(), ::tolower);
-                                if (x == ' '|| x==','){
+                            for (auto x:abstractText) {
+                                transform(word.begin(), word.end(), word.begin(), ::tolower);
+                                if (x == ' ') {
                                     if (word.size() > 1) {
                                         newObject.addText(word);
                                         word = "";
                                     }
-                                }
-                                else{
+                                } else if (x!= '(' && x!= ',' && x!= ')' && x!='.'){
                                     word = word + x;
                                 }
                             }
@@ -112,29 +113,30 @@ int DocParser::parseFiles(const char *file) {
                 }
 
                 //Parsing in BodyText
-                if (d.HasMember("body_text")){
-                    const Value& body_text = d["body_text"];
+                if (d.HasMember("body_text")) {
+                    const Value &body_text = d["body_text"];
                     //cout << "-Body:" << endl;
-                    if (body_text.IsArray()){
+                    if (body_text.IsArray()) {
                         string BodyText;
-                        for (rapidjson::Value::ConstValueIterator itr = body_text.Begin(); itr != body_text.End(); ++itr) {
+                        for (rapidjson::Value::ConstValueIterator itr = body_text.Begin();
+                             itr != body_text.End(); ++itr) {
                             const Value &attribute = *itr;
                             assert(attribute.IsObject());
-                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();itr2 != attribute.MemberEnd(); ++itr2) {
+                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
+                                 itr2 != attribute.MemberEnd(); ++itr2) {
                                 if (attribute.HasMember("text")) {
                                     BodyText = attribute["text"].GetString();
                                 }
                             }
                             string word = "";
-                            for (auto x:BodyText){
-                                transform(word.begin(),word.end(),word.begin(), ::tolower);
-                                if (x == ' ' || x==','){
+                            for (auto x:BodyText) {
+                                transform(word.begin(), word.end(), word.begin(), ::tolower);
+                                if (x == ' ') {
                                     if (word.size() > 1) {
                                         newObject.addText(word);
                                         word = "";
                                     }
-                                }
-                                else{
+                                } else if (x!= '(' && x!= ',' && x!= ')' && x!='.'){
                                     word = word + x;
                                 }
                             }
@@ -158,11 +160,9 @@ int DocParser::parseFiles(const char *file) {
 }
 
 void DocParser::printAuthor() {
-    for (int i=0; i<vectorOfJson.size();i++)
-    {
+    for (int i = 0; i < vectorOfJson.size(); i++) {
         cout << "-Next File " << endl;
-        for (int j=0; j<vectorOfJson.at(i).returnAuthor().size();j++)
-        {
+        for (int j = 0; j < vectorOfJson.at(i).returnAuthor().size(); j++) {
             cout << vectorOfJson.at(i).returnAuthor().at(j) << endl;
         }
         cout << endl;
@@ -170,17 +170,16 @@ void DocParser::printAuthor() {
 }
 
 void DocParser::printjsonfile() {
-    for (int i=0; i<vectorOfJson.size();i++){
+    for (int i = 0; i < vectorOfJson.size(); i++) {
         cout << "-Json" << endl;
         cout << vectorOfJson.at(i).returnJsonFileName() << endl;
     }
 }
+
 void DocParser::printText() {
-    for (int i=0; i<vectorOfJson.size();i++)
-    {
+    for (int i = 0; i < vectorOfJson.size(); i++) {
         cout << "-Text " << endl;
-        for (int j=0; j<vectorOfJson.at(i).returnText().size();j++)
-        {
+        for (int j = 0; j < vectorOfJson.at(i).returnText().size(); j++) {
             cout << vectorOfJson.at(i).returnText().at(j) << endl;
         }
         cout << endl;
