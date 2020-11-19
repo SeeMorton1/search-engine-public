@@ -17,10 +17,12 @@ int main(int argc, char **argv) {
 //    DocParser docParser;
 //    docParser.parseFiles(argv[1]); //1 is the path to the .json folder
 
-     IndexNodesTest::runTests();
+    //IndexNodesTest::runTests();
     DocParser docParser;
     docParser.parseFiles(argv[1]); //1 is the path to the .json folder
-
+    docParser.printAuthor();
+    docParser.printText();
+    docParser.printjsonfile();
     cout << "Finished" << endl;
     output.close();
     return 0;

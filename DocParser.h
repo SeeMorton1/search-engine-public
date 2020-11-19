@@ -30,12 +30,9 @@ private:
 
 public:
 
-    DocParser();
-    ~DocParser();
-    DocParser(const DocParser& copy);
 
     int parseFiles(const char *file);
-    void toLower();
+
     void removeStop();
     void removeStem();
 

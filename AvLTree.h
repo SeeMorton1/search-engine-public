@@ -97,9 +97,10 @@ void AvLTree<T>::rightRotation(AvLNode<T> *A, T &in) {
     rightA->bal = 0;
     updatePathFactors(rightA->right, in);
 }
-
+//TODO: Rewrite double left rotation to make it simpler to read.
 template<typename T>
 void AvLTree<T>::doubleLeftRotation(AvLNode<T> *A, T &in) {
+
     AvLNode<T> *leftA = A->left;
     AvLNode<T> *rightLeftA = leftA->right;
     AvLNode<T> *rightA = A->right;
@@ -130,33 +131,66 @@ void AvLTree<T>::doubleLeftRotation(AvLNode<T> *A, T &in) {
 
 template<typename T>
 void AvLTree<T>::doubleRightRotation(AvLNode<T> *A, T &in) {
-    AvLNode<T> *rightA = A->right;
-    AvLNode<T> *leftRightA = rightA->left;
-    AvLNode<T> *leftA = A->left;
-    AvLNode<T> *leftLeftRightA = leftRightA->left;
-    AvLNode<T> *rightLeftRightA = leftRightA->right;
-    updatePathFactors(leftRightA, in);
-    int bal = leftRightA->bal;
-    A->left = leftRightA;
-    rightA->left = rightLeftRightA;
-    leftRightA->left = leftA;
-    leftRightA->right = leftLeftRightA;
+    //RE WRITING TO MAKE EASIER TO READ
+    AvLNode<T> *B = A->right;
+    AvLNode<T> *c = B->left;
+    AvLNode<T> *lA = A->left;
+    AvLNode<T> *lC = c->left;
+    AvLNode<T> *rC = c->right;
 
-    std::swap(A->data, leftRightA->data);
-    std::swap(A, leftRightA);
+    updatePathFactors(c, in);
+    int b = c->bal;
 
-    leftRightA->bal = 0;
+    A->left = c;
+    B->left = rC;
+    c->left = lA;
+    c->right = lC;
 
-    if (bal == 0) {
+    std::swap(A->data, c->data);
+    std::swap(A, c);
+
+
+    c->bal = 0;
+
+    if (b == 0) {
         A->bal = 0;
-        rightA->bal = 0;
-    } else if (bal == 1) {
+        B->bal = 0;
+    } else if (b == 1) {
         A->bal = 0;
-        rightA->bal = -1;
-    } else if (bal == -1) {
+        B->bal = -1;
+    } else if (b == -1) {
         A->bal = 1;
-        rightA->bal = 0;
+        B->bal = 0;
     }
+
+
+//    AvLNode<T> *rightA = A->right;
+//    AvLNode<T> *leftRightA = rightA->left;
+//    AvLNode<T> *leftA = A->left;
+//    AvLNode<T> *leftLeftRightA = leftRightA->left;
+//    AvLNode<T> *rightLeftRightA = leftRightA->right;
+//    updatePathFactors(leftRightA, in);
+//    int bal = leftRightA->bal;
+//    A->left = leftRightA;
+//    rightA->left = rightLeftRightA;
+//    leftRightA->left = leftA;
+//    leftRightA->right = leftLeftRightA;
+//
+//    std::swap(A->data, leftRightA->data);
+//    std::swap(A, leftRightA);
+//
+//    leftRightA->bal = 0;
+//
+//    if (bal == 0) {
+//        A->bal = 0;
+//        rightA->bal = 0;
+//    } else if (bal == 1) {
+//        A->bal = 0;
+//        rightA->bal = -1;
+//    } else if (bal == -1) {
+//        A->bal = 1;
+//        rightA->bal = 0;
+//    }
 }
 
 template<typename T>

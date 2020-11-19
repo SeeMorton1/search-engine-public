@@ -26,9 +26,11 @@ public:
 
     void setWord(const string &in);
 
+    void setCount(int i) { count = i; }
+
     void addCount();
 
-    void addID(int id);
+    void addID(const int &id);
 
     bool operator==(const Index &c);
 

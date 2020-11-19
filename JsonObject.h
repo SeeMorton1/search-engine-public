@@ -25,8 +25,8 @@ public:
     ~JsonObject();
     JsonObject(const JsonObject& copy);
 
-    void addText(string t);
-    void addAuthors(string author);
+    void addText(const string& t);
+    void addAuthors(const string& author);
     void jsonFileNameSet(string json);
 
     vector<string> returnText();
