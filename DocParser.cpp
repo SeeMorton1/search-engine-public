@@ -180,18 +180,18 @@ void DocParser::printText() {
     }
 }
 void DocParser::readInStopWords() {
-    ifstream file;
-    file.open("stopWords.txt");
+    ifstream myfile;
+    myfile.open("stopWords.txt");
     string words;
-    if(file.is_open()) {
-        while (!file.eof()) {
-            getline(file, words);
+    if(myfile.is_open()) {
+        while (!myfile.eof()) {
+            getline(myfile, words);
             stopWords.push_back(words);
         }
     }
     else{
         cout << "No File" << endl;
     }
-    file.close();
+    myfile.close();
     cout << stopWords.size() << endl;
 }
