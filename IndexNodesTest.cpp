@@ -1,30 +1,52 @@
 //
 // Created by Conner Morton on 11/15/2020.
 //
-
+#include "AvLTree.h"
 #include "IndexNodesTest.h"
+#include "Index.h"
 //
 // Created by Conner Morton on 11/15/2020.
 //
 void IndexNodesTest::runTests() {
-    vector<IndexNode*> nodes;
+    vector<IndexNode *> nodes;
     string term1 = "covid-19";
     string term2 = "research";
     string term3 = "infection";
-    auto *node1= new IndexNode;
-    auto *node2=new IndexNode;
-    auto *node3=new IndexNode;
-    node1->setTerm(term1);node1->setCount(4);
-    node2->setTerm(term2);node2->setCount(2);
-    node3->setTerm(term3);node3->setCount(7);
-    node1->setRight(node2);
-    node1->setLeft(node3);
-    node2->setRoot(node1);
-    node3->setRoot(node1);
-    nodes.emplace_back(node1);
-    nodes.emplace_back(node2);
-    nodes.emplace_back(node3);
-    for(auto& it:nodes){
-        cout<<it->getTerm()<<"["<<it->getCount()<<"]\n";
-    }
+    Index index1;
+    Index index2;
+
+    index1.setWord(term1);
+    index2.setWord(term2);
+
+    index1.setCount(4);
+    index2.setCount(2);
+
+    index1.addID(1);
+    index1.addID(8);
+    index1.addID(3);
+    index1.addID(4);
+    index2.addID(5);
+    index2.addID(9);
+
+
+    AvLTree<Index> testTree;
+    testTree.insert(index1);
+    testTree.insert(index2);
+
+    Index index3;
+    index3.setWord(term3);
+    index3.addID(3);
+    index3.addID(4);
+    index3.addID(5);
+    index3.addID(1);
+    index3.addID(6);
+    index3.addID(9);
+    index3.addID(11);
+    index3.setCount(7);
+    testTree.insert(index3);
+
+
+    cout << "Tests ran" << std::endl;
+
+
 }

@@ -28,14 +28,14 @@ int DocParser::parseFiles(const char *file) {
                     //Parses in Title
                     const Value &metadata = d["metadata"];
                     string title = metadata["title"].GetString();
-                    cout << "-Title:" << endl;
-                    cout << title << endl;
+                    // cout << "-Title:" << endl;
+                    // cout << title << endl;
 
                     //Parsing in Authors
                     //https://github.com/Tencent/rapidjson/issues/1235
                     if (metadata["authors"].IsArray()) {
                         const Value &authors = metadata["authors"];
-                        cout << "-Authors:" << endl;
+                        //cout << "-Authors:" << endl;
                         for (rapidjson::Value::ConstValueIterator itr = authors.Begin(); itr != authors.End(); ++itr) {
                             const Value &attribute = *itr;
                             assert(attribute.IsObject());
@@ -47,7 +47,7 @@ int DocParser::parseFiles(const char *file) {
                                     author += attribute["last"].GetString();
                                 }
                             }
-                            cout << author << endl;
+                            // cout << author << endl;
                         }
                     }
                 }
@@ -55,7 +55,7 @@ int DocParser::parseFiles(const char *file) {
                 //Parsing in Abstract
                 if (d.HasMember("abstract")) {
                     const Value &abstract = d["abstract"];
-                    cout << "-Abstract:" << endl;
+                    //cout << "-Abstract:" << endl;
                     if (abstract.IsArray()) {
                         string abstractText;
                         for (rapidjson::Value::ConstValueIterator itr = abstract.Begin(); itr != abstract.End(); ++itr) {
@@ -66,7 +66,7 @@ int DocParser::parseFiles(const char *file) {
                                     abstractText = attribute["text"].GetString();
                                 }
                             }
-                            cout << abstractText << endl;
+                            //      cout << abstractText << endl;
                         }
                     }
                 }
@@ -74,7 +74,7 @@ int DocParser::parseFiles(const char *file) {
                 //Parsing in BodyText
                 if (d.HasMember("body_text")){
                     const Value& body_text = d["body_text"];
-                    cout << "-Body:" << endl;
+                    //cout << "-Body:" << endl;
                     if (body_text.IsArray()){
                         string BodyText;
                         for (rapidjson::Value::ConstValueIterator itr = body_text.Begin(); itr != body_text.End(); ++itr) {
@@ -85,11 +85,11 @@ int DocParser::parseFiles(const char *file) {
                                     BodyText = attribute["text"].GetString();
                                 }
                             }
-                            cout << BodyText << endl;
+                            //      cout << BodyText << endl;
                         }
                     }
                 }
-                cout << endl;
+                //cout << endl;
                 fclose(fp);
             }
         }

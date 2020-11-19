@@ -17,17 +17,23 @@ Index::Index(const Index &copy) {
 }
 
 Index &Index::operator=(const Index &copy) {
-    count = copy.count;
-    word = copy.word;
+    IDs.clear();
+
+
     for (const auto &it:copy.IDs) {
+
         IDs.push_back(it);
     }
+    count = copy.count;
+    word = copy.word;
+
+
     return *this;
 }
 
 Index::~Index() = default;
 
-void Index::addID(int id) {
+void Index::addID(const int &id) {
     IDs.push_back(id);
 }
 
