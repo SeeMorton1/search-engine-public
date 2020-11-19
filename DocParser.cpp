@@ -94,6 +94,7 @@ int DocParser::parseFiles(const char *file) {
 
                             string word = "";
                             for (auto x:abstractText){
+                                transform(word.begin(),word.end(),word.begin(), ::tolower);
                                 if (x == ' '){
                                     newObject.addText(word);
                                     word = "";
@@ -124,6 +125,7 @@ int DocParser::parseFiles(const char *file) {
                             }
                             string word = "";
                             for (auto x:BodyText){
+                                transform(word.begin(),word.end(),word.begin(), ::tolower);
                                 if (x == ' '){
                                     newObject.addText(word);
                                     word = "";

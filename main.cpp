@@ -19,11 +19,11 @@ int main(int argc, char **argv) {
 
    // IndexNodesTest::runTests();
    //Comment these out Conner or else it will print a lot of stuff
-//    DocParser docParser;
-//    docParser.parseFiles(argv[1]); //1 is the path to the .json folder
+   DocParser docParser;
+    docParser.parseFiles(argv[1]); //1 is the path to the .json folder
 //    docParser.printAuthor();
-//    docParser.printText();
-//    docParser.printjsonfile();
+    docParser.printText();
+ //  docParser.printjsonfile();
 
     cout << "Finished" << endl;
     output.close();
