@@ -4,12 +4,23 @@
 
 #include "DocParser.h"
 
+DocParser::DocParser() = default;
+DocParser::~DocParser() = default;
+
+DocParser::DocParser(const DocParser &copy) {
+    author = copy.author;
+    text = copy.text;
+    jsonfile = copy.jsonfile;
+}
+
 int DocParser::parseFiles(const char *file) {
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(file)) != nullptr) {
         while ((ent = readdir(dir)) != nullptr) {
+            //Object for Json Class
             JsonObject newObject;
+
             string path = file;
             jsonfile = ent->d_name;
             path += "\\";
@@ -20,19 +31,30 @@ int DocParser::parseFiles(const char *file) {
             FILE *fp = fopen(jsonPathing, "rb");
             char readBuffer[65536];
             FileReadStream is(fp, readBuffer, sizeof(readBuffer));
-            newObject.jsonFileNameSet(jsonfile);
 
             Document d;
             d.ParseStream(is);
+
+            newObject.jsonFileNameSet(jsonfile);
 
             if (d.IsObject()) {
                 if (d.HasMember("metadata")) {
                     //Parses in Title
                     const Value &metadata = d["metadata"];
                     string title = metadata["title"].GetString();
-                    // cout << "-Title:" << endl;
-                    // cout << title << endl;
-                    newObject.addText(title);
+
+                    string word = "";
+                    for (auto x:title){
+                        if (x == ' '|| x==','){
+                            newObject.addText(word);
+                            word = "";
+                        }
+                        else{
+                            word = word + x;
+                        }
+                    }
+                    //cout << "-Title:" << endl;
+                    //cout << title << endl;
 
                     //Parsing in Authors
                     //https://github.com/Tencent/rapidjson/issues/1235
@@ -73,8 +95,8 @@ int DocParser::parseFiles(const char *file) {
                             string word = "";
                             for (auto x:abstractText){
                                 transform(word.begin(),word.end(),word.begin(), ::tolower);
-                                if (x == ' '){
-                                    if(word.size() != 1) {
+                                if (x == ' '|| x==','){
+                                    if (word.size() > 1) {
                                         newObject.addText(word);
                                         word = "";
                                     }
@@ -83,10 +105,12 @@ int DocParser::parseFiles(const char *file) {
                                     word = word + x;
                                 }
                             }
+
+                            //cout << abstractText << endl;
                         }
                     }
                 }
-                
+
                 //Parsing in BodyText
                 if (d.HasMember("body_text")){
                     const Value& body_text = d["body_text"];
@@ -104,19 +128,22 @@ int DocParser::parseFiles(const char *file) {
                             string word = "";
                             for (auto x:BodyText){
                                 transform(word.begin(),word.end(),word.begin(), ::tolower);
-                                if (x == ' '){
-                                    if(word.size() != 1) {
-                                    newObject.addText(word);
-                                    word = "";
+                                if (x == ' ' || x==','){
+                                    if (word.size() > 1) {
+                                        newObject.addText(word);
+                                        word = "";
                                     }
                                 }
                                 else{
                                     word = word + x;
                                 }
                             }
+                            // cout << BodyText << endl;
                         }
                     }
                 }
+
+                vectorOfJson.push_back(newObject);
                 //cout << endl;
                 fclose(fp);
             }
@@ -129,6 +156,7 @@ int DocParser::parseFiles(const char *file) {
         return EXIT_FAILURE;
     }
 }
+
 void DocParser::printAuthor() {
     for (int i=0; i<vectorOfJson.size();i++)
     {

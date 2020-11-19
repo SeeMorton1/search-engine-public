@@ -29,7 +29,9 @@ private:
 
 
 public:
-
+    DocParser();
+    ~DocParser();
+    DocParser(const DocParser& copy);
 
     int parseFiles(const char *file);
 
