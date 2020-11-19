@@ -4,23 +4,11 @@
 
 #include "DocParser.h"
 
-DocParser::DocParser() = default;
-DocParser::~DocParser() = default;
-
-DocParser::DocParser(const DocParser &copy) {
-    author = copy.author;
-    text = copy.text;
-    jsonfile = copy.jsonfile;
-}
-
 int DocParser::parseFiles(const char *file) {
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(file)) != nullptr) {
         while ((ent = readdir(dir)) != nullptr) {
-            //Object for Json Class
-            JsonObject newObject;
-
             string path = file;
             jsonfile = ent->d_name;
             path += "\\";
@@ -35,26 +23,13 @@ int DocParser::parseFiles(const char *file) {
             Document d;
             d.ParseStream(is);
 
-            newObject.jsonFileNameSet(jsonfile);
-
             if (d.IsObject()) {
                 if (d.HasMember("metadata")) {
                     //Parses in Title
                     const Value &metadata = d["metadata"];
                     string title = metadata["title"].GetString();
-
-                    string word = "";
-                    for (auto x:title){
-                        if (x == ' '){
-                            newObject.addText(word);
-                            word = "";
-                        }
-                        else{
-                            word = word + x;
-                        }
-                    }
-                    //cout << "-Title:" << endl;
-                    //cout << title << endl;
+                    // cout << "-Title:" << endl;
+                    // cout << title << endl;
 
                     //Parsing in Authors
                     //https://github.com/Tencent/rapidjson/issues/1235
@@ -72,7 +47,7 @@ int DocParser::parseFiles(const char *file) {
                                     author += attribute["last"].GetString();
                                 }
                             }
-                            newObject.addAuthors(author);
+                            // cout << author << endl;
                         }
                     }
                 }
@@ -91,13 +66,16 @@ int DocParser::parseFiles(const char *file) {
                                     abstractText = attribute["text"].GetString();
                                 }
                             }
+<<<<<<< HEAD
 
                             string word = "";
                             for (auto x:abstractText){
                                 transform(word.begin(),word.end(),word.begin(), ::tolower);
                                 if (x == ' '){
-                                    newObject.addText(word);
-                                    word = "";
+                                    if(word.size() != 1) {
+                                        newObject.addText(word);
+                                        word = "";
+                                    }
                                 }
                                 else{
                                     word = word + x;
@@ -105,10 +83,13 @@ int DocParser::parseFiles(const char *file) {
                             }
 
                             //cout << abstractText << endl;
+=======
+                            //      cout << abstractText << endl;
+>>>>>>> 75dab4cc0ced4452fd223ccbe101630eb13245f0
                         }
                     }
                 }
-
+                
                 //Parsing in BodyText
                 if (d.HasMember("body_text")){
                     const Value& body_text = d["body_text"];
@@ -123,23 +104,27 @@ int DocParser::parseFiles(const char *file) {
                                     BodyText = attribute["text"].GetString();
                                 }
                             }
+<<<<<<< HEAD
                             string word = "";
                             for (auto x:BodyText){
                                 transform(word.begin(),word.end(),word.begin(), ::tolower);
                                 if (x == ' '){
+                                    if(word.size() != 1) {
                                     newObject.addText(word);
                                     word = "";
+                                    }
                                 }
                                 else{
                                     word = word + x;
                                 }
                             }
                             // cout << BodyText << endl;
+=======
+                            //      cout << BodyText << endl;
+>>>>>>> 75dab4cc0ced4452fd223ccbe101630eb13245f0
                         }
                     }
                 }
-
-                vectorOfJson.push_back(newObject);
                 //cout << endl;
                 fclose(fp);
             }
@@ -153,32 +138,51 @@ int DocParser::parseFiles(const char *file) {
     }
 }
 
-void DocParser::printAuthor() {
-    for (int i=0; i<vectorOfJson.size();i++)
-    {
-        cout << "-Next File " << endl;
-        for (int j=0; j<vectorOfJson.at(i).returnAuthor().size();j++)
-        {
-            cout << vectorOfJson.at(i).returnAuthor().at(j) << endl;
-        }
-        cout << endl;
-    }
-}
 
-void DocParser::printjsonfile() {
-    for (int i=0; i<vectorOfJson.size();i++){
-        cout << "-Json" << endl;
-        cout << vectorOfJson.at(i).returnJsonFileName() << endl;
-    }
-}
-void DocParser::printText() {
-    for (int i=0; i<vectorOfJson.size();i++)
-    {
-        cout << "-Text " << endl;
-        for (int j=0; j<vectorOfJson.at(i).returnText().size();j++)
-        {
-            cout << vectorOfJson.at(i).returnText().at(j) << endl;
-        }
-        cout << endl;
-    }
-}
+//int GetDir_Dirent(){
+//    DIR *dir;
+//
+//    struct dirent *ent;
+//    if ((dir = opendir ("cs2341_data")) != NULL) {
+//        /* print all the files and directories within directory */
+//        printf("List files using DIR:\n ");
+//        while ((ent = readdir (dir)) != NULL) {
+//            //printf ("%lu\n", ent->d_ino);
+//            //printf("%s\n",ent->d_name);
+//            std::string file = "cs2341_data/";
+//
+//            std::string s = ent->d_name;
+//            file+=s;
+//            const char *c = file.c_str();
+//            FILE* fp = fopen(c,"rb");
+//            char readBuffer[65536];
+//            FileReadStream is(fp,readBuffer,sizeof(readBuffer));
+//            Document doc;
+//            doc.ParseStream(is);
+//            if(doc.IsObject()){
+//                if(doc.HasMember("metadata")){
+//                    std::cout<<"Has metadata\n";
+//                    if(doc["metadata"].IsObject()) {
+//
+//                        Value &meta = doc["metadata"];
+//
+//                        for (auto &item:meta.GetObject()) {
+//
+//                            std::cout << item.name.GetString() << std::endl;
+//                        }
+//                    }
+//
+//                    if(doc["metadata"].HasMember("authors")){
+//                        std::cout<<"Has authors\n\n";
+//
+//                    }
+//                }
+//            }
+//        }
+//        closedir (dir);
+//    } else {
+//        /* could not open directory */
+//        perror ("");
+//        return EXIT_FAILURE;
+//    }
+//}

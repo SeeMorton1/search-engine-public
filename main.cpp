@@ -17,13 +17,9 @@ int main(int argc, char **argv) {
 //    DocParser docParser;
 //    docParser.parseFiles(argv[1]); //1 is the path to the .json folder
 
-   // IndexNodesTest::runTests();
-   //Comment these out Conner or else it will print a lot of stuff
-   DocParser docParser;
+     IndexNodesTest::runTests();
+    DocParser docParser;
     docParser.parseFiles(argv[1]); //1 is the path to the .json folder
-//    docParser.printAuthor();
-    docParser.printText();
- //  docParser.printjsonfile();
 
     cout << "Finished" << endl;
     output.close();
