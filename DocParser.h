@@ -23,6 +23,7 @@ class DocParser{
 private:
 
     vector<JsonObject> vectorOfJson;
+    vector<string> stopWords;
     string author;
     string text;
     string jsonfile;
@@ -34,7 +35,7 @@ public:
     DocParser(const DocParser& copy);
 
     int parseFiles(const char *file);
-
+    void readInStopWords();
     void removeStop();
     void removeStem();
 

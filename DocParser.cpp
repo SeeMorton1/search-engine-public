@@ -15,6 +15,7 @@ DocParser::DocParser(const DocParser &copy) {
 }
 
 int DocParser::parseFiles(const char *file) {
+    readInStopWords();
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(file)) != nullptr) {
@@ -49,12 +50,10 @@ int DocParser::parseFiles(const char *file) {
                         if (x == ' ') {
                             newObject.addText(word);
                             word = "";
-                        } else if (x!= '(' && x!= ',' && x!= ')' && x!='.'){
+                        } else if (x!= '(' && x!= ',' && x!= ')' && x!='.'&& x!='/'){
                             word = word + x;
                         }
                     }
-                    //cout << "-Title:" << endl;
-                    //cout << title << endl;
 
                     //Parsing in Authors
                     //https://github.com/Tencent/rapidjson/issues/1235
@@ -102,12 +101,10 @@ int DocParser::parseFiles(const char *file) {
                                         newObject.addText(word);
                                         word = "";
                                     }
-                                } else if (x!= '(' && x!= ',' && x!= ')' && x!='.'){
+                                } else if (x!= '(' && x!= ',' && x!= ')' && x!='.' && x!='/'){
                                     word = word + x;
                                 }
                             }
-
-                            //cout << abstractText << endl;
                         }
                     }
                 }
@@ -136,21 +133,18 @@ int DocParser::parseFiles(const char *file) {
                                         newObject.addText(word);
                                         word = "";
                                     }
-                                } else if (x!= '(' && x!= ',' && x!= ')' && x!='.'){
+                                } else if (x!= '(' && x!= ',' && x!= ')' && x!='.'&& x!= '/'){
                                     word = word + x;
                                 }
                             }
-                            // cout << BodyText << endl;
                         }
                     }
                 }
 
                 vectorOfJson.push_back(newObject);
-                //cout << endl;
                 fclose(fp);
             }
         }
-
         closedir(dir);
     } else {
         /* could not open directory */
@@ -184,4 +178,20 @@ void DocParser::printText() {
         }
         cout << endl;
     }
+}
+void DocParser::readInStopWords() {
+    ifstream file;
+    file.open("stopWords.txt");
+    string words;
+    if(file.is_open()) {
+        while (!file.eof()) {
+            getline(file, words);
+            stopWords.push_back(words);
+        }
+    }
+    else{
+        cout << "No File" << endl;
+    }
+    file.close();
+    cout << stopWords.size() << endl;
 }
