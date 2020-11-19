@@ -181,7 +181,7 @@ void DocParser::printText() {
 }
 void DocParser::readInStopWords() {
     ifstream myfile;
-    myfile.open("stopWords.txt");
+    myfile.open(R"(C:\Users\zihao\Documents\GitHub\search-engine-lin-morton\stopWords.txt)");
     string words;
     if(myfile.is_open()) {
         while (!myfile.eof()) {
