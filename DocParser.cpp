@@ -185,12 +185,16 @@ void DocParser::readInStopWords(ifstream& file) {
     if(file.is_open()) {
         while (!file.eof()) {
             getline(file, words);
-            stopWords.push_back(words);
+            stopWords.insert(words);
         }
     }
     else{
         cout << "No File" << endl;
     }
     file.close();
-    cout << stopWords.size() << endl;
+
+}
+
+void DocParser::removeStop() {
+    
 }
