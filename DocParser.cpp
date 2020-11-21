@@ -15,7 +15,7 @@ DocParser::DocParser(const DocParser &copy) {
 }
 
 int DocParser::parseFiles(const char *file, ifstream& stopWords) {
-    readInStopWords(stopWords);
+    //readInStopWords(stopWords);
     std::ifstream in{"diffs.txt"};
     DIR *dir;
     struct dirent *ent;
@@ -159,6 +159,9 @@ int DocParser::parseFiles(const char *file, ifstream& stopWords) {
     }
 }
 
+vector<JsonObject> DocParser::getJsons() {
+    return vectorOfJson;
+}
 void DocParser::printAuthor() {
     for (int i = 0; i < vectorOfJson.size(); i++) {
         cout << "-Next File " << endl;

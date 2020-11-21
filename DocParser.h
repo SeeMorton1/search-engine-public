@@ -41,6 +41,8 @@ public:
     void removeStop();
     void removeStem();
 
+    vector<JsonObject> getJsons();
+
     //Test Functions
     void printText();
     void printAuthor();
