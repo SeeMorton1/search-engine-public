@@ -5,7 +5,7 @@
 #include <fstream>
 #include "IndexNodesTest.h"
 #include "DocParser.h"
-
+#include "IndexProcessor.h"
 using namespace std;
 int main(int argc, char **argv) {
     cout << "Hi zihao gladd you downloaded" << endl;
@@ -29,6 +29,9 @@ int main(int argc, char **argv) {
 //    docParser.printText();
 //    docParser.printjsonfile();
     //
+    IndexProcessor p;
+    p.createIndex(docParser);
+
     cout << "Finished" << endl;
     output.close();
     return 0;

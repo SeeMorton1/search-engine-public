@@ -39,6 +39,11 @@ public:
         capacity= table.size();
         return table.size();
     }
+    HashTable(const HashTable& copy){
+        table = copy.table;
+        capacity= copy.capacity;
+    }
+    HashTable& operator=(const HashTable& copy)= default;
 
     pair<size_t, list<string>> at(int n);
 

@@ -57,5 +57,11 @@ bool Index::operator>(const Index &c) {
     return word > c.word;
 }
 
+//Index &Index::createIndex(string &w,const DocParser& doc ) {
+//
+//
+//    return <#initializer#>;
+//}
+
 
 

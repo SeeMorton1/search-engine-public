@@ -5,6 +5,7 @@
 #include "IndexNodesTest.h"
 #include "Index.h"
 #include "HashTable.h"
+#include "IndexProcessor.h"
 //
 // Created by Conner Morton on 11/15/2020.
 //
@@ -36,6 +37,9 @@ void IndexNodesTest::runTests() {
     HashTable hash;
     hash.insertItem("Zihao Lin", "Page 1");
     hash.insertItem("Zihao Lin", "Page 2");
+
+    IndexProcessor ind;
+
 
 
     cout << "Tests ran" << std::endl;

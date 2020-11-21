@@ -26,12 +26,15 @@ public:
         bal = 0; //System for determining how balanced a node is.
         data = in;
     }
+    T& getData(){return data;}
+
 
 private:
     T data;
     int bal;
-    AvLNode<T> *left;
-    AvLNode<T> *right;
+    AvLNode *left;
+    AvLNode *right;
+    AvLNode *root;
 };
 
 #endif //SEARCH_ENGINE_LIN_MORTON_AVLNODE_H

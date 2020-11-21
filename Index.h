@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <list>
+#include "DocParser.h"
 
 using namespace std;
 
@@ -57,6 +58,7 @@ public:
     list<string> &getIDs() {
         return IDs;
     }
+    //Index& createIndex(string& w, const DocParser& doc,);
 };
 
 
