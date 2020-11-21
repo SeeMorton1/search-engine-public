@@ -42,6 +42,8 @@ public:
 
     void insert(T &in);
 
+    AvLNode<T> *search(AvLNode<T> *h, T &in);
+
     void remove(T &in);
 
 };
@@ -279,6 +281,25 @@ void AvLTree<T>::insert(T &in) {
         } else {
             updatePathFactors(last, in);
         }
+    }
+
+}
+
+template<typename T>
+AvLNode<T> *AvLTree<T>::search(AvLNode<T> *h, T &in) {
+    if (h == nullptr) {
+        std::cout << "Not Found from search" << std::endl;
+        return;
+    }
+    T checker = h->data;
+    if (checker == in) {
+        return h;
+    }
+    if (checker > in) {
+        return search(h->left, in);
+    }
+    if (checker < in) {
+        return search(h->right, in);
     }
 }
 
