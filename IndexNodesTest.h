@@ -4,7 +4,7 @@
 
 #ifndef SEARCH_ENGINE_LIN_MORTON_INDEXNODESTEST_H
 #define SEARCH_ENGINE_LIN_MORTON_INDEXNODESTEST_H
-
+#include "Index.h"
 #include "IndexNode.h"
 #include <vector>
 class IndexNodesTest {

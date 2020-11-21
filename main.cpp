@@ -5,7 +5,7 @@
 #include <fstream>
 #include "IndexNodesTest.h"
 #include "DocParser.h"
-
+#include "IndexProcessor.h"
 using namespace std;
 int main(int argc, char **argv) {
     cout << "Hi zihao gladd you downloaded" << endl;
@@ -16,9 +16,15 @@ int main(int argc, char **argv) {
 
 
 
+    // IndexNodesTest::runTests();
+
+
     //IndexNodesTest::runTests();
 
     //Zihao's coding stuff
+
+    DocParser docParser;
+    docParser.parseFiles(argv[1]); //1 is the path to the .json folder
 //    ifstream file;
 //    file.open(R"(C:\Users\zihao\Documents\GitHub\search-engine-lin-morton\stopWords.txt)");
 //    DocParser docParser;
@@ -27,7 +33,13 @@ int main(int argc, char **argv) {
 //    docParser.printAuthor();
    // docParser.printText();
 //    docParser.printjsonfile();
+
+    //
+    IndexProcessor p;
+    p.createIndex(docParser);
+
     //file.close();
+
     cout << "Finished" << endl;
     output.close();
     return 0;

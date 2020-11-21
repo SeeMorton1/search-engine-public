@@ -27,13 +27,42 @@ private:
     void Clear(AvLNode<T> *n);
 
 public:
-    AvLTree() {
+    AvLTree<T>() {
         root = nullptr;
     }
 
-    ~AvLTree() {
+    ~AvLTree<T>() {
         Clear(root);
         root = nullptr;
+    }
+    AvLTree(const AvLTree<T>& copy){
+        root = copySubTree(copy.root);
+    }
+    AvLTree<T>&operator=(const AvLTree<T>& copy){
+        root = copySubTree(copy.root);
+        return *this;
+    }
+    AvLNode<T>* copySubTree(const AvLNode<T>* curr){
+        AvLNode<T>* newLeft, *newRight, *newPar;
+        if (curr== nullptr){
+            return nullptr;
+        }
+        if(curr->left== nullptr){
+            newLeft= nullptr;
+        }else{
+            newLeft=copySubTree(curr->left);
+        }
+        if(curr->right== nullptr){
+            newRight = nullptr;
+        }else{
+            newRight=copySubTree(curr->right);
+        }
+
+        newPar->right=newRight;
+        newPar->data=curr->data;
+        newPar->left=newLeft;
+        newPar->bal=curr->bal;
+        return newPar;
     }
 
     void Clear();
@@ -42,7 +71,13 @@ public:
 
     void insert(T &in);
 
+    AvLNode<T> *search(AvLNode<T> *h, T &in);
+
     void remove(T &in);
+
+    AvLNode<T>* getRoot(){
+        return root;
+    }
 
 };
 
@@ -279,6 +314,25 @@ void AvLTree<T>::insert(T &in) {
         } else {
             updatePathFactors(last, in);
         }
+    }
+
+}
+
+template<typename T>
+AvLNode<T> *AvLTree<T>::search(AvLNode<T> *h, T &in) {
+    if (h == nullptr) {
+        std::cout << "Not Found from search" << std::endl;
+        return nullptr;
+    }
+    T checker = h->data;
+    if (checker == in) {
+        return h;
+    }
+    if (checker > in) {
+        return search(h->left, in);
+    }
+    if (checker < in) {
+        return search(h->right, in);
     }
 }
 

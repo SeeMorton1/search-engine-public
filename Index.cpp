@@ -33,7 +33,7 @@ Index &Index::operator=(const Index &copy) {
 
 Index::~Index() = default;
 
-void Index::addID(const int &id) {
+void Index::addID(const string &id) {
     IDs.push_back(id);
 }
 
@@ -56,6 +56,12 @@ bool Index::operator<(const Index &c) {
 bool Index::operator>(const Index &c) {
     return word > c.word;
 }
+
+//Index &Index::createIndex(string &w,const DocParser& doc ) {
+//
+//
+//    return <#initializer#>;
+//}
 
 
 
