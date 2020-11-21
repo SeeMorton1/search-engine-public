@@ -61,3 +61,8 @@ cs2341_data
 rapidjson
 smallDataSet
 main.cpp
+=======
+#Stemmer stuff below
+build/
+*.o
+stem

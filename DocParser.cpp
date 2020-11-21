@@ -14,8 +14,9 @@ DocParser::DocParser(const DocParser &copy) {
     jsonfile = copy.jsonfile;
 }
 
-int DocParser::parseFiles(const char *file) {
-    readInStopWords();
+int DocParser::parseFiles(const char *file, ifstream& stopWords) {
+    readInStopWords(stopWords);
+    std::ifstream in{"diffs.txt"};
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(file)) != nullptr) {
@@ -130,6 +131,11 @@ int DocParser::parseFiles(const char *file) {
                                 transform(word.begin(), word.end(), word.begin(), ::tolower);
                                 if (x == ' ') {
                                     if (word.size() > 1) {
+                                        while(in>>word){
+//                                            Porter2Stemmer::trim(word);
+//                                            Porter2Stemmer::stem(word);
+                                        }
+                                        //Porter2Stemmer::stem(word);
                                         newObject.addText(word);
                                         word = "";
                                     }
@@ -179,19 +185,39 @@ void DocParser::printText() {
         cout << endl;
     }
 }
-void DocParser::readInStopWords() {
-    ifstream myfile;
-    myfile.open(R"(C:\Users\zihao\Documents\GitHub\search-engine-lin-morton\stopWords.txt)");
+void DocParser::readInStopWords(ifstream& file) {
+
     string words;
-    if(myfile.is_open()) {
-        while (!myfile.eof()) {
-            getline(myfile, words);
-            stopWords.push_back(words);
+    if(file.is_open()) {
+        while (!file.eof()) {
+            getline(file, words);
+            stopWords.insert(words);
         }
     }
     else{
         cout << "No File" << endl;
     }
-    myfile.close();
-    cout << stopWords.size() << endl;
+    file.close();
+
 }
+
+void DocParser::removeStop() {
+    for (int i=0; i<vectorOfJson.size();i++)
+    {
+        for (int j=0; j<vectorOfJson.at(i).returnText().size();j++) {
+            if (stopWords.isFound(vectorOfJson.at(i).returnText().at(j))){
+                vectorOfJson.at(i).returnAuthor().erase(vectorOfJson.at(i).returnText().begin()+j);
+            }
+        }
+    }
+}
+
+//void DocParser::removeStem() {
+//    ifstream in{"diffs.txt"};
+//    string stemmed;
+//    for (int i; i < vectorOfJson.size(); i++) {
+//        for (int j = 0; j < vectorOfJson.at(i).returnText().size(); j++) {
+//            Porter2Stemmer::stem(vectorOfJson.at(i).returnText().at(j));
+//        }
+//    }
+//}
