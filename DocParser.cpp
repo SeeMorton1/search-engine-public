@@ -198,9 +198,9 @@ void DocParser::readInStopWords(ifstream& file) {
 void DocParser::removeStop() {
     for (int i=0; i<vectorOfJson.size();i++)
     {
-        for (int j=0; j<vectorOfJson.at(i).returnAuthor().size();j++) {
-            if (stopWords.isFound(vectorOfJson.at(i).returnAuthor().at(j))){
-                vectorOfJson.at(i).returnAuthor().erase(vectorOfJson.at(i).returnAuthor().begin()+j);
+        for (int j=0; j<vectorOfJson.at(i).returnText().size();j++) {
+            if (stopWords.isFound(vectorOfJson.at(i).returnText().at(j))){
+                vectorOfJson.at(i).returnAuthor().erase(vectorOfJson.at(i).returnText().begin()+j);
             }
         }
     }
