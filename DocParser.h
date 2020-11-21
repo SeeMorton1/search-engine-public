@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include "porter2_stemmer.h"
 
 #include "rapidjson/filereadstream.h"
 #include "rapidjson/document.h"
@@ -14,6 +15,7 @@
 #include <dirent.h>
 #include <cstdio>
 #include "JsonObject.h"
+#include "AvLTree.h"
 #include<bits/stdc++.h>
 
 using namespace rapidjson;
@@ -23,7 +25,7 @@ class DocParser{
 private:
 
     vector<JsonObject> vectorOfJson;
-    vector<string> stopWords;
+    AvLTree<string> stopWords;
     string author;
     string text;
     string jsonfile;

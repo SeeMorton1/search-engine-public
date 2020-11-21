@@ -60,3 +60,7 @@ cs2341_data
 .gitignore
 rapidjson
 smallDataSet
+#Stemmer stuff below
+build/
+*.o
+stem
