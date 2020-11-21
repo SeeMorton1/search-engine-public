@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
 
     //Zihao's coding stuff
     ifstream file;
-    file.open("stopWords.txt");
+    file.open(R"(C:\Users\zihao\Documents\GitHub\search-engine-lin-morton\stopWords.txt)");
     DocParser docParser;
     docParser.parseFiles(argv[1],file); //1 is the path to the .json folder
 //    docParser.printAuthor();
