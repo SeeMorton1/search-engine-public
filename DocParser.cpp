@@ -132,10 +132,10 @@ int DocParser::parseFiles(const char *file, ifstream& stopWords) {
                                 if (x == ' ') {
                                     if (word.size() > 1) {
                                         while(in>>word){
-                                            Porter2Stemmer::trim(word);
-                                            Porter2Stemmer::stem(word);
+//                                            Porter2Stemmer::trim(word);
+//                                            Porter2Stemmer::stem(word);
                                         }
-                                        Porter2Stemmer::stem(word);
+                                        //Porter2Stemmer::stem(word);
                                         newObject.addText(word);
                                         word = "";
                                     }
