@@ -159,6 +159,7 @@ if(LIBCXX_LIBRARY)
     target_compile_options(porter2-stemmer PUBLIC ${LIBCXX_OPTIONS})
     target_link_libraries(porter2-stemmer PUBLIC -L${LIBCXX_LIB_PATH})
 endif()
+
 #Ends here
 
 set(CMAKE_CXX_STANDARD 14)

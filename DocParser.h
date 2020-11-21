@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include "porter2_stemmer.h"
 
 #include "rapidjson/filereadstream.h"
 #include "rapidjson/document.h"
