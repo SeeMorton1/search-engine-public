@@ -21,9 +21,9 @@ int main(int argc, char **argv) {
 
     //IndexNodesTest::runTests();
 
-    //Zihao's coding stuff
+    //Zihao's coding stuffs
     ifstream file;
-    file.open(R"(C:\Users\zihao\Documents\GitHub\search-engine-lin-morton\stopWords.txt)");
+    file.open("stopWords.txt");
     DocParser docParser;
     docParser.parseFiles(argv[1],file); //1 is the path to the .json folder
     //docParser.removeStem();
@@ -32,8 +32,8 @@ int main(int argc, char **argv) {
 //    docParser.printjsonfile();
 
     //
-    IndexProcessor p;
-    p.createIndex(docParser);
+//    IndexProcessor p;
+//    p.createIndex(docParser);
 
     //file.close();
 
