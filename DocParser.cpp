@@ -48,10 +48,14 @@ int DocParser::parseFiles(const char *file, ifstream& stopWords) {
 
                     string word = "";
                     for (auto x:title) {
+                        transform(word.begin(), word.end(), word.begin(), ::tolower);
                         if (x == ' ') {
-                            newObject.addText(word);
-                            word = "";
-                        } else if (x!= '(' && x!= ',' && x!= ')' && x!='.'&& x!='/'){
+                            if (word.size() > 1) {
+                                Porter2Stemmer::stem(word);
+                                newObject.addText(word);
+                                word = "";
+                            }
+                        } else if ((x<33 || x>47) && (x>64 || x <58)){
                             word = word + x;
                         }
                     }
@@ -99,10 +103,11 @@ int DocParser::parseFiles(const char *file, ifstream& stopWords) {
                                 transform(word.begin(), word.end(), word.begin(), ::tolower);
                                 if (x == ' ') {
                                     if (word.size() > 1) {
+                                        Porter2Stemmer::stem(word);
                                         newObject.addText(word);
                                         word = "";
                                     }
-                                } else if (x!= '(' && x!= ',' && x!= ')' && x!='.' && x!='/'){
+                                } else if ((x<33 || x>47) && (x>64 || x <58)){
                                     word = word + x;
                                 }
                             }
@@ -131,15 +136,11 @@ int DocParser::parseFiles(const char *file, ifstream& stopWords) {
                                 transform(word.begin(), word.end(), word.begin(), ::tolower);
                                 if (x == ' ') {
                                     if (word.size() > 1) {
-                                        while(in>>word){
-//                                            Porter2Stemmer::trim(word);
-//                                            Porter2Stemmer::stem(word);
-                                        }
-                                        //Porter2Stemmer::stem(word);
+                                        Porter2Stemmer::stem(word);
                                         newObject.addText(word);
                                         word = "";
                                     }
-                                } else if (x!= '(' && x!= ',' && x!= ')' && x!='.'&& x!= '/'){
+                                } else if ((x<33 || x>47) && (x>64 || x <58)){
                                     word = word + x;
                                 }
                             }
