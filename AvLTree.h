@@ -23,8 +23,8 @@ public:
         if (head == nullptr) return nullptr;
         T k = head->data;
         if (k == x) return head;
-        if (k > x) return searchUtil(head->left, x);
-        if (k < x) return searchUtil(head->right, x);
+        if (k > x) return searchAlgo(head->left, x);
+        if (k < x) return searchAlgo(head->right, x);
     }
 
 private:
