@@ -12,16 +12,109 @@ template<typename T>
 class AvLTree {
 private:
     AvLNode<T> *root;
+    int getHeight(AvLNode<T>* getH)const{
+        if(getH == nullptr){
+            return -1;
+        }else{
+            return getH->height;
+        }
+    }
+    int max(int l,int r) const {
+        return l>r?l:r;
+    }
 
-    void updatePathFactors(AvLNode<T> *curr, T &in);
+    void rotateLeftChild(AvLNode<T>*& A){
+        AvLNode<T>* rA = A->right;
+        A->right = rA->left;
+        if(rA->left!=nullptr){
+            rA->left->parent =A;
+        }
+        rA->parent = A->parent;
+        if(A->parent== nullptr){
+            this->root = rA;
+        }else if(A==A->parent->left){
+            A->parent->left = rA;
+        }else{
+            A->parent->right = rA;
+        }
 
-    void leftRotation(AvLNode<T> *A, T &in);
+        rA->left = A;
+        A->parent = rA;
 
-    void rightRotation(AvLNode<T> *A, T &in);
+        A->bal = A->bal-1-max(0,rA->bal);
+        rA->bal = rA->bal-1+min(0,rA->bal);
 
-    void doubleLeftRotation(AvLNode<T> *A, T &in);
+    }
 
-    void doubleRightRotation(AvLNode<T> *A, T &in);
+    void rotateRightChild(AvLNode<T>* A){
+        AvLNode<T>* lA = A->left;
+        A->left = lA->right;
+        if(lA->right!= nullptr){
+            lA->right->parent = A;
+        }
+        lA->parent = A->parent;
+        if(A->parent == nullptr){
+            this->root = lA;
+        }else if(A==A->parent->right){
+            A->parent->right = lA;
+        }else{
+            A->parent->left = lA;
+        }
+        lA->right = A;
+        A->parent = lA;
+
+        A->bal = A->bal +1 -min(0,lA->bal);
+        lA->bal = lA->bal +1+max(0,A->bal);
+    }
+    void updateBalance(AvLNode<T>* A){
+        if(A->bal<-1||A->bal >1){
+           rebalance(A);
+            return;
+        }
+        if(A->parent!= nullptr){
+            if(A==A->parent->left){
+                A->parent->bal -=1;
+            }
+            if(A==A->parent->right){
+                A->parent->bal +=1;
+            }
+            if(A->parent->bal !=0){
+                updateBalance(A->parent);
+            }
+        }
+    }
+    void rebalance(AvLNode<T>* A){
+        if(A->bal>0){
+            if(A->right->bal<0){
+                rotateRightChild(A->right);
+                rotateLeftChild(A);
+            }else{
+                rotateLeftChild(A);
+            }
+        }else if(A->bal<0){
+            if(A->left->bf>0){
+                rotateLeftChild(A->left);
+                rotateRightChild(A);
+            }
+            else{
+                rotateRightChild(A);
+            }
+        }
+    }
+
+
+
+
+
+//    void updatePathFactors(AvLNode<T> *curr, T &in);
+//
+//    void leftRotation(AvLNode<T> *A, T &in);
+//
+//    void rightRotation(AvLNode<T> *A, T &in);
+//
+//    void doubleLeftRotation(AvLNode<T> *A, T &in);
+//
+//    void doubleRightRotation(AvLNode<T> *A, T &in);
 
 
     void Clear(AvLNode<T> *n);
@@ -64,169 +157,63 @@ public:
         newPar->bal=curr->bal;
         return newPar;
     }
+    int getBalance(const AvLNode<T>*A){
+        if(A== nullptr){
+            return 0;
+        }
+
+        return getHeight(A->left)-getHeight(A->right);
+    }
 
     void Clear();
 
     bool isFound(T &in);
 
-    void insert(T &in);
+    void insert(T& x){
+
+        auto* A = new AvLNode<T>(x, nullptr, nullptr,0);
+        A->parent = nullptr;
+        AvLNode<T>* y = nullptr;
+        AvLNode<T>* n = this->root;
+        while(n!= nullptr){
+            y=n;
+            if(A->data<n->data){
+                n=n->left;
+            }else{
+                n=n->right;
+            }
+        }
+        A->parent = y;
+        if(y== nullptr){
+            root = A;
+        }else if(A->data<y->data){
+            y->left = A;
+        }else{
+            y->right = A;
+        }
+
+
+    }
 
     AvLNode<T> *search(AvLNode<T> *h, T &in);
 
-    void remove(T &in);
+    AvLNode<T>* remove(const AvLNode<T>* A,T &in);
 
     AvLNode<T>* getRoot(){
         return root;
     }
 
+    AvLNode<T>* minNode(const AvLNode<T>* A){
+        AvLNode<T>* curr = A;
+        while(curr->left!= nullptr){
+            curr = curr->left;
+        }
+        return curr;
+    }
+
 };
 
-template<typename T>
-void AvLTree<T>::updatePathFactors(AvLNode<T> *curr, T &in) {
-    while (curr != nullptr) {
-        if (in < curr->data) {
-            curr->bal++;
-            curr = curr->left;
-        } else if (in > curr->data) {
-            curr->bal--;
-            curr = curr->right;
-        } else {
-            break;
-        }
-    }
-}
 
-template<typename T>
-void AvLTree<T>::leftRotation(AvLNode<T> *A, T &in) {
-    AvLNode<T> *leftA = A->left;
-    AvLNode<T> *rightLeftA = leftA->right;
-    AvLNode<T> *leftLeftA = leftA->left;
-    AvLNode<T> *rightA = A->right;
-    A->left = leftLeftA;
-    A->right = leftA;
-    leftA->left = rightLeftA;
-    leftA->right = rightA;
-    std::swap(A->data, leftA->data);
-    std::swap(A, leftA);
-    A->bal = 0;
-    leftA->bal = 0;
-    updatePathFactors(leftA->left, in);
-}
-
-template<typename T>
-void AvLTree<T>::rightRotation(AvLNode<T> *A, T &in) {
-    AvLNode<T> *rightA = A->right;
-    AvLNode<T> *rightRightA = rightA->right;
-    AvLNode<T> *leftRightA = rightA->left;
-    AvLNode<T> *leftA = A->left;
-
-    A->left = leftRightA;
-    A->right = rightA;
-    rightA->left = leftA;
-    rightA->right = rightRightA;
-
-    std::swap(A->data, rightA->data);
-    std::swap(A, rightA);
-
-    A->bal = 0;
-    rightA->bal = 0;
-    updatePathFactors(rightA->right, in);
-}
-//TODO: Rewrite double left rotation to make it simpler to read.
-template<typename T>
-void AvLTree<T>::doubleLeftRotation(AvLNode<T> *A, T &in) {
-
-    AvLNode<T> *leftA = A->left;
-    AvLNode<T> *rightLeftA = leftA->right;
-    AvLNode<T> *rightA = A->right;
-    AvLNode<T> *leftRightLeftA = rightLeftA->left;
-    AvLNode<T> *rightRightLeftA = rightLeftA->right;
-
-    updatePathFactors(rightLeftA, in);
-    int bal = rightLeftA->bal;
-    A->right = rightLeftA;
-    leftA->right = leftRightLeftA;
-    rightLeftA->left = rightRightLeftA;
-    rightLeftA->right = rightA;
-    std::swap(A->data, rightLeftA->data);
-    std::swap(A, rightLeftA);
-
-    rightLeftA->bal = 0;
-    if (bal == 0) {
-        leftA->bal = 0;
-        A->bal = 0;
-    } else if (bal == 1) {
-        leftA->bal = 0;
-        A->bal = -1;
-    } else if (bal == -1) {
-        leftA->bal = 1;
-        A->bal = 0;
-    }
-}
-
-template<typename T>
-void AvLTree<T>::doubleRightRotation(AvLNode<T> *A, T &in) {
-    //RE WRITING TO MAKE EASIER TO READ
-    AvLNode<T> *B = A->right;
-    AvLNode<T> *c = B->left;
-    AvLNode<T> *lA = A->left;
-    AvLNode<T> *lC = c->left;
-    AvLNode<T> *rC = c->right;
-
-    updatePathFactors(c, in);
-    int b = c->bal;
-
-    A->left = c;
-    B->left = rC;
-    c->left = lA;
-    c->right = lC;
-
-    std::swap(A->data, c->data);
-    std::swap(A, c);
-
-
-    c->bal = 0;
-
-    if (b == 0) {
-        A->bal = 0;
-        B->bal = 0;
-    } else if (b == 1) {
-        A->bal = 0;
-        B->bal = -1;
-    } else if (b == -1) {
-        A->bal = 1;
-        B->bal = 0;
-    }
-
-
-//    AvLNode<T> *rightA = A->right;
-//    AvLNode<T> *leftRightA = rightA->left;
-//    AvLNode<T> *leftA = A->left;
-//    AvLNode<T> *leftLeftRightA = leftRightA->left;
-//    AvLNode<T> *rightLeftRightA = leftRightA->right;
-//    updatePathFactors(leftRightA, in);
-//    int bal = leftRightA->bal;
-//    A->left = leftRightA;
-//    rightA->left = rightLeftRightA;
-//    leftRightA->left = leftA;
-//    leftRightA->right = leftLeftRightA;
-//
-//    std::swap(A->data, leftRightA->data);
-//    std::swap(A, leftRightA);
-//
-//    leftRightA->bal = 0;
-//
-//    if (bal == 0) {
-//        A->bal = 0;
-//        rightA->bal = 0;
-//    } else if (bal == 1) {
-//        A->bal = 0;
-//        rightA->bal = -1;
-//    } else if (bal == -1) {
-//        A->bal = 1;
-//        rightA->bal = 0;
-//    }
-}
 
 template<typename T>
 void AvLTree<T>::Clear(AvLNode<T> *n) {
@@ -259,64 +246,6 @@ bool AvLTree<T>::isFound(T &in) {
     return false;
 }
 
-template<typename T>
-void AvLTree<T>::insert(T &in) {
-    AvLNode<T> *curr = root;
-    AvLNode<T> *back = nullptr;
-    AvLNode<T> *last = nullptr;
-
-    while (curr != nullptr) {
-        back = curr;
-        if (curr->bal != 0) {
-            last = curr;
-        }
-        if (in < curr->data) {
-            curr = curr->left;
-        } else if (in > curr->data) {
-            curr = curr->right;
-        } else {
-            return;
-        }
-    }
-    AvLNode<T> *n = new AvLNode<T>(in);
-    if (root != nullptr) {
-        if (in < back->data) {
-            back->left = n;
-        } else {
-            back->right = n;
-        }
-    } else {
-        root = n;
-    }
-
-    if (last == nullptr) {
-        updatePathFactors(root, in);
-        return;
-    }
-    if (last->bal == 1) {
-        if (in < last->data) {
-            if ((last->left)->data > in) {
-                leftRotation(last, in);
-            } else {
-                doubleLeftRotation(last, in);
-            }
-        } else {
-            updatePathFactors(last, in);
-        }
-
-    } else if (last->bal == -1) {
-        if (in > last->data) {
-            if ((last->right)->data < in) {
-                rightRotation(last, in);
-            } else {
-                doubleRightRotation(last, in);
-            }
-        } else {
-            updatePathFactors(last, in);
-        }
-    }
-
-}
 
 template<typename T>
 AvLNode<T> *AvLTree<T>::search(AvLNode<T> *h, T &in) {
@@ -334,6 +263,59 @@ AvLNode<T> *AvLTree<T>::search(AvLNode<T> *h, T &in) {
     if (checker < in) {
         return search(h->right, in);
     }
+}
+
+
+
+template<typename T>
+AvLNode<T>* AvLTree<T>::remove(const AvLNode<T>* A, T &in) {
+    if(A == nullptr){
+        return A;
+    }
+    if(in<A->data){
+        A->left=remove(A->left,in);
+    }else if(in>A->data){
+        A->right = remove(A->right,in);
+    }
+
+    else{
+        if(A->left== nullptr||A->right== nullptr){
+            AvLNode<T>* temp = A->left?A->left:A->right;
+            if(temp== nullptr){
+                temp = A;
+                A = nullptr;
+            }else{
+                *A = temp;
+                free(temp);
+            }
+        }else{
+            AvLNode<T>* temp = minNode(A->right);
+            A->data = temp->data;
+            A->right = remove(A->right,temp->data);
+        }
+    }
+    if(A==nullptr){
+        return A;
+    }
+    A->height = max(getHeight(A->left),getHeight(A->right))+1;
+
+
+    int bal = getHeight(A->left)-getHeight(A->right);
+    if(bal>1&&(getBalance(A->left)>=0)){
+        return rotateRightChild(A);
+    }
+    if(bal>1&&(getBalance(A->left)<0)){
+        A->left = rotateLeftChild(A->left);
+        return rotateRightChild(A);
+    }
+    if(bal<-1&&(getBalance(A->right)<=0)){
+        return rotateLeftChild(A);
+    }
+    if(bal<-1&&(getBalance(A->right)>0)){
+        A->right = rotateRightChild(A->right);
+        return rotateLeftChild(A);
+    }
+    return A;
 }
 
 

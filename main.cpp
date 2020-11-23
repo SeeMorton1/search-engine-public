@@ -8,7 +8,7 @@
 #include "IndexProcessor.h"
 using namespace std;
 int main(int argc, char **argv) {
-    cout << "Hi zihao gladd you downloaded" << endl;
+    cout << "#####Parsing Jsons#####" << endl;
     std::ofstream output("output.txt");
     output << "wrote to file";
 
@@ -28,14 +28,16 @@ int main(int argc, char **argv) {
     docParser.parseFiles(argv[1],file); //1 is the path to the .json folder
     //docParser.removeStem();
 //    docParser.printAuthor();
-    docParser.printText();
+//    docParser.printText();
 //    docParser.printjsonfile();
-
+    cout<<"#####PROCESSING INDEX#####"<<endl;
     //
-//    IndexProcessor p;
-//    p.createIndex(docParser);
+    IndexProcessor p;
+    p.createIndex(docParser);
 
     //file.close();
+
+
 
     cout << "Finished" << endl;
     output.close();

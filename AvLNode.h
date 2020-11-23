@@ -14,27 +14,21 @@ class AvLNode {
     friend class AvLTree<T>;
 
 public:
-    AvLNode() {
-        left = nullptr;
-        right = nullptr;
-        bal = 0;
-    }
 
-    AvLNode(T in) {
-        left = nullptr;
-        right = nullptr;
-        bal = 0; //System for determining how balanced a node is.
-        data = in;
-    }
+
+    AvLNode(const T& in, AvLNode* l,AvLNode* r,int h):data(in),left(l),right(r),bal(h){}
+
+
+
     T& getData(){return data;}
 
 
 private:
     T data;
-    int bal;
     AvLNode *left;
+    AvLNode *parent;
     AvLNode *right;
-    AvLNode *root;
+    int bal;
 };
 
 #endif //SEARCH_ENGINE_LIN_MORTON_AVLNODE_H
