@@ -39,7 +39,6 @@ public:
     int parseFiles(const char *file, ifstream& stopWords);
     void readInStopWords(ifstream& stopWords);
     void removeStop();
-    void removeStem();
 
     vector<JsonObject> getJsons();
 

@@ -28,12 +28,12 @@ int main(int argc, char **argv) {
     docParser.parseFiles(argv[1],file); //1 is the path to the .json folder
     //docParser.removeStem();
 //    docParser.printAuthor();
-    docParser.printText();
+//   docParser.printText();
 //    docParser.printjsonfile();
 
-    //
-//    IndexProcessor p;
-//    p.createIndex(docParser);
+
+    //IndexProcessor p;
+    //p.createIndex(docParser);
 
     //file.close();
 
