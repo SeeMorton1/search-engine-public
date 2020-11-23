@@ -124,7 +124,7 @@ public:
 
     void Clear();
 
-    bool isFound(T &in);
+    bool isFound(AvLNode<T> *curr, T &in);
 
 
     void remove(T &in);
@@ -296,18 +296,20 @@ void AvLTree<T>::Clear() {
 }
 
 template<typename T>
-bool AvLTree<T>::isFound(T &in) {
-    AvLNode<T> *curr = root;
-    while (curr != nullptr) {
-        if (in < curr->data) {
-            curr = curr->left;
-        } else if (in > curr->data) {
-            curr = curr->right;
-        } else {
-            return true;
-        }
+bool AvLTree<T>::isFound(AvLNode<T> *curr, T &in) {
+
+    if (curr == nullptr) {
+        return false;
     }
-    return false;
+    if (curr->data == in) {
+        return true;
+
+    }
+    if (in < curr->data) {
+        return isFound(curr->left, in);
+    } else {
+        return isFound(curr->right, in);
+    }
 }
 
 //template<typename T>
