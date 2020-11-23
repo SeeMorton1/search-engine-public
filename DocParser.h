@@ -26,6 +26,7 @@ private:
 
     vector<JsonObject> vectorOfJson;
     AvLTree<string> stopWords;
+    vector<string> stopWords2;
     string author;
     string text;
     string jsonfile;

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.17)
 project(search_engine_lin_morton)
 set(EXE_NAME search_engine)
 
-set (input01 "stopWords.txt")
+set(input01 "stopWords.txt")
 
 foreach (file IN LISTS)
     configure_file(${file} ${file} COPYONLY)

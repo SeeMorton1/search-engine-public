@@ -12,7 +12,7 @@ void IndexProcessor::createIndex(DocParser &doc) {
         for(auto& word:words){
             Index c;
             c.setWord(word);
-            if(wordIndex.isFound(c)){
+            if(wordIndex.isFound(wordIndex.getRoot(),c)){
                 AvLNode<Index> *f = wordIndex.searchUtil(wordIndex.getRoot(), c);
                 f->getData().addCount();
                 f->getData().addID(it.returnJsonFileName());
