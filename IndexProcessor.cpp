@@ -25,3 +25,8 @@ void IndexProcessor::createIndex(DocParser &doc) {
 
     }
 }
+list<string> IndexProcessor::findWord(string w) {
+    Index d;
+    d.setWord(w);
+    return wordIndex.searchAlgo(wordIndex.getRoot(), d)->getData().getIDs();
+}
