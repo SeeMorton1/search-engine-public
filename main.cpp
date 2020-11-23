@@ -22,27 +22,17 @@ int main(int argc, char **argv) {
     //IndexNodesTest::runTests();
 
     //Zihao's coding stuffs
+    //Zihao's coding stuff
     ifstream file;
     file.open("stopWords.txt");
     DocParser docParser;
-    docParser.parseFiles(argv[1], file); //1 is the path to the .json folder
-    //docParser.removeStem();
-//    docParser.printAuthor();
-//    docParser.printText();
-//    docParser.printjsonfile();
+    docParser.parseFiles(argv[1],file); //1 is the path to the .json folder
+   // docParser.printText();
 
-    cout << "#####PROCESSING INDEX#####" << endl;
-
-
-    AvLTree<string> stop;
-    string buff;
-    while (file) {
-        getline(file, buff);
-        stop.insert(buff);
-    }
-
-    IndexProcessor p;
-    p.createIndex(docParser);
+    cout<<"#####PROCESSING INDEX#####"<<endl;
+    //
+//    IndexProcessor p;
+//    p.createIndex(docParser);
 
     //file.close();
 
