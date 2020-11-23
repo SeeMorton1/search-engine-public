@@ -18,6 +18,7 @@ public:
 
     }
     void createIndex(DocParser& doc);
+    list<string> findWord(string w);
 };
 
 
