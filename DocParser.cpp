@@ -15,7 +15,7 @@ DocParser::DocParser(const DocParser &copy) {
 }
 
 int DocParser::parseFiles(const char *file, ifstream& stop) {
-    //readInStopWords(stop);
+    readInStopWords(stop);
     std::ifstream in{"diffs.txt"};
     DIR *dir;
     struct dirent *ent;
@@ -132,8 +132,11 @@ int DocParser::parseFiles(const char *file, ifstream& stop) {
                                 transform(word.begin(), word.end(), word.begin(), ::tolower);
                                 if (x == ' ') {
                                     if (word.size() > 1) {
-                                        Porter2Stemmer::stem(word);
-                                        newObject.addText(word);
+                                        if (!stopWords.isFound(stopWords.getRoot(),word))
+                                        {
+                                            Porter2Stemmer::stem(word);
+                                            newObject.addText(word);
+                                        }
                                         word = "";
                                     }
                                 } else if ((x<33 || x>47) && (x>64 || x <58)){
@@ -148,7 +151,6 @@ int DocParser::parseFiles(const char *file, ifstream& stop) {
                 fclose(fp);
             }
         }
-        removeStop();
         closedir(dir);
         //removeStop();
     } else {
@@ -200,7 +202,6 @@ void DocParser::readInStopWords(ifstream& file) {
         cout << "No StopWords File" << endl;
     }
     file.close();
-
 }
 
 void DocParser::removeStop() {
