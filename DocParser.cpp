@@ -14,8 +14,8 @@ DocParser::DocParser(const DocParser &copy) {
     jsonfile = copy.jsonfile;
 }
 
-int DocParser::parseFiles(const char *file, ifstream& stopWords) {
-    readInStopWords(stopWords);
+int DocParser::parseFiles(const char *file, ifstream& stop) {
+    //readInStopWords(stop);
     std::ifstream in{"diffs.txt"};
     DIR *dir;
     struct dirent *ent;
@@ -26,7 +26,7 @@ int DocParser::parseFiles(const char *file, ifstream& stopWords) {
 
             string path = file;
             jsonfile = ent->d_name;
-            path += "\\";
+            //path += "\\";
             path += jsonfile;
             const char *jsonPathing = path.c_str();
 
@@ -189,29 +189,28 @@ void DocParser::printText() {
 }
 void DocParser::readInStopWords(ifstream& file) {
     string words;
-    if(file.is_open()) {
+    if (file.is_open()) {
         while (!file.eof()) {
             getline(file, words);
-            //stopWords.insert(words);
-            stopWords2.push_back(words);
+            stopWords.insert(words);
+            //stopWords2.push_back(words);
         }
     }
     else{
-        cout << "No File" << endl;
+        cout << "No StopWords File" << endl;
     }
     file.close();
 
 }
 
 void DocParser::removeStop() {
-    //cout << vectorOfJson.size() << endl;
-//    for (int i=0; i<vectorOfJson.size();i++)
-//    {
-//        //cout << vectorOfJson.at(i).returnText().size() << endl;
-//        for (int j=0; j<vectorOfJson.at(i).returnText().size();j++) {
-//            if (stopWords.isFound(stopWords.getRoot(),vectorOfJson.at(i).returnText().at(j))){
-//                vectorOfJson.at(i).returnAuthor().erase(vectorOfJson.at(i).returnText().begin()+j);
-//            }
-//        }
-//    }
+    for (int i=0; i<vectorOfJson.size();i++)
+    {
+        //cout << vectorOfJson.at(i).returnText().size() << endl;
+        for (int j=0; j<vectorOfJson.at(i).returnText().size();j++) {
+            if (stopWords.isFound(stopWords.getRoot(),vectorOfJson.at(i).returnText().at(j))){
+                vectorOfJson.at(i).returnAuthor().erase(vectorOfJson.at(i).returnText().begin()+j);
+            }
+        }
+    }
 }

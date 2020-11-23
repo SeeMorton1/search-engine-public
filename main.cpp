@@ -27,17 +27,17 @@ int main(int argc, char **argv) {
     file.open("stopWords.txt");
     DocParser docParser;
     docParser.parseFiles(argv[1], file); //1 is the path to the .json folder
-    // docParser.printText();
+    docParser.printText();
 
     cout << "#####PROCESSING INDEX#####" << endl;
     //
-    IndexProcessor p;
-    p.createIndex(docParser);
-    list<string> ID = p.findWord("virus");
+//    IndexProcessor p;
+//    p.createIndex(docParser);
+//    list<string> ID = p.findWord("virus");
 
-    for (auto it:ID) {
-        cout << it << endl;
-    }
+//    for (auto it:ID) {
+//        cout << it << endl;
+//    }
 
 
 
