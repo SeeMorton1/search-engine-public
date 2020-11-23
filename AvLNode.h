@@ -16,11 +16,15 @@ class AvLNode {
 public:
 
 
-    AvLNode(const T& in, AvLNode* l,AvLNode* r,int h):data(in),left(l),right(r),bal(h){}
+    AvLNode(T &k) {
+        data = k;
+        left = nullptr;
+        right = nullptr;
+        height = 1;
+    }
 
 
-
-    T& getData(){return data;}
+    T &getData() { return data; }
 
 
 private:
@@ -28,7 +32,7 @@ private:
     AvLNode *left;
     AvLNode *parent;
     AvLNode *right;
-    int bal;
+    int height;
 };
 
 #endif //SEARCH_ENGINE_LIN_MORTON_AVLNODE_H
