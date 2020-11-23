@@ -124,12 +124,9 @@ int DocParser::parseFiles(const char *file, ifstream& stopWords) {
                         for (rapidjson::Value::ConstValueIterator itr = body_text.Begin();
                              itr != body_text.End(); ++itr) {
                             const Value &attribute = *itr;
-                            assert(attribute.IsObject());
-                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();itr2 != attribute.MemberEnd(); ++itr2) {
                                 if (attribute.HasMember("text")) {
                                     BodyText = attribute["text"].GetString();
                                 }
-                            }
                             string word = "";
                             for (auto x:BodyText) {
                                 transform(word.begin(), word.end(), word.begin(), ::tolower);
@@ -190,7 +187,6 @@ void DocParser::printText() {
     }
 }
 void DocParser::readInStopWords(ifstream& file) {
-
     string words;
     if(file.is_open()) {
         while (!file.eof()) {
