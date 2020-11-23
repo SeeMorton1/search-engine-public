@@ -15,7 +15,7 @@ DocParser::DocParser(const DocParser &copy) {
 }
 
 int DocParser::parseFiles(const char *file, ifstream& stopWords) {
-    //readInStopWords(stopWords);
+    readInStopWords(stopWords);
     std::ifstream in{"diffs.txt"};
     DIR *dir;
     struct dirent *ent;
@@ -192,7 +192,8 @@ void DocParser::readInStopWords(ifstream& file) {
     if(file.is_open()) {
         while (!file.eof()) {
             getline(file, words);
-            stopWords.insert(words);
+            //stopWords.insert(words);
+            stopWords2.push_back(words);
         }
     }
     else{
@@ -203,15 +204,14 @@ void DocParser::readInStopWords(ifstream& file) {
 }
 
 void DocParser::removeStop() {
-    cout << vectorOfJson.size() << endl;
-    for (int i=0; i<vectorOfJson.size();i++)
-    {
-        cout << vectorOfJson.at(i).returnText().size() << endl;
-        for (int j=0; j<vectorOfJson.at(i).returnText().size();j++) {
-            if (stopWords.isFound(vectorOfJson.at(i).returnText().at(j))){
-                cout << "Found" << endl;
-                //vectorOfJson.at(i).returnText().at(j).erase(vectorOfJson.at(i).re));
-            }
-        }
-    }
+    //cout << vectorOfJson.size() << endl;
+//    for (int i=0; i<vectorOfJson.size();i++)
+//    {
+//        //cout << vectorOfJson.at(i).returnText().size() << endl;
+//        for (int j=0; j<vectorOfJson.at(i).returnText().size();j++) {
+//            if (stopWords.isFound(stopWords.getRoot(),vectorOfJson.at(i).returnText().at(j))){
+//                vectorOfJson.at(i).returnAuthor().erase(vectorOfJson.at(i).returnText().begin()+j);
+//            }
+//        }
+//    }
 }
