@@ -140,29 +140,39 @@ public:
         if (curr== nullptr){
             return nullptr;
         }
-        if(curr->left== nullptr){
-            newLeft= nullptr;
-        }else{
-            newLeft=copySubTree(curr->left);
+        if (curr->left == nullptr) {
+            newLeft = nullptr;
+        } else {
+            newLeft = copySubTree(curr->left);
         }
-        if(curr->right== nullptr){
+        if (curr->right == nullptr) {
             newRight = nullptr;
-        }else{
-            newRight=copySubTree(curr->right);
+        } else {
+            newRight = copySubTree(curr->right);
         }
 
-        newPar->right=newRight;
-        newPar->data=curr->data;
-        newPar->left=newLeft;
-        newPar->bal=curr->bal;
+        newPar->right = newRight;
+        newPar->data = curr->data;
+        newPar->left = newLeft;
+        newPar->bal = curr->bal;
         return newPar;
     }
-    int getBalance(const AvLNode<T>*A){
-        if(A== nullptr){
+
+    int numNodes() {
+        int n;
+        AvLNode<T> *curr = root;
+        while (curr != nullptr) {
+            n++;
+            curr = curr->left;
+        }
+    }
+
+    int getBalance(const AvLNode<T> *A) {
+        if (A == nullptr) {
             return 0;
         }
 
-        return getHeight(A->left)-getHeight(A->right);
+        return getHeight(A->left) - getHeight(A->right);
     }
 
     void Clear();

@@ -16,7 +16,6 @@ void IndexProcessor::createIndex(DocParser &doc) {
                 f->getData().addCount();
                 f->getData().addID(it.returnJsonFileName());
 
-
             }else{
                 c.addID(it.returnJsonFileName());
                 wordIndex.insert(c);
