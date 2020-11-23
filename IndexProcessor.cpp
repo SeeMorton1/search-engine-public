@@ -12,16 +12,21 @@ void IndexProcessor::createIndex(DocParser &doc) {
         for(auto& word:words){
             Index c;
             c.setWord(word);
-            if(wordIndex.isFound(c)){
-                AvLNode<Index> *f = wordIndex.searchUtil(wordIndex.getRoot(), c);
+            if (wordIndex.isFound(wordIndex.getRoot(), c)) {
+                AvLNode<Index> *f = wordIndex.searchAlgo(wordIndex.getRoot(), c);
                 f->getData().addCount();
                 f->getData().addID(it.returnJsonFileName());
-
-            }else{
+            } else {
                 c.addID(it.returnJsonFileName());
                 wordIndex.insert(c);
             }
         }
 
     }
+}
+
+list<string> IndexProcessor::findWord(string w) {
+    Index d;
+    d.setWord(w);
+    return wordIndex.searchAlgo(wordIndex.getRoot(), d)->getData().getIDs();
 }

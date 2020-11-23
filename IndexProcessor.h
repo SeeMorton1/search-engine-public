@@ -11,13 +11,20 @@ class IndexProcessor {
 private:
     AvLTree<Index> wordIndex;
 public:
-   IndexProcessor()=default;
-    ~IndexProcessor()=default;
-    IndexProcessor(const IndexProcessor& copy){
-        wordIndex= copy.wordIndex;
+    IndexProcessor() = default;
+
+    ~IndexProcessor() = default;
+
+    IndexProcessor(const IndexProcessor &copy) {
+        wordIndex = copy.wordIndex;
 
     }
-    void createIndex(DocParser& doc);
+
+    void createIndex(DocParser &doc);
+
+    list<string> findWord(string w);
+
+
 };
 
 
