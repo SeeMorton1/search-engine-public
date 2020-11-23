@@ -41,79 +41,79 @@ int DocParser::parseFiles(const char *file, ifstream& stopWords) {
             newObject.jsonFileNameSet(jsonfile);
 
             if (d.IsObject()) {
-                if (d.HasMember("metadata")) {
+//                if (d.HasMember("metadata")) {
                     //Parses in Title
-                    const Value &metadata = d["metadata"];
-                    string title = metadata["title"].GetString();
-
-                    string word = "";
-                    for (auto x:title) {
-                        transform(word.begin(), word.end(), word.begin(), ::tolower);
-                        if (x == ' ') {
-                            if (word.size() > 1) {
-                                Porter2Stemmer::stem(word);
-                                newObject.addText(word);
-                                word = "";
-                            }
-                        } else if ((x<33 || x>47) && (x>64 || x <58)){
-                            word = word + x;
-                        }
-                    }
+//                    const Value &metadata = d["metadata"];
+//                    string title = metadata["title"].GetString();
+//
+//                    string word = "";
+//                    for (auto x:title) {
+//                        transform(word.begin(), word.end(), word.begin(), ::tolower);
+//                        if (x == ' ') {
+//                            if (word.size() > 1) {
+//                                Porter2Stemmer::stem(word);
+//                                newObject.addText(word);
+//                                word = "";
+//                            }
+//                        } else if ((x<33 || x>47) && (x>64 || x <58)){
+//                            word = word + x;
+//                        }
+//                    }
 
                     //Parsing in Authors
                     //https://github.com/Tencent/rapidjson/issues/1235
-                    if (metadata["authors"].IsArray()) {
-                        const Value &authors = metadata["authors"];
-                        //cout << "-Authors:" << endl;
-                        for (rapidjson::Value::ConstValueIterator itr = authors.Begin(); itr != authors.End(); ++itr) {
-                            const Value &attribute = *itr;
-                            assert(attribute.IsObject());
-                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
-                                 itr2 != attribute.MemberEnd(); ++itr2) {
-                                if (attribute.HasMember("first")) {
-                                    author = attribute["first"].GetString();
-                                    author += " ";
-                                    author += attribute["last"].GetString();
-                                }
-                            }
-                            newObject.addAuthors(author);
-                        }
-                    }
-                }
+//                    if (metadata["authors"].IsArray()) {
+//                        const Value &authors = metadata["authors"];
+//                        //cout << "-Authors:" << endl;
+//                        for (rapidjson::Value::ConstValueIterator itr = authors.Begin(); itr != authors.End(); ++itr) {
+//                            const Value &attribute = *itr;
+//                            assert(attribute.IsObject());
+//                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
+//                                 itr2 != attribute.MemberEnd(); ++itr2) {
+//                                if (attribute.HasMember("first")) {
+//                                    author = attribute["first"].GetString();
+//                                    author += " ";
+//                                    author += attribute["last"].GetString();
+//                                }
+//                            }
+//                            newObject.addAuthors(author);
+//                        }
+//                    }
+//                }
 
                 //Parsing in Abstract
-                if (d.HasMember("abstract")) {
-                    const Value &abstract = d["abstract"];
-                    //cout << "-Abstract:" << endl;
-                    if (abstract.IsArray()) {
-                        string abstractText;
-                        for (rapidjson::Value::ConstValueIterator itr = abstract.Begin();
-                             itr != abstract.End(); ++itr) {
-                            const Value &attribute = *itr;
-                            assert(attribute.IsObject());
-                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
-                                 itr2 != attribute.MemberEnd(); ++itr2) {
-                                if (attribute.HasMember("text")) {
-                                    abstractText = attribute["text"].GetString();
-                                }
-                            }
-
-                            string word = "";
-                            for (auto x:abstractText) {
-                                transform(word.begin(), word.end(), word.begin(), ::tolower);
-                                if (x == ' ') {
-                                    if (word.size() > 1) {
-                                        Porter2Stemmer::stem(word);
-                                        newObject.addText(word);
-                                        word = "";
-                                    }
-                                } else if ((x<33 || x>47) && (x>64 || x <58)){
-                                    word = word + x;
-                                }
-                            }
-                        }
-                    }
-                }
+//                if (d.HasMember("abstract")) {
+//                    const Value &abstract = d["abstract"];
+//                    //cout << "-Abstract:" << endl;
+//                    if (abstract.IsArray()) {
+//                        string abstractText;
+//                        for (rapidjson::Value::ConstValueIterator itr = abstract.Begin();
+//                             itr != abstract.End(); ++itr) {
+//                            const Value &attribute = *itr;
+//                            assert(attribute.IsObject());
+//                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
+//                                 itr2 != attribute.MemberEnd(); ++itr2) {
+//                                if (attribute.HasMember("text")) {
+//                                    abstractText = attribute["text"].GetString();
+//                                }
+//                            }
+//
+//                            string word = "";
+//                            for (auto x:abstractText) {
+//                                transform(word.begin(), word.end(), word.begin(), ::tolower);
+//                                if (x == ' ') {
+//                                    if (word.size() > 1) {
+//                                        Porter2Stemmer::stem(word);
+//                                        newObject.addText(word);
+//                                        word = "";
+//                                    }
+//                                } else if ((x<33 || x>47) && (x>64 || x <58)){
+//                                    word = word + x;
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
 
                 //Parsing in BodyText
                 if (d.HasMember("body_text")) {
@@ -124,13 +124,9 @@ int DocParser::parseFiles(const char *file, ifstream& stopWords) {
                         for (rapidjson::Value::ConstValueIterator itr = body_text.Begin();
                              itr != body_text.End(); ++itr) {
                             const Value &attribute = *itr;
-                            assert(attribute.IsObject());
-                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
-                                 itr2 != attribute.MemberEnd(); ++itr2) {
                                 if (attribute.HasMember("text")) {
                                     BodyText = attribute["text"].GetString();
                                 }
-                            }
                             string word = "";
                             for (auto x:BodyText) {
                                 transform(word.begin(), word.end(), word.begin(), ::tolower);
@@ -153,6 +149,7 @@ int DocParser::parseFiles(const char *file, ifstream& stopWords) {
             }
         }
         closedir(dir);
+        //removeStop();
     } else {
         /* could not open directory */
         perror("");
@@ -190,7 +187,6 @@ void DocParser::printText() {
     }
 }
 void DocParser::readInStopWords(ifstream& file) {
-
     string words;
     if(file.is_open()) {
         while (!file.eof()) {
@@ -215,13 +211,3 @@ void DocParser::removeStop() {
         }
     }
 }
-
-//void DocParser::removeStem() {
-//    ifstream in{"diffs.txt"};
-//    string stemmed;
-//    for (int i; i < vectorOfJson.size(); i++) {
-//        for (int j = 0; j < vectorOfJson.at(i).returnText().size(); j++) {
-//            Porter2Stemmer::stem(vectorOfJson.at(i).returnText().at(j));
-//        }
-//    }
-//}
