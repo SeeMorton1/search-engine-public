@@ -65,5 +65,5 @@ smallDataSet
 build/
 *.o
 stem
-*.json
 cmake-build-debug-mingw/output.txt
+!/verysmall/
