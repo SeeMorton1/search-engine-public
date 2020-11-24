@@ -58,9 +58,8 @@ CMakeLists.txt
 cmake-build-debug/
 cs2341_data
 .gitignore
-rapidjson
 smallDataSet
-main.cpp
+
 =======
 #Stemmer stuff below
 build/
