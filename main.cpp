@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
     //Zihao's coding stuffs
     //Zihao's coding stuff
     ifstream file;
-    file.open("stopWords.txt");
+    file.open(argv[3]);
     DocParser docParser;
 
     docParser.parseFiles(argv[2], file); //1 is the path to the .json folder
