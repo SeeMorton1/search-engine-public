@@ -21,12 +21,14 @@ int DocParser::parseFiles(const char *file, ifstream& stop) {
     struct dirent *ent;
     if ((dir = opendir(file)) != nullptr) {
         while ((ent = readdir(dir)) != nullptr) {
+
+
             //Object for Json Class
             JsonObject newObject;
 
             string path = file;
             jsonfile = ent->d_name;
-            //path += "\\";
+            path += "\\";
             path += jsonfile;
             const char *jsonPathing = path.c_str();
 
@@ -132,8 +134,7 @@ int DocParser::parseFiles(const char *file, ifstream& stop) {
                                 transform(word.begin(), word.end(), word.begin(), ::tolower);
                                 if (x == ' ') {
                                     if (word.size() > 1) {
-                                        if (!stopWords.isFound(stopWords.getRoot(),word))
-                                        {
+                                        if (!stopWords.isFound(word)) {
                                             Porter2Stemmer::stem(word);
                                             newObject.addText(word);
                                         }
@@ -209,8 +210,8 @@ void DocParser::removeStop() {
     {
         //cout << vectorOfJson.at(i).returnText().size() << endl;
         for (int j=0; j<vectorOfJson.at(i).returnText().size();j++) {
-            if (stopWords.isFound(stopWords.getRoot(),vectorOfJson.at(i).returnText().at(j))){
-                vectorOfJson.at(i).returnAuthor().erase(vectorOfJson.at(i).returnText().begin()+j);
+            if (stopWords.isFound(vectorOfJson.at(i).returnText().at(j))) {
+                vectorOfJson.at(i).returnAuthor().erase(vectorOfJson.at(i).returnText().begin() + j);
             }
         }
     }
