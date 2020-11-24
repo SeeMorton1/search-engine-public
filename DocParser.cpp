@@ -28,7 +28,7 @@ int DocParser::parseFiles(const char *file, ifstream& stop) {
 
             string path = file;
             jsonfile = ent->d_name;
-            path += "\\";
+            path += "/";
             path += jsonfile;
             const char *jsonPathing = path.c_str();
 
