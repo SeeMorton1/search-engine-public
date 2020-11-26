@@ -167,6 +167,6 @@ endif()
 set(CMAKE_CXX_STANDARD 14)
 
 
-add_executable(search_engine_lin_morton main.cpp DocParser.cpp DocParser.h IndexNodesTest.cpp IndexNodesTest.h Index.cpp Index.h AvLTree.h JsonObject.cpp JsonObject.h HashTable.h IndexProcessor.h porter2_stemmer.cpp porter2_stemmer.h)
+add_executable(search_engine_lin_morton main.cpp DocParser.cpp DocParser.h IndexNodesTest.cpp IndexNodesTest.h Index.cpp Index.h AvLTree.h JsonObject.cpp JsonObject.h HashTable.h IndexProcessor.h porter2_stemmer.cpp porter2_stemmer.h UserInterface.cpp UserInterface.h QueryEngine.cpp QueryEngine.h)
 
 
