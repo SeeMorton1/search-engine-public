@@ -67,3 +67,4 @@ build/
 stem
 cmake-build-debug-mingw/output.txt
 !/verysmall/
+*.json

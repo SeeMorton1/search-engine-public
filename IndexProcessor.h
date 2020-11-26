@@ -30,7 +30,10 @@ public:
     list<string> findWord(const string &w) {
         Index sea;
         sea.setWord(w);
-        list<string> i = wordIndex.search(sea)->getData().getIDs();
+        list<string> i;
+        if(wordIndex.isFound(sea)){
+            i = wordIndex.search(sea)->getData().getIDs();
+        }
 
         return i;
     }
@@ -53,8 +56,6 @@ public:
         for (auto &it:words) {
             Index p;
             p.setWord(it);
-
-
             addInd(p, docID);
         }
     }
