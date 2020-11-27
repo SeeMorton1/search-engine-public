@@ -8,12 +8,15 @@
 #include <string>
 #include <iostream>
 #include "Query.h"
+#include <vector>
+#include <sstream>
+#include <algorithm>
 
 using namespace std;
 
 class QueryProcessor {
 private:
-    string search;
+    static string search;
 public:
     QueryProcessor() = default;
 
@@ -21,7 +24,7 @@ public:
 
     QueryProcessor(const QueryProcessor &copy) = default;
 
-    Query &genQuery();
+    static Query &genQuery();
 
     void setSearch(const string &in);
 };
