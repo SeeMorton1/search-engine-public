@@ -9,6 +9,8 @@
 #include <cstdlib>
 #include "JsonObject.h"
 #include "vector"
+#include "IndexProcessor.h"
+#include "DocParser.h"
 
 using namespace std;
 
