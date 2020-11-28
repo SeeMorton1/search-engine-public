@@ -26,7 +26,6 @@ private:
 
     vector<JsonObject> vectorOfJson;
     AvLTree<string> stopWords;
-    vector<string> stopWords2;
     string author;
     string text;
     string jsonfile;
@@ -39,7 +38,7 @@ public:
 
     int parseFiles(const char *file, ifstream& stopWords);
     void readInStopWords(ifstream& stopWords);
-    void removeStop();
+
 
     vector<JsonObject> getJsons();
 

@@ -10,21 +10,24 @@
 #include <cstdlib>
 #include "set"
 #include "JsonObject.h"
+#include "DocParser.h"
 using namespace std;
 
 class QueryEngine
 {
-  public:
+  private:
     int numberOfWords;
-    string ANDwords;
-    string ORwords;
-    string NOTwords;
+    vector<string> ANDwords;
+    vector<string> ORwords;
+    vector<string> NOTwords;
+    vector<string> AUTHORwords;
 
+    AvLTree<string> stopWords;
+    vector<string> query;
     vector<JsonObject> FileContainer;
     set<JsonObject> uniqueFileContainer;
 
-
-  private:
+  public:
     QueryEngine();
     QueryEngine(QueryEngine& copy);
     ~QueryEngine();
@@ -35,6 +38,8 @@ class QueryEngine
     void removeNotFiles(); //Goes through File Container and removes the Not Files
     void findAndFiles(); //Goes through the file to see if there are duplicates
     void removeDupes(); //Remove Duplicate Files
+    void findAuthors();
+    void addWord(string word);
 
 
 

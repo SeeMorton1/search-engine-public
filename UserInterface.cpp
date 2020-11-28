@@ -21,3 +21,10 @@ void UserInterface::startUI()
         }
     }
 }
+
+
+void UserInterface::addQuery(string query)
+{
+    QueryEngine newSearch;
+    newSearch.queryHandler(query);
+}
