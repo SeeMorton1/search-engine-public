@@ -11,12 +11,17 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
-
+#include <list>
+#include "AvLTree.h"
+#include "Index.h"
+#include "DocParser.h"
+#include "JsonObject.h"
 using namespace std;
 
 class QueryProcessor {
 private:
-    static string search;
+    string search;
+    Query query;
 public:
     QueryProcessor() = default;
 
@@ -24,7 +29,9 @@ public:
 
     QueryProcessor(const QueryProcessor &copy) = default;
 
-    static Query &genQuery();
+    void genQuery();
+    list<string>& findId(DocParser& doc);
+
 
     void setSearch(const string &in);
 };

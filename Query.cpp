@@ -23,3 +23,22 @@ void Query::setNot(const string &n) {
 void Query::setOr(const string &s) {
     orQ = s;
 }
+
+bool Query::hasAuthor() {
+    return author.empty();
+}
+
+bool Query::hasAnd() {
+    return andQ.empty();
+}
+
+bool Query::hasOr() {
+    return orQ.empty();
+}
+
+bool Query::hasNot() {
+    return notQ.empty();
+}
+
+Query &Query::operator=(const Query &copy) =default;
+

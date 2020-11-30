@@ -24,6 +24,8 @@ public:
 
     Query(const Query &copy) = default;
 
+    Query& operator=(const Query& copy);
+
 
     void setAuthor(const string &auth);
 
@@ -34,6 +36,24 @@ public:
     void setNot(const string &n);
 
     void setOr(const string &s);
+
+    string& getIn(){
+        return in;
+    }
+    string& getAuthor(){
+        return author;
+    }
+    string& getAnd(){return andQ;}
+    string& getOr(){return orQ;}
+    string& getNot(){return notQ;}
+
+    bool hasAuthor();
+
+    bool hasAnd();
+
+    bool hasOr();
+
+    bool hasNot();
 };
 
 
