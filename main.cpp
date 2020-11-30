@@ -32,8 +32,8 @@ int main(int argc, char **argv) {
 
     cout << "#####PROCESSING INDEX#####" << endl;
     //
-    IndexProcessor p;
-    p.createIndex(docParser);
+//    IndexProcessor p;
+//    p.createIndex(docParser);
 
     //list<string> foundIDS = p.findWord(toFind);
     //list<string> foundIDS = p.findIDS(toFind,docParser);
@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
 
 
 
-    //file.close();
+    file.close();
 
 
 

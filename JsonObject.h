@@ -19,6 +19,7 @@ private:
     vector<string> text;
     vector<string> authors;
     string jsonFileName;
+    int wordCount;
 public:
 
     JsonObject();
@@ -28,10 +29,12 @@ public:
     void addText(const string& t);
     void addAuthors(const string& author);
     void jsonFileNameSet(string json);
+    void setWordCount(int x);
 
     vector<string> returnText();
     vector<string> returnAuthor();
     string returnJsonFileName();
+    int returnWordCount();
 
 
 };

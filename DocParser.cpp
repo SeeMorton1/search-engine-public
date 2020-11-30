@@ -200,6 +200,5 @@ void DocParser::readInStopWords(ifstream& file) {
     else{
         cout << "No StopWords File" << endl;
     }
-    file.close();
 }
 
