@@ -47,20 +47,8 @@ int DocParser::parseFiles(const char *file, ifstream& stop) {
                     //Parses in Title
 //                    const Value &metadata = d["metadata"];
 //                    string title = metadata["title"].GetString();
-//
-//                    string word = "";
-//                    for (auto x:title) {
-//                        transform(word.begin(), word.end(), word.begin(), ::tolower);
-//                        if (x == ' ') {
-//                            if (word.size() > 1) {
-//                                Porter2Stemmer::stem(word);
-//                                newObject.addText(word);
-//                                word = "";
-//                            }
-//                        } else if ((x<33 || x>47) && (x>64 || x <58)){
-//                            word = word + x;
-//                        }
-//                    }
+//                    newObject.setTitle(title);
+
 
                     //Parsing in Authors
                     //https://github.com/Tencent/rapidjson/issues/1235
@@ -153,7 +141,6 @@ int DocParser::parseFiles(const char *file, ifstream& stop) {
             }
         }
         closedir(dir);
-        //removeStop();
     } else {
         /* could not open directory */
         perror("");
@@ -196,23 +183,10 @@ void DocParser::readInStopWords(ifstream& file) {
         while (!file.eof()) {
             getline(file, words);
             stopWords.insert(words);
-            //stopWords2.push_back(words);
         }
     }
     else{
         cout << "No StopWords File" << endl;
     }
-    file.close();
 }
 
-void DocParser::removeStop() {
-    for (int i=0; i<vectorOfJson.size();i++)
-    {
-        //cout << vectorOfJson.at(i).returnText().size() << endl;
-        for (int j=0; j<vectorOfJson.at(i).returnText().size();j++) {
-            if (stopWords.isFound(vectorOfJson.at(i).returnText().at(j))) {
-                vectorOfJson.at(i).returnAuthor().erase(vectorOfJson.at(i).returnText().begin() + j);
-            }
-        }
-    }
-}
