@@ -60,6 +60,10 @@ public:
         }
     }
 
+    AvLTree<Index>& getIndex(){
+        return wordIndex;
+    }
+
 };
 
 

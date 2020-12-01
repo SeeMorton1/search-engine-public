@@ -22,6 +22,7 @@ class UserInterface
     vector<JsonObject> SearchResults;
     int numberOfIndex;
     int uniqueAuthors;
+    long sizeOfNode;
 
     string query;
   public:
@@ -30,6 +31,8 @@ class UserInterface
     list<string> addQuery(string query); //Need to include stem and remove stop words in function
     void printArticle(JsonObject article); //300 Words of article
     vector<string> createUniqueIds(list<string> list);
+
+    void setCount(long Nodes);
 
     //Statistical Things
     void findObjects(vector<string> jsonIDS, vector<JsonObject> allFiles);

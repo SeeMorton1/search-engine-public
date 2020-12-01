@@ -75,6 +75,14 @@ int UserInterface::returnUniqueAuthorsNumber() {
     return UniqueAuthors.size();
 }
 
+void UserInterface::setCount(long Nodes) {
+    sizeOfNode = Nodes;
+}
+
+int UserInterface::returnUniqueWordsNumber() {
+    return sizeOfNode;
+}
+
 void UserInterface::printArticle(JsonObject article) {
     for (int i=0; i< 300; i++){
         cout << article.returnText().at(i) << " ";
