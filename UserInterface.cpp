@@ -23,8 +23,9 @@ void UserInterface::startUI()
 }
 
 
-void UserInterface::addQuery(string query)
+list<string> UserInterface::addQuery(string query)
 {
     Query newQuery;
     newQuery.setIn(query);
+    //Needs to have a return from the search engine file
 }

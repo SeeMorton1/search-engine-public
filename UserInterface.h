@@ -26,7 +26,7 @@ class UserInterface
   public:
     void startUI(); //Overall User Interface
     void clearIndex(); //Cleans Index
-    void addQuery(string query); //Need to include stem and remove stop words in function
+    list<string> addQuery(string query); //Need to include stem and remove stop words in function
     void printArticle(JsonObject article); //300 Words of article
     int returnQuerySize(); //Returns vector size;
 
