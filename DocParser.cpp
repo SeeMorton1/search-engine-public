@@ -47,20 +47,8 @@ int DocParser::parseFiles(const char *file, ifstream& stop) {
                     //Parses in Title
 //                    const Value &metadata = d["metadata"];
 //                    string title = metadata["title"].GetString();
-//
-//                    string word = "";
-//                    for (auto x:title) {
-//                        transform(word.begin(), word.end(), word.begin(), ::tolower);
-//                        if (x == ' ') {
-//                            if (word.size() > 1) {
-//                                Porter2Stemmer::stem(word);
-//                                newObject.addText(word);
-//                                word = "";
-//                            }
-//                        } else if ((x<33 || x>47) && (x>64 || x <58)){
-//                            word = word + x;
-//                        }
-//                    }
+//                    newObject.setTitle(title);
+
 
                     //Parsing in Authors
                     //https://github.com/Tencent/rapidjson/issues/1235

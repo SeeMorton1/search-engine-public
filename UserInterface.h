@@ -11,7 +11,7 @@
 #include "vector"
 #include "IndexProcessor.h"
 #include "DocParser.h"
-#include "QueryEngine.h"
+#include "Query.h"
 
 using namespace std;
 

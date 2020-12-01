@@ -16,6 +16,7 @@ JsonObject::JsonObject(const JsonObject &copy) {
 }
 
 void JsonObject::addText(const string& t) {
+    wordCount++;
     text.push_back(t);
 }
 
@@ -45,4 +46,8 @@ string JsonObject::returnJsonFileName() {
 
 int JsonObject::returnWordCount() {
     return wordCount;
+}
+
+void JsonObject::setTitle(const string &t) {
+    title = t;
 }

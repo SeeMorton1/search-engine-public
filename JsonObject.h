@@ -18,6 +18,7 @@ class JsonObject {
 private:
     vector<string> text;
     vector<string> authors;
+    string title;
     string jsonFileName;
     int wordCount;
 public:
@@ -30,6 +31,7 @@ public:
     void addAuthors(const string& author);
     void jsonFileNameSet(string json);
     void setWordCount(int x);
+    void setTitle(const string& t);
 
     vector<string> returnText();
     vector<string> returnAuthor();
