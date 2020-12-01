@@ -6,13 +6,17 @@
 #include "IndexNodesTest.h"
 #include "DocParser.h"
 #include "IndexProcessor.h"
+#include "QueryProcessor.h"
 using namespace std;
 int main(int argc, char **argv) {
     cout << "#####Parsing Jsons#####" << endl;
     std::ofstream output("output.txt");
     output << "wrote to file";
+    string qq = "AND virus covid not research";
+    QueryProcessor quer;
+    quer.setSearch(qq);
 
-
+    quer.genQuery();
 
 
     string toFind = argv[1];

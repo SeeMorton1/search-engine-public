@@ -8,13 +8,13 @@
 #include <iostream>
 #include <list>
 #include "DocParser.h"
-
+#include "JsonObject.h"
 using namespace std;
 
 class Index {
 private:
     string word;
-    list<string> IDs;
+    list<string> IDs    ;
     int count;
 public:
     Index();
@@ -42,7 +42,7 @@ public:
 
     int getCount() {
         string temp;
-        for (auto const &i:IDs) {
+        for (auto &i:IDs) {
             if (i != temp) {
                 count++;
             }
