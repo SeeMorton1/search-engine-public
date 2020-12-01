@@ -43,33 +43,33 @@ int DocParser::parseFiles(const char *file, ifstream& stop) {
             newObject.jsonFileNameSet(jsonfile);
 
             if (d.IsObject()) {
-//                if (d.HasMember("metadata")) {
+                if (d.HasMember("metadata")) {
                     //Parses in Title
-//                    const Value &metadata = d["metadata"];
-//                    string title = metadata["title"].GetString();
-//                    newObject.setTitle(title);
+                    const Value &metadata = d["metadata"];
+                    string title = metadata["title"].GetString();
+                    newObject.setTitle(title);
 
 
                     //Parsing in Authors
                     //https://github.com/Tencent/rapidjson/issues/1235
-//                    if (metadata["authors"].IsArray()) {
-//                        const Value &authors = metadata["authors"];
-//                        //cout << "-Authors:" << endl;
-//                        for (rapidjson::Value::ConstValueIterator itr = authors.Begin(); itr != authors.End(); ++itr) {
-//                            const Value &attribute = *itr;
-//                            assert(attribute.IsObject());
-//                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
-//                                 itr2 != attribute.MemberEnd(); ++itr2) {
-//                                if (attribute.HasMember("first")) {
-//                                    author = attribute["first"].GetString();
-//                                    author += " ";
-//                                    author += attribute["last"].GetString();
-//                                }
-//                            }
-//                            newObject.addAuthors(author);
-//                        }
-//                    }
-//                }
+                    if (metadata["authors"].IsArray()) {
+                        const Value &authors = metadata["authors"];
+                        //cout << "-Authors:" << endl;
+                        for (rapidjson::Value::ConstValueIterator itr = authors.Begin(); itr != authors.End(); ++itr) {
+                            const Value &attribute = *itr;
+                            assert(attribute.IsObject());
+                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
+                                 itr2 != attribute.MemberEnd(); ++itr2) {
+                                if (attribute.HasMember("first")) {
+                                    author = attribute["first"].GetString();
+                                    author += " ";
+                                    author += attribute["last"].GetString();
+                                }
+                            }
+                            newObject.addAuthors(author);
+                        }
+                    }
+                }
 
                 //Parsing in Abstract
 //                if (d.HasMember("abstract")) {

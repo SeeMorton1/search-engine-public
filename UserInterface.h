@@ -19,30 +19,24 @@ class UserInterface
 {
   private:
     vector<JsonObject> topRankedArticles;
+    vector<JsonObject> SearchResults;
     int numberOfIndex;
     int uniqueAuthors;
 
     string query;
   public:
-    void startUI(); //Overall User Interface
+    void startUI(vector<JsonObject> files); //Overall User Interface
     void clearIndex(); //Cleans Index
     list<string> addQuery(string query); //Need to include stem and remove stop words in function
     void printArticle(JsonObject article); //300 Words of article
-    int returnQuerySize(); //Returns vector size;
+    vector<string> createUniqueIds(list<string> list);
 
     //Statistical Things
+    void findObjects(vector<string> jsonIDS, vector<JsonObject> allFiles);
     int returnArticlesIndexed();
-    int averageNumberOfWordsPerArticle(JsonObject article);
-    int returnUniqueWordsNumber; //Number of Nodes in avl
-    int returnUniqueAuthorsNumber;
-    
-
-
-
-
-
-
-
+    int averageNumberOfWordsPerArticle();
+    int returnUniqueWordsNumber(); //Number of Nodes in avl
+    int returnUniqueAuthorsNumber();
 
 };
 
