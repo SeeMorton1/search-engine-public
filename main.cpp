@@ -52,7 +52,9 @@ int main(int argc, char **argv) {
     cout << newInterface.returnArticlesIndexed() << endl;
     cout << newInterface.averageNumberOfWordsPerArticle() << endl;
     cout << newInterface.returnUniqueAuthorsNumber() << endl;
-    //long n = p.getIndex().g
+    long n = p.getIndex().returnSize();
+    newInterface.setCount(n);
+    cout << newInterface.returnUniqueWordsNumber() << endl;
 
 
 

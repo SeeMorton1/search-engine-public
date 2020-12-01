@@ -124,9 +124,6 @@ private:
     long n;
 private:
 
-    long returnSize(){
-        return n;
-    }
 
     void balanceNode(AvLNode *A) {
 
@@ -334,6 +331,11 @@ public:
     AvLNode *getRoot() {
         return root;
     }
+
+    long returnSize(){
+        return n;
+    }
+
 };
 
 
