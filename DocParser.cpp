@@ -142,7 +142,7 @@ int DocParser::parseFiles(const char *file, ifstream &stop, ifstream &csv) {
                                             }
                                             word = "";
                                         }
-                                    } else if ((x < 33 || x > 47) && (x > 64 || x < 58)) {
+                                    } else if ((x > 47 && x<58) || (x > 64 && x < 91) || (x>96 && x<123) || (x=='-')) {
                                         word = word + x;
                                     }
                                 }
