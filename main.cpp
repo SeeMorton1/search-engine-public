@@ -10,6 +10,12 @@
 #include "UserInterface.h"
 using namespace std;
 int main(int argc, char **argv) {
+    /*
+     * 1 - Word to Search
+     * 2 - Direct Path to file
+     * 3 - Direct Path to stopword
+     * 4 - Direct Path to csv file
+     */
     cout << "#####Parsing Jsons#####" << endl;
     std::ofstream output("output.txt");
     output << "wrote to file";
@@ -28,9 +34,12 @@ int main(int argc, char **argv) {
 
     ifstream file;
     file.open(argv[3]);
+    ifstream csv;
+    csv.open(argv[4]);
     DocParser docParser;
 
-    docParser.parseFiles(argv[2], file); //1 is the path to the .json folder
+    docParser.parseFiles(argv[2], file, csv); //1 is the path to the .json folder
+    docParser.getMeta();
     cout << "#####PROCESSING INDEX#####" << endl;
     //
     IndexProcessor p;
@@ -47,6 +56,7 @@ int main(int argc, char **argv) {
     for (const auto &it:setOfFoundIDS){
         uniqueIds.push_back(it);
     }
+
     UserInterface newInterface;
     newInterface.findObjects(uniqueIds,docParser.getJsons());
     cout << newInterface.returnArticlesIndexed() << endl;
@@ -55,11 +65,10 @@ int main(int argc, char **argv) {
     long n = p.getIndex().returnSize();
     newInterface.setCount(n);
     cout << newInterface.returnUniqueWordsNumber() << endl;
+    newInterface.printStats();
 
 
 
-
-    file.close();
 
 
 

@@ -38,6 +38,22 @@ string JsonObject::returnJsonFileName() {
     return jsonFileName;
 }
 
-void JsonObject::setTitle(const string &t) {
+void JsonObject::setTitle(const string& t) {
     title = t;
+}
+
+void JsonObject::setPublisher(const string& p) {
+    publisher = p;
+}
+void JsonObject::setPublishTime(const string& t) {
+    publishTime = t;
+}
+string JsonObject::returnTitle() {
+    return title;
+}
+string JsonObject::returnTime() {
+    return publishTime;
+}
+string JsonObject::returnPublisher() {
+    return publisher;
 }

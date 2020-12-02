@@ -14,17 +14,17 @@ DocParser::DocParser(const DocParser &copy) {
     jsonfile = copy.jsonfile;
 }
 
-int DocParser::parseFiles(const char *file, ifstream& stop) {
+int DocParser::parseFiles(const char *file, ifstream &stop, ifstream &csv) {
     readInStopWords(stop);
+    parseMetaData(csv);
     std::ifstream in{"diffs.txt"};
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(file)) != nullptr) {
         while ((ent = readdir(dir)) != nullptr) {
-
-
-            //Object for Json Class
-            JsonObject newObject;
+            bool FullText = false;
+            string date;
+            string publisher;
 
             string path = file;
             jsonfile = ent->d_name;
@@ -32,46 +32,60 @@ int DocParser::parseFiles(const char *file, ifstream& stop) {
             path += jsonfile;
             const char *jsonPathing = path.c_str();
 
-
-            FILE *fp = fopen(jsonPathing, "rb");
-            char readBuffer[65536];
-            FileReadStream is(fp, readBuffer, sizeof(readBuffer));
-
-            Document d;
-            d.ParseStream(is);
-
-            newObject.jsonFileNameSet(jsonfile);
-
-            if (d.IsObject()) {
-                if (d.HasMember("metadata")) {
-                    //Parses in Title
-                    const Value &metadata = d["metadata"];
-                    string title = metadata["title"].GetString();
-                    newObject.setTitle(title);
-
-
-                    //Parsing in Authors
-                    //https://github.com/Tencent/rapidjson/issues/1235
-                    if (metadata["authors"].IsArray()) {
-                        const Value &authors = metadata["authors"];
-                        //cout << "-Authors:" << endl;
-                        for (rapidjson::Value::ConstValueIterator itr = authors.Begin(); itr != authors.End(); ++itr) {
-                            const Value &attribute = *itr;
-                            assert(attribute.IsObject());
-                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
-                                 itr2 != attribute.MemberEnd(); ++itr2) {
-                                if (attribute.HasMember("first")) {
-                                    author = attribute["first"].GetString();
-                                    author += " ";
-                                    author += attribute["last"].GetString();
-                                }
-                            }
-                            newObject.addAuthors(author);
-                        }
+            for (int i = 0; i < vectorOfMetaData.size(); i++) {
+                if (jsonfile == vectorOfMetaData.at(i).returnID()) {
+                    if (vectorOfMetaData.at(i).returnFullText()) {
+                        FullText = true;
+                        date = vectorOfMetaData.at(i).returnPublishTime();
+                        publisher = vectorOfMetaData.at(i).returnPublisher();
                     }
                 }
+            }
 
-                //Parsing in Abstract
+            if (FullText) {
+                FILE *fp = fopen(jsonPathing, "rb");
+                char readBuffer[65536];
+                FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+
+                Document d;
+                d.ParseStream(is);
+
+
+                //Object for Json Class
+                JsonObject newObject;
+                newObject.jsonFileNameSet(jsonfile);
+
+                if (d.IsObject()) {
+                    if (d.HasMember("metadata")) {
+                        //Parses in Title
+                        const Value &metadata = d["metadata"];
+                        string title = metadata["title"].GetString();
+                        newObject.setTitle(title);
+
+
+                        //Parsing in Authors
+                        //https://github.com/Tencent/rapidjson/issues/1235
+                        if (metadata["authors"].IsArray()) {
+                            const Value &authors = metadata["authors"];
+                            //cout << "-Authors:" << endl;
+                            for (rapidjson::Value::ConstValueIterator itr = authors.Begin();
+                                 itr != authors.End(); ++itr) {
+                                const Value &attribute = *itr;
+                                assert(attribute.IsObject());
+                                for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
+                                     itr2 != attribute.MemberEnd(); ++itr2) {
+                                    if (attribute.HasMember("first")) {
+                                        author = attribute["first"].GetString();
+                                        author += " ";
+                                        author += attribute["last"].GetString();
+                                    }
+                                }
+                                newObject.addAuthors(author);
+                            }
+                        }
+                    }
+
+                    //Parsing in Abstract
 //                if (d.HasMember("abstract")) {
 //                    const Value &abstract = d["abstract"];
 //                    //cout << "-Abstract:" << endl;
@@ -105,39 +119,41 @@ int DocParser::parseFiles(const char *file, ifstream& stop) {
 //                    }
 //                }
 
-                //Parsing in BodyText
-                if (d.HasMember("body_text")) {
-                    const Value &body_text = d["body_text"];
-                    //cout << "-Body:" << endl;
-                    if (body_text.IsArray()) {
-                        string BodyText;
-                        for (rapidjson::Value::ConstValueIterator itr = body_text.Begin();
-                             itr != body_text.End(); ++itr) {
-                            const Value &attribute = *itr;
+                    //Parsing in BodyText
+                    if (d.HasMember("body_text")) {
+                        const Value &body_text = d["body_text"];
+                        //cout << "-Body:" << endl;
+                        if (body_text.IsArray()) {
+                            string BodyText;
+                            for (rapidjson::Value::ConstValueIterator itr = body_text.Begin();
+                                 itr != body_text.End(); ++itr) {
+                                const Value &attribute = *itr;
                                 if (attribute.HasMember("text")) {
                                     BodyText = attribute["text"].GetString();
                                 }
-                            string word = "";
-                            for (auto x:BodyText) {
-                                transform(word.begin(), word.end(), word.begin(), ::tolower);
-                                if (x == ' ') {
-                                    if (word.size() > 1) {
-                                        if (!stopWords.isFound(word)) {
-                                            Porter2Stemmer::stem(word);
-                                            newObject.addText(word);
+                                string word = "";
+                                for (auto x:BodyText) {
+                                    transform(word.begin(), word.end(), word.begin(), ::tolower);
+                                    if (x == ' ') {
+                                        if (word.size() > 1) {
+                                            if (!stopWords.isFound(word)) {
+                                                Porter2Stemmer::stem(word);
+                                                newObject.addText(word);
+                                            }
+                                            word = "";
                                         }
-                                        word = "";
+                                    } else if ((x < 33 || x > 47) && (x > 64 || x < 58)) {
+                                        word = word + x;
                                     }
-                                } else if ((x<33 || x>47) && (x>64 || x <58)){
-                                    word = word + x;
                                 }
                             }
                         }
                     }
+                    newObject.setPublisher(publisher);
+                    newObject.setPublishTime(date);
+                    vectorOfJson.push_back(newObject);
+                    fclose(fp);
                 }
-
-                vectorOfJson.push_back(newObject);
-                fclose(fp);
             }
         }
         closedir(dir);
@@ -148,9 +164,40 @@ int DocParser::parseFiles(const char *file, ifstream& stop) {
     }
 }
 
+void DocParser::parseMetaData(ifstream &csv) {
+    if (csv.is_open()) {
+        int count = 0;
+        while (csv.good()) {
+            string ID, time, journal, fullText;
+            getline(csv, ID, ',');
+            ID += ".json";
+            getline(csv, time, ',');
+            getline(csv, journal, ',');
+            getline(csv, fullText, '\n');
+            if (count >= 1) {
+                MetaDataObject newLine;
+                newLine.setID(ID);
+                newLine.setPublisher(journal);
+                newLine.setTime(time);
+                newLine.checkFullText(fullText);
+                vectorOfMetaData.push_back(newLine);
+            }
+            count++;
+        }
+    } else {
+        cout << "No CSV File" << endl;
+    }
+    csv.close();
+}
+
+vector<MetaDataObject> DocParser::getMeta() {
+    return vectorOfMetaData;
+}
+
 vector<JsonObject> DocParser::getJsons() {
     return vectorOfJson;
 }
+
 void DocParser::printAuthor() {
     for (int i = 0; i < vectorOfJson.size(); i++) {
         cout << "-Next File " << endl;
@@ -177,16 +224,17 @@ void DocParser::printText() {
         cout << endl;
     }
 }
-void DocParser::readInStopWords(ifstream& file) {
+
+void DocParser::readInStopWords(ifstream &file) {
     string words;
     if (file.is_open()) {
         while (!file.eof()) {
             getline(file, words);
             stopWords.insert(words);
         }
-    }
-    else{
+    } else {
         cout << "No StopWords File" << endl;
     }
+    file.close();
 }
 

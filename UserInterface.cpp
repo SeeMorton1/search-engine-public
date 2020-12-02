@@ -88,3 +88,21 @@ void UserInterface::printArticle(JsonObject article) {
         cout << article.returnText().at(i) << " ";
     }
 }
+void UserInterface::printStats(){
+    for (int i=0; i<15 ;i++){
+        cout << "Title: " << SearchResults.at(i).returnTitle() << endl;
+        cout << "Author(s): ";
+        for(int j=0; j<SearchResults.at(i).returnAuthor().size();j++){
+            if (j != SearchResults.at(i).returnAuthor().size()-1) {
+                cout << SearchResults.at(i).returnAuthor().at(j) << ", ";
+            }
+            else{
+                cout << SearchResults.at(i).returnAuthor().at(j);
+            }
+        }
+        cout << endl;
+        cout << "Publisher: " << SearchResults.at(i).returnPublisher() << endl;
+        cout << "Publish Date: " << SearchResults.at(i).returnTime() << endl;
+        cout << endl;
+    }
+}
