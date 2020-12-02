@@ -59,6 +59,9 @@ public:
             addInd(p, docID);
         }
     }
+    AvLTree<Index>& getIndex(){
+        return wordIndex;
+    }
 
 };
 

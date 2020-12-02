@@ -1,11 +1,12 @@
 //
 // Created by Conner Morton on 11/14/2020.
 //
+
 #include <iostream>
 #include <fstream>
-#include "IndexNodesTest.h"
 #include "DocParser.h"
 #include "IndexProcessor.h"
+#include "HashTable.h"
 #include "QueryProcessor.h"
 using namespace std;
 int main(int argc, char **argv) {
@@ -18,10 +19,19 @@ int main(int argc, char **argv) {
 
     quer.genQuery();
 
+    HashTable<string,list<string>> table;
+
+    string author = "Berkins";
+    list<string> ids;
+    ids.emplace_back("2");
+    table.insert(author,ids);
+    table[author].emplace_back("3");
+
+
 
     string toFind = argv[1];
     // IndexNodesTest::runTests();
-    const char *fileName = argv[2];
+
 
     //IndexNodesTest::runTests();
 
@@ -40,12 +50,14 @@ int main(int argc, char **argv) {
     p.createIndex(docParser);
 
     list<string> foundIDS = p.findWord(toFind);
+
     //list<string> foundIDS = p.findIDS(toFind,docParser);
 
     for (const auto &it:foundIDS) {
         cout << it << endl;
 
     }
+
 
 
 
