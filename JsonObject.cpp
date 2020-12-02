@@ -12,6 +12,9 @@ JsonObject::JsonObject(const JsonObject &copy) {
     text = copy.text;
     authors = copy.authors;
     jsonFileName = copy.jsonFileName;
+    title = copy.title;
+    publisher = copy.publisher;
+    publishTime = copy.publishTime;
 }
 
 void JsonObject::addText(const string& t) {
