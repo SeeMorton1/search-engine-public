@@ -17,6 +17,7 @@
 #include "JsonObject.h"
 #include "AvLTree.h"
 #include<bits/stdc++.h>
+#include "MetaDataObject.h"
 
 using namespace rapidjson;
 using namespace std;
@@ -24,6 +25,7 @@ using namespace std;
 class DocParser{
 private:
 
+    vector<MetaDataObject> vectorOfMetaData;
     vector<JsonObject> vectorOfJson;
     AvLTree<string> stopWords;
     string author;
@@ -36,11 +38,13 @@ public:
     ~DocParser();
     DocParser(const DocParser& copy);
 
-    int parseFiles(const char *file, ifstream& stopWords);
+    int parseFiles(const char *file, ifstream& stopWords, ifstream& csvFile);
+    void parseMetaData(ifstream& csv);
     void readInStopWords(ifstream& stopWords);
 
 
     vector<JsonObject> getJsons();
+    vector<MetaDataObject> getMeta();
 
     //Test Functions
     void printText();

@@ -20,6 +20,8 @@ private:
     vector<string> authors;
     string title;
     string jsonFileName;
+    string publishTime;
+    string publisher;
 public:
 
     JsonObject();
@@ -30,10 +32,15 @@ public:
     void addAuthors(const string& author);
     void jsonFileNameSet(string json);
     void setTitle(const string& t);
+    void setPublisher(const string& p);
+    void setPublishTime(const string& t);
 
     vector<string> returnText();
     vector<string> returnAuthor();
     string returnJsonFileName();
+    string returnTitle();
+    string returnTime();
+    string returnPublisher();
 
 
 };
