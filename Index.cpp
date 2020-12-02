@@ -35,6 +35,7 @@ Index::~Index() = default;
 
 void Index::addID(const string &id) {
     IDs.push_back(id);
+    addCount();
 }
 
 void Index::setWord(const string &in) {

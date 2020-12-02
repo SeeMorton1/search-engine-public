@@ -17,7 +17,9 @@ private:
     AvLTree<Index> wordIndex;
     HashTable<string,list<string>> authorIndex;
 public:
-    
+    void popIndex(const DocParser& doc);
+
+
 };
 
 

@@ -3,7 +3,6 @@
 //
 #include <iostream>
 #include <fstream>
-#include "IndexNodesTest.h"
 #include "DocParser.h"
 #include "IndexProcessor.h"
 #include "QueryProcessor.h"
@@ -44,6 +43,12 @@ int main(int argc, char **argv) {
     //
     IndexProcessor p;
     p.createIndex(docParser);
+    ofstream out("output.csv");
+
+    p.toCSV(out);
+    out.close();
+    ifstream in("output.csv");
+    p.csvToTree(in);
 
     list<string> foundIDS = p.findWord(toFind);
     set<string> setOfFoundIDS;

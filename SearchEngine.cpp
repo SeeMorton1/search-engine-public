@@ -3,3 +3,7 @@
 //
 
 #include "SearchEngine.h"
+
+void SearchEngine::popIndex(const DocParser &doc) {
+
+}

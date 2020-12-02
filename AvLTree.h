@@ -10,7 +10,7 @@
 using namespace std;
 template<typename T>
 class AvLTree {
-private:
+public:
     class AvLNode {
     private:
         T data;
@@ -335,6 +335,7 @@ public:
     long returnSize(){
         return n;
     }
+
 
 };
 

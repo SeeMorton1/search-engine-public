@@ -17,6 +17,16 @@ public:
         wordIndex = copy.wordIndex;
 
     }
+    vector<string> tokenString(const string &str) {
+        vector<string> words;
+        stringstream ss(str);
+        string buff;
+        while (getline(ss, buff, ',')) {
+            transform(buff.begin(), buff.end(), buff.begin(), ::tolower);
+            words.push_back(buff);
+        }
+        return words;
+    }
 
     void createIndex(DocParser &doc) {
         vector<JsonObject> jsons = doc.getJsons();
@@ -62,10 +72,54 @@ public:
     AvLTree<Index>& getIndex(){
         return wordIndex;
     }
-
-    AvLTree<Index>& getIndex(){
-        return wordIndex;
+    void toCSV(ofstream& out){
+        AvLTree<Index>::AvLNode* root = wordIndex.getRoot();
+        write(root,out);
     }
+    void write( AvLTree<Index>::AvLNode* node,ofstream& out){
+        levelOrder(node,out);
+    }
+    void levelOrder(AvLTree<Index>::AvLNode* node,ofstream& out){
+        int h = node->getHeight();
+        for(int i = 1;i<=h;i++){
+            printLevel(node,i,out);
+        }
+    }
+    void printLevel(AvLTree<Index>::AvLNode* node,int level, ofstream& out){
+        if(node== nullptr){
+            return;
+        }
+        if(level ==1){
+            Index curr = node->getData();
+            out<<curr.getWord()<<",";
+            set<string> unique;
+            for(auto& it: curr.getIDs()){
+                unique.insert(it);
+            }
+            for(auto& it: unique){
+                out<<it<<",";
+            }
+            out<<'\n';
+        }else if(level>1){
+            printLevel(node->getLeft(),level-1,out);
+            printLevel(node->getRight(),level-1,out);
+        }
+
+    }
+    void csvToTree(ifstream& in){
+        string s;
+        while(getline(in,s)){
+            vector<string> words = tokenString(s);
+            Index c;
+            c.setWord(words.at(0));
+            for(int i = 1;i<words.size();i++){
+                c.addID(words.at(i));
+            }
+            wordIndex.insert(c);
+        }
+    }
+
+    
 
 };
 
