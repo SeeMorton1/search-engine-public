@@ -1,13 +1,13 @@
 //
 // Created by Conner Morton on 11/14/2020.
 //
-
 #include <iostream>
 #include <fstream>
+#include "IndexNodesTest.h"
 #include "DocParser.h"
 #include "IndexProcessor.h"
-#include "HashTable.h"
 #include "QueryProcessor.h"
+#include "UserInterface.h"
 using namespace std;
 int main(int argc, char **argv) {
     cout << "#####Parsing Jsons#####" << endl;
@@ -19,50 +19,47 @@ int main(int argc, char **argv) {
 
     quer.genQuery();
 
-    HashTable<string,list<string>> table;
-
-    string author = "Berkins";
-    list<string> ids;
-    ids.emplace_back("2");
-    table.insert(author,ids);
-    table[author].emplace_back("3");
-
-
 
     string toFind = argv[1];
     // IndexNodesTest::runTests();
-
+    const char *fileName = argv[2];
 
     //IndexNodesTest::runTests();
 
-    //Zihao's coding stuffs
-    //Zihao's coding stuff
     ifstream file;
     file.open(argv[3]);
     DocParser docParser;
 
     docParser.parseFiles(argv[2], file); //1 is the path to the .json folder
-    //docParser.printText();
-
     cout << "#####PROCESSING INDEX#####" << endl;
     //
     IndexProcessor p;
     p.createIndex(docParser);
 
     list<string> foundIDS = p.findWord(toFind);
-
+    set<string> setOfFoundIDS;
     //list<string> foundIDS = p.findIDS(toFind,docParser);
 
     for (const auto &it:foundIDS) {
-        cout << it << endl;
-
+        setOfFoundIDS.insert(it);
     }
+    vector<string> uniqueIds;
+    for (const auto &it:setOfFoundIDS){
+        uniqueIds.push_back(it);
+    }
+    UserInterface newInterface;
+    newInterface.findObjects(uniqueIds,docParser.getJsons());
+    cout << newInterface.returnArticlesIndexed() << endl;
+    cout << newInterface.averageNumberOfWordsPerArticle() << endl;
+    cout << newInterface.returnUniqueAuthorsNumber() << endl;
+    long n = p.getIndex().returnSize();
+    newInterface.setCount(n);
+    cout << newInterface.returnUniqueWordsNumber() << endl;
 
 
 
 
-
-    //file.close();
+    file.close();
 
 
 

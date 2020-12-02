@@ -123,6 +123,8 @@ private:
     AvLNode *root;
     long n;
 private:
+
+
     void balanceNode(AvLNode *A) {
 
         int bal = A->getBal();
@@ -329,6 +331,11 @@ public:
     AvLNode *getRoot() {
         return root;
     }
+
+    long returnSize(){
+        return n;
+    }
+
 };
 
 

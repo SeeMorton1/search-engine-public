@@ -37,3 +37,7 @@ vector<string> JsonObject::returnText() {
 string JsonObject::returnJsonFileName() {
     return jsonFileName;
 }
+
+void JsonObject::setTitle(const string &t) {
+    title = t;
+}

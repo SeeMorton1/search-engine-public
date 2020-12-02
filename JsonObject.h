@@ -18,6 +18,7 @@ class JsonObject {
 private:
     vector<string> text;
     vector<string> authors;
+    string title;
     string jsonFileName;
 public:
 
@@ -28,6 +29,7 @@ public:
     void addText(const string& t);
     void addAuthors(const string& author);
     void jsonFileNameSet(string json);
+    void setTitle(const string& t);
 
     vector<string> returnText();
     vector<string> returnAuthor();
