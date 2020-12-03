@@ -12,14 +12,17 @@
 #include "AvLTree.h"
 #include "Index.h"
 #include "HashTable.h"
+#include "Query.h"
 class SearchEngine {
 private:
     AvLTree<Index> wordIndex;
     HashTable<string,list<string>> authorIndex;
+    vector<JsonObject> jsons;
 public:
     void popIndex(const DocParser& doc);
-
-
+    list<string> findDocs(Query& q);
+    static JsonObject& findObjects(const string& ids,vector<JsonObject>& files);
+    void setFiles(vector<JsonObject>& files);
 };
 
 

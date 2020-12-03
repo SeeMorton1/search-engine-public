@@ -92,13 +92,10 @@ public:
         if(level ==1){
             Index curr = node->getData();
             out<<curr.getWord()<<",";
-            set<string> unique;
             for(auto& it: curr.getIDs()){
-                unique.insert(it);
-            }
-            for(auto& it: unique){
                 out<<it<<",";
             }
+
             out<<'\n';
         }else if(level>1){
             printLevel(node->getLeft(),level-1,out);
