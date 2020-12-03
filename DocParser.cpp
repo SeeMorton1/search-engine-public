@@ -166,24 +166,38 @@ int DocParser::parseFiles(const char *file, ifstream &stop, ifstream &csv) {
 
 void DocParser::parseMetaData(ifstream &csv) {
     if (csv.is_open()) {
-        int count = 0;
-        while (csv.good()) {
-            string ID, time, journal, fullText;
-            getline(csv, ID, ',');
-            ID += ".json";
-            getline(csv, time, ',');
-            getline(csv, journal, ',');
-            getline(csv, fullText, '\n');
-            if (count >= 1) {
-                MetaDataObject newLine;
-                newLine.setID(ID);
-                newLine.setPublisher(journal);
-                newLine.setTime(time);
-                newLine.checkFullText(fullText);
-                vectorOfMetaData.push_back(newLine);
-            }
-            count++;
-        }
+//        int count = 0;
+//        while (csv.good()) {
+//            string ID, time, journal, fullText;
+//            getline(csv, ID, ',');
+//            ID += ".json";
+//            getline(csv, time, ',');
+//            getline(csv, journal, ',');
+//            getline(csv, fullText, '\n');
+//            if (count >= 1) {
+//                MetaDataObject newLine;
+//                newLine.setID(ID);
+//                newLine.setPublisher(journal);
+//                newLine.setTime(time);
+//                newLine.checkFullText(fullText);
+//                vectorOfMetaData.push_back(newLine);
+//            }
+//            count++;
+    rapidcsv::Document doc(csv);
+    vector<string> sha = doc.GetColumn<string>("sha");
+    vector<string> publish_time = doc.GetColumn<string>("publish_time");
+    vector<string> journal= doc.GetColumn<string>("journal");
+    vector<string> full_text_file= doc.GetColumn<string>("full_text_file");
+
+    for (int i=0; i<sha.size();i++){
+        MetaDataObject newLine;
+        newLine.setID(sha.at(i));
+        newLine.setPublisher(journal.at(i));
+        newLine.setTime(publish_time.at(i));
+        newLine.checkFullText(full_text_file.at(i));
+        vectorOfMetaData.push_back(newLine);
+    }
+
     } else {
         cout << "No CSV File" << endl;
     }

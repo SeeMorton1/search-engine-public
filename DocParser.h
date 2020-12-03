@@ -18,6 +18,7 @@
 #include "AvLTree.h"
 #include<bits/stdc++.h>
 #include "MetaDataObject.h"
+#include "rapidcsv.h"
 
 using namespace rapidjson;
 using namespace std;
