@@ -18,7 +18,7 @@ void MetaDataObject::setID(string id) {
 }
 
 void MetaDataObject::checkFullText(string text) {
-    if (text[0] == 'c'){
+    if (text[0] == 'T'){
         fullText = true;
     }
     else{

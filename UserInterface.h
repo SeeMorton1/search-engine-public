@@ -12,6 +12,7 @@
 #include "IndexProcessor.h"
 #include "DocParser.h"
 #include "Query.h"
+#include "TopWordsObject.h"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ class UserInterface
   private:
     vector<JsonObject> topRankedArticles;
     vector<JsonObject> SearchResults;
+    vector<TopWordsObject> top50Words;
     int numberOfIndex;
     int uniqueAuthors;
     long sizeOfNode;
@@ -29,11 +31,13 @@ class UserInterface
     void startUI(vector<JsonObject> files); //Overall User Interface
     void clearIndex(); //Cleans Index
     list<string> addQuery(string query); //Need to include stem and remove stop words in function
-    void printArticle(JsonObject article); //300 Words of article
+    void printArticle(int x); //300 Words of article
     vector<string> createUniqueIds(list<string> list);
     void printStats();
 
     void setCount(long Nodes);
+    void printTop50();
+
 
     //Statistical Things
     void findObjects(vector<string> jsonIDS, vector<JsonObject> allFiles);

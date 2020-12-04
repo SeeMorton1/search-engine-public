@@ -63,14 +63,15 @@ int main(int argc, char **argv) {
     }
 
     UserInterface newInterface;
-    newInterface.findObjects(uniqueIds,docParser.getJsons());
-    cout << newInterface.returnArticlesIndexed() << endl;
-    cout << newInterface.averageNumberOfWordsPerArticle() << endl;
-    cout << newInterface.returnUniqueAuthorsNumber() << endl;
-    long n = p.getIndex().returnSize();
-    newInterface.setCount(n);
-    cout << newInterface.returnUniqueWordsNumber() << endl;
-    newInterface.printStats();
+//    newInterface.findObjects(uniqueIds,docParser.getJsons());
+//    cout << newInterface.returnArticlesIndexed() << endl;
+//    cout << newInterface.averageNumberOfWordsPerArticle() << endl;
+//    cout << newInterface.returnUniqueAuthorsNumber() << endl;
+//    long n = p.getIndex().returnSize();
+//    newInterface.setCount(n);
+//    cout << newInterface.returnUniqueWordsNumber() << endl;
+//    newInterface.printStats();
+    newInterface.startUI(docParser.getJsons());
 
 
 

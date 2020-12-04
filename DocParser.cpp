@@ -171,7 +171,7 @@ void DocParser::parseMetaData(ifstream &csv) {
     vector<string> sha = doc.GetColumn<string>("sha");
     vector<string> publish_time = doc.GetColumn<string>("publish_time");
     vector<string> journal= doc.GetColumn<string>("journal");
-    vector<string> full_text_file= doc.GetColumn<string>("full_text_file");
+    vector<string> full_text_file= doc.GetColumn<string>("has_pdf_parse");
 
     for (int i=0; i<sha.size();i++) {
         MetaDataObject newLine;
@@ -181,6 +181,12 @@ void DocParser::parseMetaData(ifstream &csv) {
         newLine.setPublisher(journal.at(i));
         newLine.setTime(publish_time.at(i));
         newLine.checkFullText(full_text_file.at(i));
+//        if (newLine.returnFullText()){
+//            cout << "True" << endl;
+//        }
+//        else{
+//            cout << "False" << endl;
+//        }
         vectorOfMetaData.push_back(newLine);
     }
 
