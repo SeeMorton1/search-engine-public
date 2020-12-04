@@ -37,15 +37,15 @@ public:
 
     void setOr(const string &s);
 
-    string& getIn(){
+    string getIn(){
         return in;
     }
-    string& getAuthor(){
+    string getAuthor(){
         return author;
     }
-    string& getAnd(){return andQ;}
-    string& getOr(){return orQ;}
-    string& getNot(){return notQ;}
+    string getAnd(){return andQ;}
+    string getOr(){return orQ;}
+    string getNot(){return notQ;}
 
     bool hasAuthor();
 
