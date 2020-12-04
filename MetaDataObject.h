@@ -28,7 +28,7 @@ public:
     void setTime(string date);
 
     string returnID();
-    bool returnFullText();
+    bool returnFullText() const;
     string returnPublisher();
     string returnPublishTime();
 

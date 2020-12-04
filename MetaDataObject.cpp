@@ -38,7 +38,7 @@ string MetaDataObject::returnID() {
     return ID;
 }
 
-bool MetaDataObject::returnFullText() {
+bool MetaDataObject::returnFullText() const {
     return fullText;
 }
 

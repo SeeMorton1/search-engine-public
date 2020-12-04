@@ -12,6 +12,9 @@ DocParser::DocParser(const DocParser &copy) {
     author = copy.author;
     text = copy.text;
     jsonfile = copy.jsonfile;
+    vectorOfMetaData = copy.vectorOfMetaData;
+    vectorOfJson = copy.vectorOfJson;
+    stopWords = copy.stopWords;
 }
 
 int DocParser::parseFiles(const char *file, ifstream &stop, ifstream &csv) {
@@ -25,13 +28,10 @@ int DocParser::parseFiles(const char *file, ifstream &stop, ifstream &csv) {
             bool FullText = false;
             string date;
             string publisher;
-
             string path = file;
             jsonfile = ent->d_name;
-            path += "/";
             path += jsonfile;
             const char *jsonPathing = path.c_str();
-
             for (int i = 0; i < vectorOfMetaData.size(); i++) {
                 if (jsonfile == vectorOfMetaData.at(i).returnID()) {
                     if (vectorOfMetaData.at(i).returnFullText()) {
@@ -189,9 +189,11 @@ void DocParser::parseMetaData(ifstream &csv) {
     vector<string> journal= doc.GetColumn<string>("journal");
     vector<string> full_text_file= doc.GetColumn<string>("full_text_file");
 
-    for (int i=0; i<sha.size();i++){
+    for (int i=0; i<sha.size();i++) {
         MetaDataObject newLine;
-        newLine.setID(sha.at(i));
+        string Id = sha.at(i);
+        Id += ".json";
+        newLine.setID(Id);
         newLine.setPublisher(journal.at(i));
         newLine.setTime(publish_time.at(i));
         newLine.checkFullText(full_text_file.at(i));
