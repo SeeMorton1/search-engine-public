@@ -58,20 +58,36 @@ list<string> SearchEngine::findDocs(Query &q) {
                 bool isNotFound = vectorContains(file.returnText(),q.getNot());
 //                bool isNotFound  = (find_if(file.returnText().begin(),file.returnText().end(),q.getNot())!=file.returnText().end());
                 if(!isNotFound){
-
+                    f.push_back(it);
                 }
             }
             for(auto& it:toSearch){
-
+                JsonObject file =findObjects(it,jsons);
+                bool isNotFound = vectorContains(file.returnText(),q.getNot());
+                if(!isNotFound){
+                    f.push_back(it);
+                }
             }
             cout<<"process or and not";
         }else if(q.hasOr()) {
-            cout << "process or";
+            Index x;
+            x.setWord(q.getOr());
+            list<string> orID = wordIndex.search(x)->getData().getIDs();
+            for(auto&  it: orID){
+                f.push_back(it);
+            }
+            for(auto& it:toSearch){
+                f.push_back(it);
+            }
+
         }else{
+            for(auto& it:toSearch){
+                f.push_back(it);
+            }
             cout<<"found";
         }
     }
-
+    return f;
 }
 
 JsonObject &SearchEngine::findObjects(const string& id, vector<JsonObject>& files) {
