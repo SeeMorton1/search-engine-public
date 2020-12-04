@@ -30,6 +30,7 @@ int DocParser::parseFiles(const char *file, ifstream &stop, ifstream &csv) {
             string publisher;
             string path = file;
             jsonfile = ent->d_name;
+            path += "/";
             path += jsonfile;
             const char *jsonPathing = path.c_str();
             for (int i = 0; i < vectorOfMetaData.size(); i++) {
@@ -166,23 +167,6 @@ int DocParser::parseFiles(const char *file, ifstream &stop, ifstream &csv) {
 
 void DocParser::parseMetaData(ifstream &csv) {
     if (csv.is_open()) {
-//        int count = 0;
-//        while (csv.good()) {
-//            string ID, time, journal, fullText;
-//            getline(csv, ID, ',');
-//            ID += ".json";
-//            getline(csv, time, ',');
-//            getline(csv, journal, ',');
-//            getline(csv, fullText, '\n');
-//            if (count >= 1) {
-//                MetaDataObject newLine;
-//                newLine.setID(ID);
-//                newLine.setPublisher(journal);
-//                newLine.setTime(time);
-//                newLine.checkFullText(fullText);
-//                vectorOfMetaData.push_back(newLine);
-//            }
-//            count++;
     rapidcsv::Document doc(csv);
     vector<string> sha = doc.GetColumn<string>("sha");
     vector<string> publish_time = doc.GetColumn<string>("publish_time");
