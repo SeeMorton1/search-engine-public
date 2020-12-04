@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
 //    newInterface.setCount(n);
 //    cout << newInterface.returnUniqueWordsNumber() << endl;
 //    newInterface.printStats();
-    newInterface.startUI(docParser.getJsons());
+    newInterface.startUI(argv[2],file,csv);
 
 
 

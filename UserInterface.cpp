@@ -3,86 +3,106 @@
 //
 
 #include "UserInterface.h"
-
-void UserInterface::startUI(vector<JsonObject> files) {
+/*
+ * To DO List:
+ * Write Index (Option 1)
+ * Open CSV File (Option 3)
+ * Clear Index (Option 4)
+ * Function returnUniqueWordsNumber() aka Nodes in avl
+ * 
+ */
+void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csvFile) {
     cout << "Starting Search Engine" << endl;
+    bool RunUI = true;
 
-    while (true) {
-
-        cout << "What would you like to search for? Insert Close to exit the search engine." << endl;
-        cin >> query;
-        if (query == "Close" || query == "close") {
-            break;
-        } else {
-            cout << "Searching...." << endl;
-            //Implementation goes here
-            findObjects(createUniqueIds(addQuery(query)), files);
-            if (SearchResults.empty()) {
-                cout << "No search Result" << endl;
-            } else {
-                bool run = true;
-                while (run)
-                {
-                cout << "Printing top 15:" << endl;
-                printStats();
-                cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-                cout << "Type 1-15 to print the first 300 words of the article" << endl;
-                cout << "Type: " << endl << "A) Total number of individual articles indexed" << endl
-                     << "B) Average number of words indexed per article" << endl << "C) Total number of unique words "
-                     << endl << "D) Total number of unique Authors" << endl << "E) Top 50 most frequent words" << endl
-                     << "Type anything else to quit" << endl;
-                string input;
-                cin >> input;
-                if (input == "1" || input == "2" || input == "3" || input == "4" || input == "5" || input == "6" ||
-                    input == "7" || input == "8" || input == "9" || input == "10" || input == "11" || input == "12" ||
-                    input == "13" || input == "14" || input == "15") {
-                    int option = stoi(input);
-                    option = option - 1;
-                    printArticle(option);
-                }
-                else if (input == "A"){
-                    cout << "Total Number of Articles Indexed: " << returnArticlesIndexed() << endl;
-                }
-                else if (input == "B"){
-                    cout << "Average number of Words per Article: " << averageNumberOfWordsPerArticle() << endl;
-                }
-                else if (input == "C"){
-                    cout << "Total Number of Unique Words: " << returnUniqueWordsNumber() << endl;
-                }
-                else if (input == "D"){
-                    cout << "Total Number of Unique Authors: " << returnUniqueAuthorsNumber() << endl;
-                }
-                else if (input == "E"){
-                    cout << "Top 50 most frequent Words: " << endl;
-                }
-                else{
-                    cout << "Unknown input. Did you wish to exit?" << endl;
-                    string input;
-                    cin >> input;
-                    transform(input.begin(),input.end(),input.begin(),::tolower);
-                    if (input == "yes"){
-                        run = false;
+    while (RunUI) {
+        string UserInput;
+        cout << "Choose an Option" << endl << "~~~~~~~~~~~~~~~~~~~" << endl;
+        cout << "1.Write Index\n2.Create Index\n3.Open CSV File\n4.Clear Index\n5.Search\n6.Display Stats\n7.Exit"
+             << endl;
+        cin >> UserInput;
+        int Option = stoi(UserInput);
+        if (Option == 1 || Option == 2 || Option == 3 || Option == 4 || Option == 5 || Option == 6 || Option == 7) {
+            if (Option == 1) {
+                //Write index - writes the current Index(AVL TRee and HAsh table) in the program to the CSV
+            } else if (Option == 2) {
+                DocParser newParse;
+                newParse.parseFiles(file, stopWords, csvFile);
+                VectorOfJsons = newParse.getJsons();
+            } else if (Option == 3) {
+                //Open file - Opens the CSV for quick access to the AVL tree
+            } else if (Option == 4) {
+                //clearIndex(); //Don't have a function written out for this yet
+            } else if (Option == 5) {
+                cout << "What would you like to search for?" << endl;
+                Query newQuery;
+                cin >> query;
+                newQuery.setIn(query);
+                SearchEngine newSearch;
+                //Clears the Result Vectors before doing new Search
+                SearchResults.clear();
+                topRankedArticles.clear();
+                //This line pretty much takes List<string> and converts it to vector of string of unique ids and finds their object
+                //THen I put it into SearchResults
+                findObjects(createUniqueIds(newSearch.findDocs(newQuery)), VectorOfJsons);
+                if (SearchResults.size() > 1) {
+                    bool run = true;
+                    while (run) {
+                        cout << "Printing top 15 Articles:" << endl;
+                        printStats();
+                        cout << "Choose an Option 1-" << topRankedArticles.size()
+                             << " to see first 300 words or type 0 to EXIT" << endl;
+                        int option;
+                        cin >> option;
+                        if (option <= topRankedArticles.size() && option > 0) {
+                            option = option - 1;
+                            printArticle(option);
+                        } else if (option == 0) {
+                            run = false;
+                        } else {
+                            cout << "Invalid Option. Please Try Again" << endl;
+                        }
                     }
-                    else if (input == "no"){
-                        run = true;
-                    }
-                    else{
-                        cout << "Unknown input" << endl;
-                    }
+                } else {
+                    cout << "No Search Results" << endl;
                 }
+            } else if (Option == 6) {
+                cout << "Choose an Option" << endl << "~~~~~~~~~~~~~~~~~~~" << endl;
+                cout
+                        << "1.Total number of individual articles indexed\n2.Average number of words indexed per article\n3.Total number of unique words indexed\n4.Total number of unique Authors\n5.Top 50 most frequent words\nAnything Else To EXIT"
+                        << endl;
+                int option;
+                cin >> option;
+                if (option >= 1 && option <= 5) {
+                    if (option == 1) {
+                        cout << "Total Number of Articles Indexed: " << returnArticlesIndexed() << endl;
+                    } else if (option == 2) {
+                        cout << "Average number of Words per Article: " << averageNumberOfWordsPerArticle() << endl;
+                    }
+                    else if (option == 3){
+                        cout << "Number of Unique Words: " << returnUniqueWordsNumber() << endl;
+                    }
+                    else if (option == 4){
+                        cout << "Number of Unique Authors: " <<returnUniqueAuthorsNumber() << endl;
+                    }
+                    else if (option == 5){
+                        cout << "Printing Top 50 Words:" << endl;
+                        printTop50();
+                    }
+                } else {
+                    cout << "Returning To Search Engine..." << endl << endl;
                 }
+            } else if (Option == 7) {
+                cout << "Exiting Search Engine" << endl;
+                RunUI = false;
             }
-
-
+        } else {
+            cout << "Invalid Option." << endl;
         }
     }
 }
 
-list<string> UserInterface::addQuery(string query) {
-    Query newQuery;
-    newQuery.setIn(query);
-    //Needs to have a return from the search engine file
-}
+
 
 vector<string> UserInterface::createUniqueIds(list<string> list) {
     set<string> temp;
@@ -97,7 +117,7 @@ vector<string> UserInterface::createUniqueIds(list<string> list) {
 }
 
 void UserInterface::printTop50() {
-    for (int i=0; i<50; i++){
+    for (int i = 0; i < 50; i++) {
         cout << i << ") " << top50Words.at(i).returnWord() << " with " << top50Words.at(i).returnCount() << " counts.";
     }
 }
@@ -107,31 +127,36 @@ void UserInterface::findObjects(vector<string> jsonIDS, vector<JsonObject> allFi
     for (int i = 0; i < jsonIDS.size(); i++) {
         for (int j = 0; j < allFiles.size(); j++) {
             if (allFiles.at(j).returnJsonFileName() == jsonIDS.at(i)) {
-                topRankedArticles.push_back(allFiles.at(j));
+                numberOfWords += allFiles.at(j).returnText().size();
+                numberOfIndex++;
+                SearchResults.push_back(allFiles.at(j));
             }
+        }
+    }
+    addAuthors();
+}
+
+void UserInterface::addAuthors() {
+    for (int i=0; i<SearchResults.size();i++) {
+        for (int j=0; j<SearchResults.at(i).returnAuthor().size();j++){
+            Authors.push_back(SearchResults.at(i).returnAuthor().at(j));
         }
     }
 }
 
-int UserInterface::returnArticlesIndexed() {
-    return SearchResults.size();
+long UserInterface::returnArticlesIndexed() {
+    return numberOfIndex;
 }
 
-int UserInterface::averageNumberOfWordsPerArticle() {
-    int count = 0;
-    for (int i = 0; i < SearchResults.size(); i++) {
-        count += SearchResults.at(i).returnText().size();
-    }
-    count = count / SearchResults.size();
-    return count;
+long UserInterface::averageNumberOfWordsPerArticle() {
+    long AVGWords = numberOfWords / numberOfIndex;
+    return AVGWords;
 }
 
 int UserInterface::returnUniqueAuthorsNumber() {
     set<string> UniqueAuthors;
-    for (int i = 0; i < SearchResults.size(); i++) {
-        for (int j = 0; j < SearchResults.at(i).returnAuthor().size(); j++) {
-            UniqueAuthors.insert(SearchResults.at(i).returnAuthor().at(j));
-        }
+    for (int i = 0; i < Authors.size(); i++) {
+        UniqueAuthors.insert(Authors.at(i));
     }
     return UniqueAuthors.size();
 }
@@ -140,7 +165,7 @@ void UserInterface::setCount(long Nodes) {
     sizeOfNode = Nodes;
 }
 
-int UserInterface::returnUniqueWordsNumber() {
+long UserInterface::returnUniqueWordsNumber() {
     return sizeOfNode;
 }
 
@@ -152,7 +177,7 @@ void UserInterface::printArticle(int x) {
 
 void UserInterface::printStats() {
     for (int i = 0; i < 15; i++) {
-        cout << "Title: " << SearchResults.at(i).returnTitle() << endl;
+        cout << i << ") Title: " << SearchResults.at(i).returnTitle() << endl;
         cout << "Author(s): ";
         for (int j = 0; j < SearchResults.at(i).returnAuthor().size(); j++) {
             if (j != SearchResults.at(i).returnAuthor().size() - 1) {
