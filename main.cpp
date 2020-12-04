@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
     DocParser docParser;
 
     docParser.parseFiles(argv[2], file, csv); //1 is the path to the .json folder
-    docParser.getMeta();
+    //docParser.getMeta();
     cout << "#####PROCESSING INDEX#####" << endl;
     //
     IndexProcessor p;
