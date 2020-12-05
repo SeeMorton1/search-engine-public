@@ -31,7 +31,9 @@ public:
 
     void genQuery();
     list<string>& findId(DocParser& doc);
-
+    Query& getQuery(){
+        return query;
+    }
 
     void setSearch(const string &in);
 };

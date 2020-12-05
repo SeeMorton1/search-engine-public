@@ -13,16 +13,18 @@
 #include "Index.h"
 #include "HashTable.h"
 #include "Query.h"
+#include "IndexProcessor.h"
 class SearchEngine {
 private:
-    AvLTree<Index> wordIndex;
+
     HashTable<string,list<string>> authorIndex;
     vector<JsonObject> jsons;
 public:
-    void popIndex(const DocParser& doc);
-    list<string> findDocs(Query& q);
+    void setIndex( AvLTree<Index>& copy);
+    void setLevel(AvLTree<Index>::AvLNode* node,int level);
+    set<string> findDocs(Query& q,AvLTree<Index>& wordIndex);
     static JsonObject& findObjects(const string& ids,vector<JsonObject>& files);
-    void setFiles(vector<JsonObject>& files);
+    void setFiles(vector<JsonObject> files);
 };
 
 

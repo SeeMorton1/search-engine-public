@@ -25,19 +25,19 @@ void Query::setOr(const string &s) {
 }
 
 bool Query::hasAuthor() {
-    return author.empty();
+    return !author.empty();
 }
 
 bool Query::hasAnd() {
-    return andQ.empty();
+    return !andQ.empty();
 }
 
 bool Query::hasOr() {
-    return orQ.empty();
+    return !orQ.empty();
 }
 
 bool Query::hasNot() {
-    return notQ.empty();
+    return !notQ.empty();
 }
 
 Query &Query::operator=(const Query &copy) =default;
