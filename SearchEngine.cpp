@@ -10,8 +10,8 @@ bool vectorContains(const vector<string>& words, const string s){
     return find(words.begin(),words.end(),s)!=words.end();
 }
 
-set<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex) {
-    set<string> f;
+list<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex) {
+    list<string> f;
 
 
     string initial = q.getIn();
@@ -30,7 +30,7 @@ set<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex) {
             bool isNotFound = vectorContains(file.returnText(), q.getNot());
             //bool isNotFound(find_if(file.returnText().begin(),file.returnText().end(),q.getNot())!=file.returnText().end());
             if (isAndFound && !isNotFound) {
-                f.insert(it);
+                f.push_back(it);
             }
         }
         cout << "process and and not";
@@ -42,7 +42,7 @@ set<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex) {
             //bool isAndFound(find_if(file.returnText().begin(),file.returnText().end(),q.getAnd())!=file.returnText().end());
 
             if (isAndFound) {
-                f.insert(it);
+                f.push_back(it);
             }
         }
 
@@ -56,14 +56,14 @@ set<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex) {
             bool isNotFound = vectorContains(file.returnText(), q.getNot());
 //                bool isNotFound  = (find_if(file.returnText().begin(),file.returnText().end(),q.getNot())!=file.returnText().end());
             if (!isNotFound) {
-                f.insert(it);
+                f.push_back(it);
             }
         }
         for (auto &it:toSearch) {
             JsonObject file = findObjects(it, jsons);
             bool isNotFound = vectorContains(file.returnText(), q.getNot());
             if (!isNotFound) {
-                f.insert(it);
+                f.push_back(it);
             }
         }
         cout << "process or and not";
@@ -72,15 +72,15 @@ set<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex) {
         x.setWord(q.getOr());
         list<string> orID = wordIndex.search(x)->getData().getIDs();
         for (auto &it: orID) {
-            f.insert(it);
+            f.push_back(it);
         }
         for (auto &it:toSearch) {
-            f.insert(it);
+            f.push_back(it);
         }
 
     } else {
         for (auto &it:toSearch) {
-            f.insert(it);
+            f.push_back(it);
         }
         cout << "found";
     }

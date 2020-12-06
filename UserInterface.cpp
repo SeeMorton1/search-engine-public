@@ -21,15 +21,45 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
         cout << "1.Write Index\n2.Create Index\n3.Open CSV File\n4.Clear Index\n5.Search\n6.Display Stats\n7.Exit"
              << endl;
         cin >> UserInput;
-        int Option = stoi(UserInput);
+        int Option;
+        if(!UserInput.empty()){
+            Option = stoi(UserInput);
+        }
+
         if (Option == 1 || Option == 2 || Option == 3 || Option == 4 || Option == 5 || Option == 6 || Option == 7) {
             if (Option == 1) {
+                string fileName;
+                cout<<"Please enter file to save word index to in the form 'fileToSave.csv'"<<endl;
+                cin>>fileName;
+                string authorFileName;
+                //cout<<"Please enter file to save author index to in the form 'fileToSave.csv'"<<endl;
+                //cin>>authorFileName;
+                ofstream out(fileName);
+                //ofstream outAuthor(authorFileName);
+                IndexProcessor p;
+                p.setIndex(wordIndex);
+                //p.setAuthorIndex(authorIndex);
+                //p.toAuthorCsv(outAuthor);
+                p.toCSV(out);
                 //Write index - writes the current Index(AVL TRee and HAsh table) in the program to the CSV
             } else if (Option == 2) {
+
                 DocParser newParse;
                 newParse.parseFiles(file, stopWords, csvFile);
+
+                IndexProcessor p;
+
+                p.createIndex(newParse);
+
+                wordIndex=p.getIndex();
                 VectorOfJsons = newParse.getJsons();
             } else if (Option == 3) {
+                string filePath;
+                cout<<"Please input the absolute path to the csv file"<<endl;
+                cin>>filePath;
+                ifstream fileToRead(filePath);
+                IndexProcessor p;
+                wordIndex = p.csvToTree(fileToRead);
                 //Open file - Opens the CSV for quick access to the AVL tree
             } else if (Option == 4) {
                 //clearIndex(); //Don't have a function written out for this yet
@@ -37,14 +67,18 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                 cout << "What would you like to search for?" << endl;
                 Query newQuery;
                 cin >> query;
-                newQuery.setIn(query);
+                QueryProcessor queryProcessor;
+                queryProcessor.setSearch(query);
+
+                newQuery.setIn(queryProcessor.getQuery().getIn());newQuery.setAndQ(queryProcessor.getQuery().getAnd());newQuery.setOr(queryProcessor.getQuery().getOr());newQuery.setNot(queryProcessor.getQuery().getNot());newQuery.setAuthor(queryProcessor.getQuery().getAuthor());
+
                 SearchEngine newSearch;
                 //Clears the Result Vectors before doing new Search
                 SearchResults.clear();
                 topRankedArticles.clear();
                 //This line pretty much takes List<string> and converts it to vector of string of unique ids and finds their object
                 //THen I put it into SearchResults
-                findObjects(createUniqueIds(newSearch.findDocs(newQuery)), VectorOfJsons);
+                findObjects(createUniqueIds(newSearch.findDocs(newQuery,wordIndex)), VectorOfJsons);
                 if (SearchResults.size() > 1) {
                     bool run = true;
                     while (run) {
@@ -197,3 +231,20 @@ void UserInterface::printStats() {
         cout << endl;
     }
 }
+
+void UserInterface::processIndex(const char *file, const char *csv, const char *stop) {
+    DocParser docParser;
+    ifstream stopFile(stop);
+    ifstream csvFile(csv);
+    docParser.parseFiles(file,stopFile,csvFile);
+    IndexProcessor p;
+    p.createIndex(docParser);
+    wordIndex=p.getIndex();
+    //authorIndex=p.getAuthorIndex();
+}
+
+void UserInterface::clearIndex() {
+    wordIndex.Clear();
+}
+
+

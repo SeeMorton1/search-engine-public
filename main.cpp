@@ -15,52 +15,49 @@ int main(int argc, char **argv) {
      * 3 - Direct Path to stopword
      * 4 - Direct Path to csv file
      */
-    cout << "#####Parsing Jsons#####" << endl;
-    std::ofstream output("output.txt");
-    output << "wrote to file";
-    string qq = "AND virus covid not research";
-    QueryProcessor quer;
-    quer.setSearch(qq);
-
-    quer.genQuery();
-
-
-    string toFind = argv[1];
-    // IndexNodesTest::runTests();
-    const char *fileName = argv[2];
-
-    //IndexNodesTest::runTests();
-
+//    string qq = "AND virus covid not research";
+//    QueryProcessor quer;
+//    quer.setSearch(qq);
+//
+//    quer.genQuery();
+//
+//
+//    string toFind = argv[1];
+//    // IndexNodesTest::runTests();
+//    const char *fileName = argv[2];
+//
+//    //IndexNodesTest::runTests();
+//
     ifstream file;
     file.open(argv[3]);
     ifstream csv;
     csv.open(argv[4]);
-    DocParser docParser;
-
-    docParser.parseFiles(argv[2], file, csv); //1 is the path to the .json folder
-    //docParser.getMeta();
-    cout << "#####PROCESSING INDEX#####" << endl;
-    //
-    IndexProcessor p;
-    p.createIndex(docParser);
-    ofstream out("output.csv");
-
-    p.toCSV(out);
-    out.close();
-    ifstream in("output.csv");
-    p.csvToTree(in);
-
-    list<string> foundIDS = p.findWord(toFind);
-    set<string> setOfFoundIDS;
-    //list<string> foundIDS = p.findIDS(toFind,docParser);
-
-    for (const auto &it:foundIDS) {
-        setOfFoundIDS.insert(it);
-    }
-    vector<string> uniqueIds;
-    for (const auto &it:setOfFoundIDS){
-        uniqueIds.push_back(it);
-    }
+//    DocParser docParser;
+//
+//    docParser.parseFiles(argv[2], file, csv); //1 is the path to the .json folder
+//    //docParser.getMeta();
+//    cout << "#####PROCESSING INDEX#####" << endl;
+//    //
+//    IndexProcessor p;
+//    p.createIndex(docParser);
+//    ofstream out("output.csv");
+//
+//    p.toCSV(out);
+//    out.close();
+//    ifstream in("output.csv");
+//    p.csvToTree(in);
+//
+//    list<string> foundIDS = p.findWord(toFind);
+//    set<string> setOfFoundIDS;
+//    //list<string> foundIDS = p.findIDS(toFind,docParser);
+//
+//    for (const auto &it:foundIDS) {
+//        setOfFoundIDS.insert(it);
+//    }
+//    vector<string> uniqueIds;
+//    for (const auto &it:setOfFoundIDS){
+//        uniqueIds.push_back(it);
+//    }
 
     UserInterface newInterface;
 //    newInterface.findObjects(uniqueIds,docParser.getJsons());
@@ -79,6 +76,6 @@ int main(int argc, char **argv) {
 
 
     cout << "Finished" << endl;
-    output.close();
+
     return 0;
 }

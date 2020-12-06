@@ -11,7 +11,7 @@
 #include <list>
 #include "AvLTree.h"
 #include "Index.h"
-#include "HashTable.h"
+
 #include "Query.h"
 #include "IndexProcessor.h"
 class SearchEngine {
@@ -22,7 +22,7 @@ private:
 public:
     void setIndex( AvLTree<Index>& copy);
     void setLevel(AvLTree<Index>::AvLNode* node,int level);
-    set<string> findDocs(Query& q,AvLTree<Index>& wordIndex);
+    list<string> findDocs(Query& q,AvLTree<Index>& wordIndex);
     static JsonObject& findObjects(const string& ids,vector<JsonObject>& files);
     void setFiles(vector<JsonObject> files);
 };

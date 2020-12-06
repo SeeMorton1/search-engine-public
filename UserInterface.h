@@ -15,7 +15,7 @@
 #include "TopWordsObject.h"
 #include "DocParser.h"
 #include "SearchEngine.h"
-
+#include "QueryProcessor.h"
 using namespace std;
 
 class UserInterface
@@ -26,6 +26,8 @@ class UserInterface
     vector<JsonObject> VectorOfJsons;
     vector<TopWordsObject> top50Words;
     vector<string> Authors;
+    AvLTree<Index> wordIndex;
+    HashTable<string,list<string>> authorIndex;
     long numberOfIndex;
     long numberOfWords;
     long sizeOfNode;
@@ -38,7 +40,7 @@ class UserInterface
     vector<string> createUniqueIds(list<string> list);
     void printStats();
     void addAuthors();
-
+    void processIndex(const char* file,const char* csv,const char* stop);
     void setCount(long Nodes);
     void printTop50();
 

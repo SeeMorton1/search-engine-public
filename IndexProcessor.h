@@ -4,10 +4,11 @@
 #include "AvLTree.h"
 #include "Index.h"
 #include "DocParser.h"
-
+#include "HashTable.h"
 class IndexProcessor {
 private:
     AvLTree<Index> wordIndex;
+    HashTable<string,list<string>> authorIndex;
 public:
     IndexProcessor() = default;
 
@@ -29,9 +30,13 @@ public:
     }
 
     void createIndex(DocParser &doc) {
+
         vector<JsonObject> jsons = doc.getJsons();
         for (auto &it:jsons) {
             vector<string> words = it.returnText();
+            vector<string> authors = it.returnAuthor();
+
+            generateAuthorIndex(authors,it.returnJsonFileName());
 
             generateIndex(words, it.returnJsonFileName());
         }
@@ -61,6 +66,20 @@ public:
             wordIndex.insert(ind);
         }
     }
+    void generateAuthorIndex(const vector<string>& words,const string& docID){
+        for(auto& it:words){
+            const string& author = it;
+            addAuthorInd(author,docID);
+        }
+    }
+    void addAuthorInd(const string &author, const string &docID) {
+
+        list<string> f;
+        f.push_back(docID);
+        authorIndex.insert(author, f);
+
+
+    }
 
     void generateIndex(const vector<string> &words, const string &docID) {
         for (auto &it:words) {
@@ -71,6 +90,12 @@ public:
     }
     AvLTree<Index>& getIndex(){
         return wordIndex;
+    }
+    void hashToCsv(ofstream& out){
+        vector<vector<pair<string,list<string>>>> table = authorIndex.getTable();
+        for(auto& it:table){
+
+        }
     }
     void toCSV(ofstream& out){
         AvLTree<Index>::AvLNode* root = wordIndex.getRoot();
@@ -103,7 +128,7 @@ public:
         }
 
     }
-    void csvToTree(ifstream& in){
+    AvLTree<Index>& csvToTree(ifstream& in){
         string s;
         while(getline(in,s)){
             vector<string> words = tokenString(s);
@@ -114,6 +139,11 @@ public:
             }
             wordIndex.insert(c);
         }
+        return wordIndex;
+
+    }
+    void setIndex(AvLTree<Index> c){
+        wordIndex= c;
     }
 
     

@@ -12,6 +12,8 @@ struct comp {
     comp(const K& k) : key(k) {}
 
     bool operator() (const pair<K,V>& p) {
+
+
         return (p.first == key);
     }
 
@@ -34,6 +36,7 @@ public:
 
     }
     bool insert(const K& k,const V& v){
+
 
         vector< pair<K,V> >& l = table[ myHash(k) ];
         if( find_if(l.begin(), l.end(), comp<K,V>(k)) != l.end() ){
@@ -63,6 +66,9 @@ public:
         bool found = find_if(l.begin(),l.end(),comp<K,V>(k))!=l.end();
         return found;
     }
+    vector<vector<pair<K,V>>> getTable(){
+        return table;
+    }
 
 private:
     vector<vector<pair<K,V>>> table;
@@ -75,7 +81,7 @@ private:
     }
     size_t myHash(const K& k)const{
         static hash<K> hasher;
-        return (hasher(k)&table.size());
+        return (hasher(k)%table.size());
     }
     void rehash(){
         vector<vector<pair<K,V>>> old = table;

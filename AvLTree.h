@@ -31,6 +31,12 @@ public:
             par = left = right = nullptr;
             height = 0;
         }
+        AvLNode(T& in,AvLNode*l,AvLNode* r,int n){
+          data = in;
+          left =l;
+          right = r;
+          height = n;
+        }
 
         void removeParent() {
             par = nullptr;
@@ -228,25 +234,13 @@ public:
     }
 
     AvLNode *copySubTree(AvLNode *curr) {
-        AvLNode *newLeft, *newRight, *newPar;
-        if (curr == nullptr) {
+        if(curr!= nullptr){
+            AvLNode* left = copySubTree(curr->getLeft());
+            AvLNode* right = copySubTree(curr->getRight());
+            return new AvLNode(curr->getData(),curr->getLeft(),curr->getRight(),curr->getHeight());
+        }else{
             return nullptr;
         }
-        if (curr->getLeft() == nullptr) {
-            newLeft = nullptr;
-        } else {
-            newLeft = copySubTree(curr->getLeft());
-        }
-        if (curr->getRight() == nullptr) {
-            newRight = nullptr;
-        } else {
-            newRight = copySubTree(curr->getRight());
-        }
-        newPar->setRight(newRight);
-        newPar->setData(curr->getData());
-        newPar->setLeft(newLeft);
-        newPar->setHeight(curr->getHeight());
-        return newPar;
     }
 
     bool insert(T &in) {
@@ -315,7 +309,7 @@ public:
     }
 
     void Clear() {
-        clear(root);
+        Clear(root);
         root = nullptr;
     }
 
