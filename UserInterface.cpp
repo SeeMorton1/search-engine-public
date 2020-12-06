@@ -90,7 +90,7 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                         cin >> option;
                         if (option <= topRankedArticles.size() && option > 0) {
                             option = option - 1;
-                            printArticle(option);
+                            printArticle(topRankedArticles.at(option).returnJsonFileName(),file);
                         } else if (option == 0) {
                             run = false;
                         } else {
@@ -136,7 +136,24 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
     }
 }
 
-
+//Here's the function you wanted just put the things in and it will return the object
+JsonObject UserInterface::findFile(string ID, const char *file,ifstream &stop, ifstream &csv) {
+    DocParser newParse;
+    JsonObject newObject = newParse.parseAFile(ID,file,stop,csv);
+    return newObject;
+}
+void UserInterface::printArticle(string id, const char *file) {
+    DocParser newParse;
+    for (int i=0; i<300;i++){
+        if ( newParse.parse300Words(id, file).at(i) == "."){
+            cout << newParse.parse300Words(id, file).at(i) << " ";
+            cout << endl;
+        }
+        else{
+        cout << newParse.parse300Words(id, file).at(i) << " ";
+        }
+    }
+}
 
 vector<string> UserInterface::createUniqueIds(list<string> list) {
     set<string> temp;
@@ -201,12 +218,6 @@ void UserInterface::setCount(long Nodes) {
 
 long UserInterface::returnUniqueWordsNumber() {
     return sizeOfNode;
-}
-
-void UserInterface::printArticle(int x) {
-    for (int i = 0; i < 300; i++) {
-        cout << topRankedArticles.at(x).returnText().at(i) << " ";
-    }
 }
 
 void UserInterface::printStats() {

@@ -42,6 +42,8 @@ public:
     int parseFiles(const char *file, ifstream& stopWords, ifstream& csvFile);
     void parseMetaData(ifstream& csv);
     void readInStopWords(ifstream& stopWords);
+    JsonObject parseAFile(string ID, const char *file,ifstream &stop, ifstream &csv);
+    vector<string> parse300Words(string ID, const char *file);
 
 
     vector<JsonObject> getJsons();

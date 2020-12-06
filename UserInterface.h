@@ -36,13 +36,15 @@ class UserInterface
   public:
     void startUI(const char *file, ifstream& stopWords, ifstream& csvFile); //Overall User Interface
     void clearIndex(); //Cleans Index
-    void printArticle(int x); //300 Words of article
+    void printArticle(string id,const char *file); //300 Words of article
     vector<string> createUniqueIds(list<string> list);
     void printStats();
     void addAuthors();
     void processIndex(const char* file,const char* csv,const char* stop);
     void setCount(long Nodes);
     void printTop50();
+
+    JsonObject findFile(string ID, const char *file,ifstream &stop, ifstream &csv);
 
 
     //Statistical Things
