@@ -225,21 +225,32 @@ public:
     }
 
     AvLTree(const AvLTree<T> &copy) {
-        root = copySubTree(copy.root);
+        root = copyNodes(copy.root);
+    }
+    AvLNode* copyNodes(AvLNode* curr){
+        if(curr!= nullptr){
+            AvLNode* left = copyNodes(curr->getLeft());
+            AvLNode* right = copyNodes(curr->getRight());
+            auto* p = new AvLNode(curr->getData(),left,right,curr->getHeight());
+            n++;
+            return p;
+        }else{
+            return nullptr ;
+        }
     }
 
     AvLTree<T> &operator=(const AvLTree<T> &copy) {
-        root = copySubTree(copy.root);
+        root = copyNodes(copy.root);
         return *this;
     }
 
-    AvLNode *copySubTree(AvLNode *curr) {
+    void copySubTree(AvLNode *curr) {
         if(curr!= nullptr){
             AvLNode* left = copySubTree(curr->getLeft());
             AvLNode* right = copySubTree(curr->getRight());
-            return new AvLNode(curr->getData(),curr->getLeft(),curr->getRight(),curr->getHeight());
+            insert(curr->getData());
         }else{
-            return nullptr;
+
         }
     }
 
@@ -311,6 +322,7 @@ public:
     void Clear() {
         Clear(root);
         root = nullptr;
+        n = 0;
     }
 
     void Clear(AvLNode *in) {

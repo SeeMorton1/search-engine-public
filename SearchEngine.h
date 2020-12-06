@@ -14,10 +14,12 @@
 
 #include "Query.h"
 #include "IndexProcessor.h"
+
+
 class SearchEngine {
 private:
 
-    HashTable<string,list<string>> authorIndex;
+    //HashTable<string,list<string>> authorIndex;
     vector<JsonObject> jsons;
 public:
     void setIndex( AvLTree<Index>& copy);
