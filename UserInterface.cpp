@@ -1,6 +1,10 @@
 //
 // Created by Zihao Lin on 11/25/2020.
-//
+//  11/27 - Parsing in query and setting up UI
+//  11/30 - Added an option to parse from UI
+// 12/01 - Started printing Stats
+// 12/03 - UI is setup and ready for Morton to implement Index commands
+// 12/06 Statistical things work and just finishing up on UI
 
 #include "UserInterface.h"
 /*
@@ -276,7 +280,7 @@ void UserInterface::printStats() {
     for (int i = 0; i < 15&&i<SearchResults.size(); i++) {
         if (SearchResults.at(i).returnTitle().empty())
         {
-            cout << "Title: No Title" << endl;
+            cout << i + 1 << "Title: No Title" << endl;
         }
         else {
             cout << i + 1 << ") Title: " << SearchResults.at(i).returnTitle() << endl;
