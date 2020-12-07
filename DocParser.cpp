@@ -1,6 +1,11 @@
 //
 // Created by zihao on 11/14/2020.
-//
+// 11/16 - Parsing Works
+// 11/18 - Added functions to parsing to remove excess works
+//  11/19 - Remove Stop Words
+// 11/21 - Stem
+// 12/3 - Added Csv Parser
+// 12/5 - Created functions to read files just given the IDs
 
 #include "DocParser.h"
 
@@ -202,7 +207,6 @@ JsonObject DocParser::parseAFile(string ID, const char *file,ifstream &stop, ifs
             string title = metadata["title"].GetString();
             newObject.setTitle(title);
 
-
             //Parsing in Authors
             //https://github.com/Tencent/rapidjson/issues/1235
             if (metadata["authors"].IsArray()) {
@@ -224,40 +228,6 @@ JsonObject DocParser::parseAFile(string ID, const char *file,ifstream &stop, ifs
                 }
             }
         }
-
-        //Parsing in Abstract
-//                if (d.HasMember("abstract")) {
-//                    const Value &abstract = d["abstract"];
-//                    //cout << "-Abstract:" << endl;
-//                    if (abstract.IsArray()) {
-//                        string abstractText;
-//                        for (rapidjson::Value::ConstValueIterator itr = abstract.Begin();
-//                             itr != abstract.End(); ++itr) {
-//                            const Value &attribute = *itr;
-//                            assert(attribute.IsObject());
-//                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
-//                                 itr2 != attribute.MemberEnd(); ++itr2) {
-//                                if (attribute.HasMember("text")) {
-//                                    abstractText = attribute["text"].GetString();
-//                                }
-//                            }
-//
-//                            string word = "";
-//                            for (auto x:abstractText) {
-//                                transform(word.begin(), word.end(), word.begin(), ::tolower);
-//                                if (x == ' ') {
-//                                    if (word.size() > 1) {
-//                                        Porter2Stemmer::stem(word);
-//                                        newObject.addText(word);
-//                                        word = "";
-//                                    }
-//                                } else if ((x<33 || x>47) && (x>64 || x <58)){
-//                                    word = word + x;
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
 
         //Parsing in BodyText
         if (d.HasMember("body_text")) {
