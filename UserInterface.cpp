@@ -101,7 +101,7 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                 if (SearchResults.size() > 1) {
                     bool run = true;
                     while (run) {
-                        cout << "Printing top 15 Articles:" << endl;
+                        cout << endl << "Printing top 15 Articles:" << endl;
                         printStats();
                         cout << "Choose an Option 1-" << topRankedArticles.size()
                              << " to see first 300 words or type 0 to EXIT" << endl;
@@ -206,13 +206,6 @@ void UserInterface::findObjects(vector<string> jsonIDS, vector<JsonObject> allFi
     //addAuthors();
 }
 
-void UserInterface::addAuthors(DocParser parse) {
-    for (int i=0; i<parse.getJsons().size();i++){
-        for (int j=0; j<parse.getJsons().at(i).returnAuthor().size();j++){
-            Authors.push_back(parse.getJsons().at(i).returnAuthor().at(j));
-        }
-    }
-}
 
 long UserInterface::returnArticlesIndexed() {
     return numberOfIndex;
@@ -223,12 +216,15 @@ long UserInterface::averageNumberOfWordsPerArticle() {
     return AVGWords;
 }
 
-int UserInterface::returnUniqueAuthorsNumber() {
-    set<string> UniqueAuthors;
-    for (int i = 0; i < Authors.size(); i++) {
-        UniqueAuthors.insert(Authors.at(i));
+void UserInterface::addAuthors(DocParser parse) {
+    for (int i=0; i<parse.getJsons().size();i++){
+        for (int j=0; j<parse.getJsons().at(i).returnAuthor().size();j++){
+            Authors.insert(parse.getJsons().at(i).returnAuthor().at(j));
+        }
     }
-    return UniqueAuthors.size();
+}
+int UserInterface::returnUniqueAuthorsNumber() {
+    return Authors.size();
 }
 
 void UserInterface::setCount(long Nodes) {

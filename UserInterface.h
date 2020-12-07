@@ -25,7 +25,7 @@ class UserInterface
     vector<JsonObject> SearchResults;
     vector<JsonObject> VectorOfJsons;
     vector<TopWordsObject> top50Words;
-    vector<string> Authors;
+    set<string> Authors;
     IndexProcessor p;
     long numberOfIndex;
     long numberOfWords;
