@@ -21,7 +21,9 @@ using namespace std;
 class UserInterface
 {
   private:
+    vector<string> queryWords;
     vector<JsonObject> topRankedArticles;
+    vector<int> countVector;
     vector<JsonObject> SearchResults;
     vector<JsonObject> VectorOfJsons;
     vector<TopWordsObject> top50Words;
@@ -44,6 +46,7 @@ class UserInterface
     void printTop50();
     void buildJsons();
     JsonObject findFile(string ID, const char *file,ifstream &stop, ifstream &csv);
+    void populateTopFiles();
 
 
     //Statistical Things

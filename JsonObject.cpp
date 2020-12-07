@@ -15,6 +15,14 @@ JsonObject::JsonObject(const JsonObject &copy) {
     title = copy.title;
     publisher = copy.publisher;
     publishTime = copy.publishTime;
+    count = copy.count;
+}
+
+void JsonObject::startCount() {
+    count = 0;
+}
+void JsonObject::increaseCount() {
+    count++;
 }
 
 void JsonObject::addText(const string& t) {
@@ -59,4 +67,7 @@ string JsonObject::returnTime() {
 }
 string JsonObject::returnPublisher() {
     return publisher;
+}
+int JsonObject::returnCount() {
+    return count;
 }

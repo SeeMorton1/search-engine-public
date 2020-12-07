@@ -22,6 +22,7 @@ private:
     string jsonFileName;
     string publishTime;
     string publisher;
+    int count;
 public:
 
     JsonObject();
@@ -34,6 +35,8 @@ public:
     void setTitle(const string& t);
     void setPublisher(const string& p);
     void setPublishTime(const string& t);
+    void startCount();
+    void increaseCount();
 
     vector<string> returnText();
     vector<string> returnAuthor();
@@ -41,6 +44,7 @@ public:
     string returnTitle();
     string returnTime();
     string returnPublisher();
+    int returnCount();
 
 
 };
