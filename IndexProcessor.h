@@ -8,7 +8,8 @@
 class IndexProcessor {
 private:
     AvLTree<Index> wordIndex;
-    //HashTable<string,list<string>> authorIndex;
+    vector<Index> top50;
+    HashTable<string,string> authorIndex;
 public:
     IndexProcessor() = default;
 
@@ -35,15 +36,17 @@ public:
         for (auto &it:jsons) {
             vector<string> words = it.returnText();
             vector<string> authors = it.returnAuthor();
-
-            generateAuthorIndex(authors,it.returnJsonFileName());
+            string s = it.returnJsonFileName();
+            generateAuthorIndex(authors,s);
 
             generateIndex(words, it.returnJsonFileName());
         }
+
     }
     void clearAvL(){
         wordIndex.Clear();
     }
+
 
     list<string> findWord(const string &w) {
         Index sea;
@@ -61,27 +64,26 @@ public:
     void addInd(Index &ind, const string &docID) {
         bool f = wordIndex.isFound(ind);
         if (f) {
-
             wordIndex.search(ind)->getData().addID(docID);
+            for(int i = 0;i<top50.size();i++){
+                if(wordIndex.search(ind)->getData().getCount()>top50.at(i).getCount()){
+                    top50.at(i)=wordIndex.search(ind)->getData();
+                }
+            }
         } else {
             ind.addID(docID);
             ind.addCount();
             wordIndex.insert(ind);
         }
     }
-    void generateAuthorIndex(vector<string>& words,const string& docID){
+    void generateAuthorIndex(vector<string>& words, string& docID){
         for(auto& it:words){
              string& author = it;
             addAuthorInd(author,docID);
         }
     }
-    void addAuthorInd( string &author, const string &docID) {
-
-        list<string> f;
-        f.push_back(docID);
-        //authorIndex.insert(author, f);
-
-
+    void addAuthorInd( string &author,  string &docID) {
+        authorIndex.insert(author, docID);
     }
 
     void generateIndex(const vector<string> &words, const string &docID) {
@@ -94,12 +96,21 @@ public:
     AvLTree<Index>& getIndex(){
         return wordIndex;
     }
-    void hashToCsv(ofstream& out){
-       // vector<vector<pair<string,list<string>>>> table = authorIndex.getTable();
-//        for(auto& it:table){
-//
-//        }
+    HashTable<string,string> getHash(){
+        return authorIndex;
     }
+    void hashToCsv(ofstream& out){
+       for(auto&it:authorIndex.getTable()){
+           if(!it.second.empty()){
+               out<<it.first<<",";
+               for(auto& id:it.second){
+                   out<<id<<",";
+               }
+               out<<endl;
+           }
+       }
+    }
+
     void toCSV(ofstream& out){
         AvLTree<Index>::AvLNode* root = wordIndex.getRoot();
         write(root,out);
@@ -145,9 +156,52 @@ public:
         return wordIndex;
 
     }
+    void csvToHash(ifstream& in){
+        string s;
+        while(getline(in,s)){
+            vector<string> words = tokenString(s);
+            string authorName = words.at(0);
+            for(int i = 1;i<words.size();i++) {
+                authorIndex.insert(authorName, words.at(1));
+            }
+        }
+    }
     void setIndex(AvLTree<Index> c){
         wordIndex= c;
     }
+    vector<string> getTop50(){
+        vector<int> mm;
+        for(auto& it:top50){
+            mm.push_back(it.getCount());
+        }
+        sort(mm.begin(),mm.end());
+
+    }
+
+    void levelOrder(AvLTree<Index>::AvLNode* node){
+        int h = node->getHeight();
+        for(int i = 1;i<=h;i++){
+            printLevel(node,i);
+        }
+    }
+    void printLevel(AvLTree<Index>::AvLNode* node,int level){
+        if(node== nullptr){
+            return;
+        }
+        if(level ==1){
+            Index curr = node->getData();
+            top50.push_back(curr);
+
+
+        }else if(level>1){
+            printLevel(node->getLeft(),level-1);
+            printLevel(node->getRight(),level-1);
+        }
+
+    }
+
+
+
 
     
 

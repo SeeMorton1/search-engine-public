@@ -15,27 +15,40 @@ private:
     vector<pair<K,vector<V>>> table;
     long size= 0;
 public:
-    HashTable();
-    HashTable(int n);
-    ~HashTable();
+    HashTable(){
+        for(int i =0;i<init;i++) {
+            pair<K,vector<V>> p;
+            table.push_back(p);
+        }
+    }
+
+    ~HashTable()= default;
 
     //getters
     long getHash(K& k){
         hash<K> hasherslasher;
         return hasherslasher(k)%init;
     }
-    pair<K,V>& getPair(K& k, V& v);
+    pair<K,vector<V>>& getPair(K& k, V& v){
+        return table.at(getHash(k));
+    }
+    vector<pair<K,vector<V>>> getTable(){
+        return table;
+    }
     long getSize(){
         return size;
     }
     void insert(K& k, V& v){
         long h = getHash(k);
-        size++;
-        vector<V> values;
-        values.push_back(v);
-        table.at(h) = make_pair(k,values);
 
-
+        if(table.at(h).second.empty()){
+            size++;
+            vector<V> values;
+            values.push_back(v);
+            table.at(h) = make_pair(k,values);
+        }else {
+            table.at(h).second.push_back(v);
+        }
     }
 
 };

@@ -19,11 +19,15 @@ list<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex,const cha
     n.setWord(initial);
     Index found = wordIndex.search(n)->getData();
     list<string> toSearch = found.getIDs();
+    set<string> setToSearch;
+    for(auto& it:toSearch){
+        setToSearch.insert(it);
+    }
     bool proAnd = q.hasAnd();
     bool proNot = q.hasNot();
 
     if (q.hasAnd() && q.hasNot()) {
-        for (auto &it:toSearch) {
+        for (auto &it:setToSearch) {
             JsonObject file = findFile(it,fi,stop,csv);//http://www.cplusplus.com/reference/algorithm/find_if/
             bool isAndFound = vectorContains(file.returnText(), q.getAnd());
             // bool isAndFound(find_if(file.returnText().begin(),file.returnText().end(),q.getAnd())!=file.returnText().end());
@@ -36,7 +40,7 @@ list<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex,const cha
         cout << "process and and not";
     } else if (q.hasAnd()) {
 
-        for (auto &it:toSearch) {
+        for (auto &it:setToSearch) {
             JsonObject file = findFile(it,fi,stop,csv);
 
             bool isAndFound = vectorContains(file.returnText(), q.getAnd());
@@ -51,8 +55,12 @@ list<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex,const cha
         Index x;
         x.setWord(q.getOr());
         list<string> orID = wordIndex.search(x)->getData().getIDs();
+        set<string> setOrID;
 
-        for (auto &it: orID) {
+        for(const auto& it:orID){
+            setOrID.insert(it);
+        }
+        for (auto &it: setOrID) {
             JsonObject file = findFile(it,fi,stop,csv);
             bool isNotFound = vectorContains(file.returnText(), q.getNot());
 //                bool isNotFound  = (find_if(file.returnText().begin(),file.returnText().end(),q.getNot())!=file.returnText().end());
@@ -60,7 +68,7 @@ list<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex,const cha
                 f.push_back(it);
             }
         }
-        for (auto &it:toSearch) {
+        for (auto &it:setToSearch) {
             JsonObject file = findFile(it,fi,stop,csv);
             bool isNotFound = vectorContains(file.returnText(), q.getNot());
             if (!isNotFound) {
@@ -72,10 +80,14 @@ list<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex,const cha
         Index x;
         x.setWord(q.getOr());
         list<string> orID = wordIndex.search(x)->getData().getIDs();
-        for (auto &it: orID) {
+        set<string> setOrID;
+        for(const auto& it:orID){
+            setOrID.insert(it);
+        }
+        for (auto &it: setOrID) {
             f.push_back(it);
         }
-        for (auto &it:toSearch) {
+        for (auto &it:setToSearch) {
             f.push_back(it);
         }
 

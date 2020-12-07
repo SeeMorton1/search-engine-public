@@ -53,6 +53,7 @@ class UserInterface
     long averageNumberOfWordsPerArticle();
     long returnUniqueWordsNumber(); //Number of Nodes in avl
     int returnUniqueAuthorsNumber();
+    vector<string> returnMostCommonWords();
 
 };
 

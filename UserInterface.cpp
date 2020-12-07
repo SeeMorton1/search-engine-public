@@ -31,28 +31,48 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                 cout<<"Please enter file to save word index to in the form 'fileToSave.csv'"<<endl;
                 cin>>fileName;
                 string authorFileName;
-                //cout<<"Please enter file to save author index to in the form 'fileToSave.csv'"<<endl;
-                //cin>>authorFileName;
                 ofstream out(fileName);
-                //ofstream outAuthor(authorFileName);
+                cout<<"Please enter file to save author index to in the form 'fileToSave.csv'"<<endl;
+                cin>>authorFileName;
+                p.toCSV(out);
+                out.close();
+                ofstream outAuthor(authorFileName);
+
+                p.hashToCsv(outAuthor);
 
                 //p.setAuthorIndex(authorIndex);
                 //p.toAuthorCsv(outAuthor);
-                p.toCSV(out);
+
+
                 //Write index - writes the current Index(AVL TRee and HAsh table) in the program to the CSV
             } else if (UserInput == "2" ) {
+                ofstream pers("persistance.txt");
                 DocParser newParse;
                 newParse.parseFiles(file, stopWords, csvFile);
                 p.createIndex(newParse);
                 VectorOfJsons = newParse.getJsons();
                 numberOfIndex += newParse.getJsons().size();
+                pers<<numberOfIndex<<endl;
                 for (int i=0; i<newParse.getJsons().size();i++){
                     numberOfWords += newParse.getJsons().at(i).returnText().size();
                 }
+                pers<<averageNumberOfWordsPerArticle()<<endl;
+                setCount(p.getIndex().returnSize());
+                pers<<returnUniqueWordsNumber()<<endl;
                 addAuthors(newParse);
 
-            } else if (UserInput == "3" ) {
+                pers<<p.getHash().getSize()<<endl;
 
+
+                pers.close();
+
+            } else if (UserInput == "3" ) {
+                ifstream stats("persistance.txt");
+                string buff;
+                getline(stats,buff);
+                numberOfIndex = stoi(buff);
+                getline(stats,buff);
+                numberOfWords= stoi(buff);
                 cout<<"Please input the absolute path to the csv file"<<endl;
                 string filePath;
                 cin.ignore(INT_MAX,'\n');
@@ -60,6 +80,16 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                 getline(cin,filePath);
                 ifstream fileToRead(filePath);
                 p.csvToTree(fileToRead);
+                fileToRead.close();
+                cout<<"Please enter the absolute path to the author csv file"<<endl;
+                string authorPath;
+
+                getline(cin,authorPath);
+
+                ifstream authorToRead(authorPath);
+
+                p.csvToHash(authorToRead);
+                authorToRead.close();
 
                 cout<<"Loaded index"<<endl;
                 //Open file - Opens the CSV for quick access to the AVL tree
@@ -243,7 +273,7 @@ long UserInterface::returnUniqueWordsNumber() {
 }
 
 void UserInterface::printStats() {
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 15&&i<SearchResults.size(); i++) {
         if (SearchResults.at(i).returnTitle().empty())
         {
             cout << "Title: No Title" << endl;
@@ -252,7 +282,8 @@ void UserInterface::printStats() {
             cout << i + 1 << ") Title: " << SearchResults.at(i).returnTitle() << endl;
         }
         cout << "Author(s): ";
-        for (int j = 0; j < SearchResults.at(i).returnAuthor().size(); j++) {
+        for (int j = 0; j
+                < SearchResults.at(i).returnAuthor().size(); j++) {
             if (j != SearchResults.at(i).returnAuthor().size() - 1) {
                 cout << SearchResults.at(i).returnAuthor().at(j) << ", ";
             } else {
@@ -295,6 +326,10 @@ void UserInterface::findObjects(vector<string> jsonIDS, vector<JsonObject> allFi
             }
         }
     }
+}
+
+vector<string> UserInterface::returnMostCommonWords() {
+
 }
 
 
