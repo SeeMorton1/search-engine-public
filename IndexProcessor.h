@@ -84,7 +84,7 @@ public:
         }
     }
     void addAuthorInd( string &author,  string &docID) {
-        transform(author.begin(),author.end(),author.begin(),::tolower);
+        transform(author.begin(),author.end(),author.begin(),::tolower);//https://www.tutorialspoint.com/how-to-convert-std-string-to-lower-case-in-cplusplus
         authorIndex.insert(author, docID);
     }
 
@@ -126,7 +126,7 @@ public:
             printLevel(node,i,out);
         }
     }
-    void printLevel(AvLTree<Index>::AvLNode* node,int level, ofstream& out){
+    void printLevel(AvLTree<Index>::AvLNode* node,int level, ofstream& out){ //https://www.geeksforgeeks.org/level-order-tree-traversal/
         if(node== nullptr){
             return;
         }
