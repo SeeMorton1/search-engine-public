@@ -22,6 +22,7 @@ DocParser::DocParser(const DocParser &copy) {
     stopWords = copy.stopWords;
 }
 
+//Got this from the porter2_stemmer website
 int DocParser::parseFiles(const char *file, ifstream &stop, ifstream &csv) {
     readInStopWords(stop);
     parseMetaData(csv);
@@ -56,7 +57,6 @@ int DocParser::parseFiles(const char *file, ifstream &stop, ifstream &csv) {
                 Document d;
                 d.ParseStream(is);
 
-
                 //Object for Json Class
                 JsonObject newObject;
                 newObject.jsonFileNameSet(jsonfile);
@@ -88,41 +88,6 @@ int DocParser::parseFiles(const char *file, ifstream &stop, ifstream &csv) {
                             }
                         }
                     }
-
-                    //Parsing in Abstract
-//                if (d.HasMember("abstract")) {
-//                    const Value &abstract = d["abstract"];
-//                    //cout << "-Abstract:" << endl;
-//                    if (abstract.IsArray()) {
-//                        string abstractText;
-//                        for (rapidjson::Value::ConstValueIterator itr = abstract.Begin();
-//                             itr != abstract.End(); ++itr) {
-//                            const Value &attribute = *itr;
-//                            assert(attribute.IsObject());
-//                            for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
-//                                 itr2 != attribute.MemberEnd(); ++itr2) {
-//                                if (attribute.HasMember("text")) {
-//                                    abstractText = attribute["text"].GetString();
-//                                }
-//                            }
-//
-//                            string word = "";
-//                            for (auto x:abstractText) {
-//                                transform(word.begin(), word.end(), word.begin(), ::tolower);
-//                                if (x == ' ') {
-//                                    if (word.size() > 1) {
-//                                        Porter2Stemmer::stem(word);
-//                                        newObject.addText(word);
-//                                        word = "";
-//                                    }
-//                                } else if ((x<33 || x>47) && (x>64 || x <58)){
-//                                    word = word + x;
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-
                     //Parsing in BodyText
                     if (d.HasMember("body_text")) {
                         const Value &body_text = d["body_text"];
@@ -264,6 +229,7 @@ JsonObject DocParser::parseAFile(string ID, const char *file,ifstream &stop, ifs
 
 }
 
+//prints out 300 words
 vector<string> DocParser::parse300Words(string ID, const char *file) {
     string path = file;
     path += "/";
@@ -320,12 +286,6 @@ vector<string> DocParser::parse300Words(string ID, const char *file) {
                 newLine.setPublisher(journal.at(i));
                 newLine.setTime(publish_time.at(i));
                 newLine.checkFullText(full_text_file.at(i));
-//        if (newLine.returnFullText()){
-//            cout << "True" << endl;
-//        }
-//        else{
-//            cout << "False" << endl;
-//        }
                 vectorOfMetaData.push_back(newLine);
             }
 

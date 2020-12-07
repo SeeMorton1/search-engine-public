@@ -8,14 +8,6 @@
 
 #include "UserInterface.h"
 
-/*
- * To DO List:
- * Write Index (Option 1)
- * Open CSV File (Option 3)
- * Clear Index (Option 4)
- * Function returnUniqueWordsNumber() aka Nodes in avl
- *
- */
 void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csvFile) {
     numberOfIndex = 0;
     numberOfWords = 0;
@@ -242,7 +234,7 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                 string option;
                 cout << "Choose an Option" << endl << "~~~~~~~~~~~~~~~~~~~" << endl;
                 cout
-                        << "1.Total number of individual articles indexed\n2.Average number of words indexed per article\n3.Total number of unique words indexed\n4.Total number of unique Authors\n5.Top 50 most frequent words\nAnything Else To EXIT"
+                        << "1.Total number of individual articles indexed\n2.Average number of words indexed per article\n3.Total number of unique words indexed\n4.Total number of unique Authors\nAnything Else To EXIT"
                         << endl;
                 cin >> option;
                 if (option == "1") {
@@ -255,10 +247,7 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                     cout << "Number of Unique Words: " << returnUniqueWordsNumber() << endl;
                 } else if (option == "4") {
                     cout << "Number of Unique Authors: " << returnUniqueAuthorsNumber() << endl;
-                } else if (option == "5") {
-                    cout << "Printing Top 50 Words:" << endl;
-                    printTop50();
-                } else {
+                }  else {
                     cout << "Returning To Search Engine..." << endl << endl;
                 }
             } else if (UserInput == "8") {
@@ -282,7 +271,7 @@ JsonObject UserInterface::findFile(string ID, const char *file, ifstream &stop, 
 
 void UserInterface::printArticle(string id, const char *file) {
     DocParser newParse;
-    for (int i = 0; i < 300; i++) {
+    for (int i = 0; i < 300&&newParse.parse300Words(id,file).size(); i++) {
         if (newParse.parse300Words(id, file).at(i) == ".") {
             cout << newParse.parse300Words(id, file).at(i) << " ";
             cout << endl;
@@ -327,11 +316,6 @@ void UserInterface::populateTopFiles() {
     }
 }
 
-void UserInterface::printTop50() {
-    for (int i = 0; i < 50; i++) {
-        cout << i << ") " << top50Words.at(i).returnWord() << " with " << top50Words.at(i).returnCount() << " counts.";
-    }
-}
 
 
 void UserInterface::findObjects(vector<string> jsonIDS, const char *f, ifstream &stop, ifstream &csv) {
@@ -340,7 +324,6 @@ void UserInterface::findObjects(vector<string> jsonIDS, const char *f, ifstream 
         SearchResults.push_back(findFile(it, f, stop, csv));
 
     }
-    //addAuthors();
 }
 
 
