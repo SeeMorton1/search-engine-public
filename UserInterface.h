@@ -38,7 +38,7 @@ class UserInterface
     void printArticle(string id,const char *file); //300 Words of article
     vector<string> createUniqueIds(list<string> list);
     void printStats();
-    void addAuthors();
+    void addAuthors(DocParser parse);
     void processIndex(const char* file,const char* csv,const char* stop);
     void setCount(long Nodes);
     void printTop50();

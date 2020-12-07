@@ -49,6 +49,8 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                 for (int i=0; i<newParse.getJsons().size();i++){
                     numberOfWords += newParse.getJsons().at(i).returnText().size();
                 }
+                addAuthors(newParse);
+
             } else if (UserInput == "3" ) {
 
                 cout<<"Please input the absolute path to the csv file"<<endl;
@@ -201,13 +203,13 @@ void UserInterface::findObjects(vector<string> jsonIDS, vector<JsonObject> allFi
             }
         }
     }
-    addAuthors();
+    //addAuthors();
 }
 
-void UserInterface::addAuthors() {
-    for (int i=0; i<SearchResults.size();i++) {
-        for (int j=0; j<SearchResults.at(i).returnAuthor().size();j++){
-            Authors.push_back(SearchResults.at(i).returnAuthor().at(j));
+void UserInterface::addAuthors(DocParser parse) {
+    for (int i=0; i<parse.getJsons().size();i++){
+        for (int j=0; j<parse.getJsons().at(i).returnAuthor().size();j++){
+            Authors.push_back(parse.getJsons().at(i).returnAuthor().at(j));
         }
     }
 }
