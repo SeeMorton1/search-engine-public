@@ -71,11 +71,12 @@ int main(int argc, char **argv) {
   newInterface.startUI(argv[2],file,csv);
 
 
-//   JsonObject obj= newInterface.findFile("fe1dea09375e7ab4f239b5c57cd522fc05ff3e37.json",argv[2],file,csv);
+//  JsonObject obj= newInterface.findFile("fe1dea09375e7ab4f239b5c57cd522fc05ff3e37.json",argv[2],file,csv);
 //    newInterface.printArticle("fe1dea09375e7ab4f239b5c57cd522fc05ff3e37.json", argv[2]);
 
 
-
+    file.close();
+    csv.close();
 
 
     cout << "Finished" << endl;

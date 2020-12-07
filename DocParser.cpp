@@ -170,7 +170,6 @@ JsonObject DocParser::parseAFile(string ID, const char *file,ifstream &stop, ifs
     readInStopWords(stop);
     parseMetaData(csv);
     std::ifstream in{"diffs.txt"};
-    bool FullText = false;
     string date;
     string publisher;
     string path = file;
@@ -179,8 +178,6 @@ JsonObject DocParser::parseAFile(string ID, const char *file,ifstream &stop, ifs
     const char *jsonPathing = path.c_str();
     for (int i = 0; i < vectorOfMetaData.size(); i++) {
         if (ID == vectorOfMetaData.at(i).returnID()) {
-
-            FullText = true;
             date = vectorOfMetaData.at(i).returnPublishTime();
             publisher = vectorOfMetaData.at(i).returnPublisher();
 
@@ -369,7 +366,6 @@ vector<string> DocParser::parse300Words(string ID, const char *file) {
         } else {
             cout << "No CSV File" << endl;
         }
-        csv.close();
     }
 
     vector<MetaDataObject> DocParser::getMeta() {
@@ -417,6 +413,5 @@ vector<string> DocParser::parse300Words(string ID, const char *file) {
         } else {
             cout << "No StopWords File" << endl;
         }
-        file.close();
     }
 
