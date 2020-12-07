@@ -38,6 +38,7 @@ list<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex,const cha
 
         for (auto &it:toSearch) {
             JsonObject file = findFile(it,fi,stop,csv);
+
             bool isAndFound = vectorContains(file.returnText(), q.getAnd());
             //bool isAndFound(find_if(file.returnText().begin(),file.returnText().end(),q.getAnd())!=file.returnText().end());
 
@@ -83,6 +84,7 @@ list<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex,const cha
         for (auto &it:toSearch) {
             f.push_back(it);
         }
+
         cout << "found";
     }
 

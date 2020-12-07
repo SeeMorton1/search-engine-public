@@ -47,7 +47,8 @@ class UserInterface
 
 
     //Statistical Things
-    void findObjects(vector<string> jsonIDS, vector<JsonObject> allFiles);
+    void findObjects(vector<string> jsonIDS, const char* file, ifstream& stop, ifstream& csv);
+    void findObjects(vector<string> jsonIDS,vector<JsonObject> allFiles);
     long returnArticlesIndexed();
     long averageNumberOfWordsPerArticle();
     long returnUniqueWordsNumber(); //Number of Nodes in avl

@@ -96,8 +96,15 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                 topRankedArticles.clear();
                 //This line pretty much takes List<string> and converts it to vector of string of unique ids and finds their object
                 //THen I put it into SearchResults
+                createUniqueIds(newSearch.findDocs(newQuery,p.getIndex(),file,stopWords,csvFile));
 
-                findObjects(createUniqueIds(newSearch.findDocs(newQuery,p.getIndex(),file,stopWords,csvFile)), VectorOfJsons);
+                if(VectorOfJsons.empty()){
+
+                    findObjects(createUniqueIds(newSearch.findDocs(newQuery,p.getIndex(),file,stopWords,csvFile)),file,stopWords,csvFile);
+                }else{
+                    findObjects(createUniqueIds(newSearch.findDocs(newQuery,p.getIndex(),file,stopWords,csvFile)), VectorOfJsons);
+                }
+
                 if (SearchResults.size() > 1) {
                     bool run = true;
                     while (run) {
@@ -161,6 +168,7 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
 JsonObject UserInterface::findFile(string ID, const char *file,ifstream &stop, ifstream &csv) {
     DocParser newParse;
     JsonObject newObject = newParse.parseAFile(ID,file,stop,csv);
+
     return newObject;
 }
 void UserInterface::printArticle(string id, const char *file) {
@@ -185,6 +193,7 @@ vector<string> UserInterface::createUniqueIds(list<string> list) {
     for (const auto &it:temp) {
         uniqueIds.push_back(it);
     }
+
     return uniqueIds;
 }
 
@@ -195,13 +204,11 @@ void UserInterface::printTop50() {
 }
 
 
-void UserInterface::findObjects(vector<string> jsonIDS, vector<JsonObject> allFiles) {
-    for (int i = 0; i < jsonIDS.size(); i++) {
-        for (int j = 0; j < allFiles.size(); j++) {
-            if (allFiles.at(j).returnJsonFileName() == jsonIDS.at(i)) {
-                SearchResults.push_back(allFiles.at(j));
-            }
-        }
+void UserInterface::findObjects(vector<string> jsonIDS,const char* f, ifstream& stop,ifstream& csv) {
+    for (auto& it:jsonIDS) {
+
+        SearchResults.push_back(findFile(it,f,stop,csv));
+
     }
     //addAuthors();
 }
@@ -278,6 +285,16 @@ void UserInterface::clearIndex() {
 
 void UserInterface::buildJsons() {
 
+}
+
+void UserInterface::findObjects(vector<string> jsonIDS, vector<JsonObject> allFiles) {
+    for(int i = 0;i<jsonIDS.size();i++){
+        for(int j = 0;j<allFiles.size();j++){
+            if(allFiles.at(j).returnJsonFileName()==jsonIDS.at(i)){
+                SearchResults.push_back(allFiles.at(j));
+            }
+        }
+    }
 }
 
 
