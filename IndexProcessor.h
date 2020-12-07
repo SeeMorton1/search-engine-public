@@ -79,6 +79,7 @@ public:
     void generateAuthorIndex(vector<string>& words, string& docID){
         for(auto& it:words){
              string& author = it;
+
             addAuthorInd(author,docID);
         }
     }
@@ -169,12 +170,25 @@ public:
     void setIndex(AvLTree<Index> c){
         wordIndex= c;
     }
-    vector<string> getTop50(){
-        vector<int> mm;
-        for(auto& it:top50){
-            mm.push_back(it.getCount());
+    vector<Index> getTop50(){
+        levelOrder(wordIndex.getRoot());
+        vector<Index> sorted;
+
+
+        for(int i = 0;i<top50.size();i++){
+
+            for(int j = i;j<top50.size();j++){
+
+                if(top50.at(i).getCount()>top50.at(j).getCount()){
+                    swap(top50.at(i),top50.at(j));
+                }
+            }
+
         }
-        sort(mm.begin(),mm.end());
+        for(int i = 0;i<top50.size()&&i<50;i++){
+            sorted.push_back(top50.at(i));
+        }
+
 
     }
 

@@ -44,5 +44,9 @@ bool Query::hasNot() {
     return !notQ.empty();
 }
 
+bool Query::hasIn() {
+    return !in.empty();
+}
+
 Query &Query::operator=(const Query &copy) =default;
 

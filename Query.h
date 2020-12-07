@@ -47,6 +47,8 @@ public:
     string getOr(){return orQ;}
     string getNot(){return notQ;}
 
+    bool hasIn();
+
     bool hasAuthor();
 
     bool hasAnd();

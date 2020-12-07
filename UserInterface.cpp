@@ -130,13 +130,13 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                 topRankedArticles.clear();
                 //This line pretty much takes List<string> and converts it to vector of string of unique ids and finds their object
                 //THen I put it into SearchResults
-                createUniqueIds(newSearch.findDocs(newQuery,p.getIndex(),file,stopWords,csvFile));
+                createUniqueIds(newSearch.findDocs(newQuery,p.getIndex(),p.getHash(),file,stopWords,csvFile));
 
                 if(VectorOfJsons.empty()){
 
-                    findObjects(createUniqueIds(newSearch.findDocs(newQuery,p.getIndex(),file,stopWords,csvFile)),file,stopWords,csvFile);
+                    findObjects(createUniqueIds(newSearch.findDocs(newQuery,p.getIndex(),p.getHash(),file,stopWords,csvFile)),file,stopWords,csvFile);
                 }else{
-                    findObjects(createUniqueIds(newSearch.findDocs(newQuery,p.getIndex(),file,stopWords,csvFile)), VectorOfJsons);
+                    findObjects(createUniqueIds(newSearch.findDocs(newQuery,p.getIndex(),p.getHash(),file,stopWords,csvFile)), VectorOfJsons);
                 }
 
                 if (SearchResults.size() > 1) {
