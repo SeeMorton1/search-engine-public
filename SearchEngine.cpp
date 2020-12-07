@@ -18,9 +18,9 @@ list<string> SearchEngine::findDocs(Query &q, AvLTree<Index>& wordIndex, HashTab
 
         string s = q.getAuthor();
 
-        if(table.isFound(s)){
-            p = table.getPair(s);
-        }
+
+        p = table.getPair(s);
+
 
         if (q.hasIn() && q.hasAnd() && q.hasNot()) {
             Index in;
@@ -158,6 +158,7 @@ list<string> SearchEngine::findDocs(Query &q, AvLTree<Index>& wordIndex, HashTab
                 }
             }
         } else {
+
             for (auto &it:p.second) {
                 f.push_back(it);
             }

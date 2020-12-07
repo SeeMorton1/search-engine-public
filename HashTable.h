@@ -8,7 +8,7 @@
 #include <algorithm>
 
 using namespace std;
-const int init = 5000;
+const int init = 10000;
 template<typename K, typename V>
 class HashTable{
 private:
@@ -30,22 +30,9 @@ public:
         return hasherslasher(k)%init;
     }
     pair<K,vector<V>>& getPair(K& k){
-        for(int i = 0;i<table.size();i++){
-
-            if(table.at(i).first==k){
-
-                return table.at(i);
-            }
-        }
+        return table[getHash(k)];
     }
-    bool isFound(K& k ){
-        for(int i = 0;i<table.size();i++){
-            if(table.at(i).first==k){
-                return true;
-            }
-        }
-        return false;
-    }
+
     vector<pair<K,vector<V>>> getTable(){
         return table;
     }
