@@ -81,9 +81,7 @@ int DocParser::parseFiles(const char *file, ifstream &stop, ifstream &csv) {
                                 for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
                                      itr2 != attribute.MemberEnd(); ++itr2) {
                                     if (attribute.HasMember("first")) {
-                                        author = attribute["first"].GetString();
-                                        author += " ";
-                                        author += attribute["last"].GetString();
+                                        author = attribute["last"].GetString();
                                     }
                                 }
                                 newObject.addAuthors(author);
@@ -219,9 +217,7 @@ JsonObject DocParser::parseAFile(string ID, const char *file,ifstream &stop, ifs
                     for (rapidjson::Value::ConstMemberIterator itr2 = attribute.MemberBegin();
                          itr2 != attribute.MemberEnd(); ++itr2) {
                         if (attribute.HasMember("first")) {
-                            author = attribute["first"].GetString();
-                            author += " ";
-                            author += attribute["last"].GetString();
+                            author = attribute["last"].GetString();
                         }
                     }
                     newObject.addAuthors(author);

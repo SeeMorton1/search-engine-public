@@ -280,7 +280,7 @@ void UserInterface::printStats() {
     for (int i = 0; i < 15&&i<SearchResults.size(); i++) {
         if (SearchResults.at(i).returnTitle().empty())
         {
-            cout << i + 1 << "Title: No Title" << endl;
+            cout << i + 1 << ") Title: No Title" << endl;
         }
         else {
             cout << i + 1 << ") Title: " << SearchResults.at(i).returnTitle() << endl;
