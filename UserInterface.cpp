@@ -234,18 +234,23 @@ long UserInterface::returnUniqueWordsNumber() {
 
 void UserInterface::printStats() {
     for (int i = 0; i < 15; i++) {
-        cout << i << ") Title: " << SearchResults.at(i).returnTitle() << endl;
+        if (SearchResults.at(i).returnTitle().empty())
+        {
+            cout << "Title: No Title" << endl;
+        }
+        else {
+            cout << i + 1 << ") Title: " << SearchResults.at(i).returnTitle() << endl;
+        }
         cout << "Author(s): ";
         for (int j = 0; j < SearchResults.at(i).returnAuthor().size(); j++) {
             if (j != SearchResults.at(i).returnAuthor().size() - 1) {
                 cout << SearchResults.at(i).returnAuthor().at(j) << ", ";
             } else {
                 cout << SearchResults.at(i).returnAuthor().at(j);
-                cout << "No publisher";
             }
         }
         cout << endl;
-        if (SearchResults.at(i).returnPublisher() != "") {
+        if (!SearchResults.at(i).returnPublisher().empty()) {
             cout << "Publisher: " << SearchResults.at(i).returnPublisher() << endl;
         } else {
             cout << "Unknown Publisher" << endl;
