@@ -4,7 +4,8 @@
 
 #include "Query.h"
 
-void Query::setAndQ(const string &an) {
+void Query::setAndQ(string &an) {
+    Porter2Stemmer::stem(an);
     andQ = an;
 }
 
@@ -12,15 +13,18 @@ void Query::setAuthor(const string &auth) {
     author = auth;
 }
 
-void Query::setIn(const string &n) {
+void Query::setIn(string &n) {
+    Porter2Stemmer::stem(n);
     in = n;
 }
 
-void Query::setNot(const string &n) {
+void Query::setNot(string &n) {
+    Porter2Stemmer::stem(n);
     notQ = n;
 }
 
-void Query::setOr(const string &s) {
+void Query::setOr(string &s) {
+    Porter2Stemmer::stem(s);
     orQ = s;
 }
 

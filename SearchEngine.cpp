@@ -10,7 +10,7 @@ bool vectorContains(const vector<string>& words, const string s){
     return find(words.begin(),words.end(),s)!=words.end();
 }
 
-list<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex) {
+list<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex,const char* fi,ifstream& stop,ifstream& csv) {
     list<string> f;
 
 
@@ -24,7 +24,7 @@ list<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex) {
 
     if (q.hasAnd() && q.hasNot()) {
         for (auto &it:toSearch) {
-            JsonObject file = findObjects(it); //http://www.cplusplus.com/reference/algorithm/find_if/
+            JsonObject file = findFile(it,fi,stop,csv);//http://www.cplusplus.com/reference/algorithm/find_if/
             bool isAndFound = vectorContains(file.returnText(), q.getAnd());
             // bool isAndFound(find_if(file.returnText().begin(),file.returnText().end(),q.getAnd())!=file.returnText().end());
             bool isNotFound = vectorContains(file.returnText(), q.getNot());
@@ -37,7 +37,7 @@ list<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex) {
     } else if (q.hasAnd()) {
 
         for (auto &it:toSearch) {
-            JsonObject file = findObjects(it);
+            JsonObject file = findFile(it,fi,stop,csv);
             bool isAndFound = vectorContains(file.returnText(), q.getAnd());
             //bool isAndFound(find_if(file.returnText().begin(),file.returnText().end(),q.getAnd())!=file.returnText().end());
 
@@ -52,7 +52,7 @@ list<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex) {
         list<string> orID = wordIndex.search(x)->getData().getIDs();
 
         for (auto &it: orID) {
-            JsonObject file = findObjects(it);
+            JsonObject file = findFile(it,fi,stop,csv);
             bool isNotFound = vectorContains(file.returnText(), q.getNot());
 //                bool isNotFound  = (find_if(file.returnText().begin(),file.returnText().end(),q.getNot())!=file.returnText().end());
             if (!isNotFound) {
@@ -60,7 +60,7 @@ list<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex) {
             }
         }
         for (auto &it:toSearch) {
-            JsonObject file = findObjects(it);
+            JsonObject file = findFile(it,fi,stop,csv);
             bool isNotFound = vectorContains(file.returnText(), q.getNot());
             if (!isNotFound) {
                 f.push_back(it);
@@ -90,14 +90,14 @@ list<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex) {
     return f;
 }
 
-JsonObject &SearchEngine::findObjects(const string& id) {
+JsonObject SearchEngine::findObjects(const string& id) {
     for(auto& it:jsons){
         if(it.returnJsonFileName()==id){
             return it;
         }
     }
 }
-JsonObject& SearchEngine::findFile(string id, const char *file,ifstream& stop, ifstream& csv) {
+JsonObject SearchEngine::findFile(string id, const char *file,ifstream& stop, ifstream& csv) {
     DocParser newParser;
     JsonObject newObject = newParser.parseAFile(id,file,stop,csv);
 
@@ -114,7 +114,10 @@ void SearchEngine::populateJsons(Query q,AvLTree<Index> wordIndex, const char* f
     Index nIndex;
     if(!in.empty()){
         inIndex.setWord(in);
-        inIndex = wordIndex.search(inIndex)->getData();
+        if(wordIndex.isFound(inIndex)){
+            inIndex = wordIndex.search(inIndex)->getData();
+        }
+
     }
     if(!a.empty()){
         aIndex.setWord(a);
@@ -125,16 +128,25 @@ void SearchEngine::populateJsons(Query q,AvLTree<Index> wordIndex, const char* f
     }
     if(!o.empty()){
         oIndex.setWord(o);
-        oIndex = wordIndex.search(oIndex)->getData();
+        if(wordIndex.isFound(oIndex)){
+            oIndex = wordIndex.search(oIndex)->getData();
+        }
+
     }
     if(!n.empty()){
         nIndex.setWord(n);
         nIndex= wordIndex.search(nIndex)->getData();
     }
-
+    set<string> uniqueIn;
     for(auto& it:inIndex.getIDs()){
+        uniqueIn.insert(it);
+    }
 
-        jsons.push_back(findFile(it,file,stop,csv));
+    for(auto it:uniqueIn){
+
+        JsonObject toPush = findFile(it,file,stop,csv);
+
+        jsons.push_back(toPush);
     }
     for(auto& it:aIndex.getIDs()){
         jsons.push_back(findFile(it,file,stop,csv));

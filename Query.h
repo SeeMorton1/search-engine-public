@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <string>
-
+#include "porter2_stemmer.h"
 using namespace std;
 
 class Query {
@@ -29,13 +29,13 @@ public:
 
     void setAuthor(const string &auth);
 
-    void setIn(const string &n);
+    void setIn(string &n);
 
-    void setAndQ(const string &an);
+    void setAndQ(string &an);
 
-    void setNot(const string &n);
+    void setNot(string &n);
 
-    void setOr(const string &s);
+    void setOr(string &s);
 
     string getIn(){
         return in;
