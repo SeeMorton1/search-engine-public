@@ -21,13 +21,10 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
         cout << "1.Write Index\n2.Create Index\n3.Open CSV File\n4.Clear Index\n5.Search\n6.Display Stats\n7.Exit"
              << endl;
         cin >> UserInput;
-        int Option;
-        if(!UserInput.empty()){
-            Option = stoi(UserInput);
-        }
 
-        if (Option == 1 || Option == 2 || Option == 3 || Option == 4 || Option == 5 || Option == 6 || Option == 7) {
-            if (Option == 1) {
+
+        if (UserInput == "1" || UserInput == "2" || UserInput == "3" || UserInput == "4"  || UserInput == "5"  ||UserInput == "6"  || UserInput == "7" ) {
+            if (UserInput == "1" ) {
                 string fileName;
                 cout<<"Please enter file to save word index to in the form 'fileToSave.csv'"<<endl;
                 cin>>fileName;
@@ -36,49 +33,63 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                 //cin>>authorFileName;
                 ofstream out(fileName);
                 //ofstream outAuthor(authorFileName);
-                IndexProcessor p;
-                p.setIndex(wordIndex);
+
                 //p.setAuthorIndex(authorIndex);
                 //p.toAuthorCsv(outAuthor);
                 p.toCSV(out);
                 //Write index - writes the current Index(AVL TRee and HAsh table) in the program to the CSV
-            } else if (Option == 2) {
-
+            } else if (UserInput == "2" ) {
                 DocParser newParse;
                 newParse.parseFiles(file, stopWords, csvFile);
-
-                IndexProcessor p;
-
                 p.createIndex(newParse);
-
-                wordIndex=p.getIndex();
                 VectorOfJsons = newParse.getJsons();
-            } else if (Option == 3) {
-                string filePath;
+            } else if (UserInput == "3" ) {
+
                 cout<<"Please input the absolute path to the csv file"<<endl;
-                cin>>filePath;
+                string filePath;
+                cin.ignore(INT_MAX,'\n');
+                cin.clear();cin.sync();
+                getline(cin,filePath);
                 ifstream fileToRead(filePath);
-                IndexProcessor p;
-                wordIndex = p.csvToTree(fileToRead);
+                p.csvToTree(fileToRead);
+
+                cout<<"Loaded index"<<endl;
                 //Open file - Opens the CSV for quick access to the AVL tree
-            } else if (Option == 4) {
+            } else if (UserInput == "4" ) {
+
+                p.clearAvL();
+
+                cout<<"Cleared the index"<<endl;
                 //clearIndex(); //Don't have a function written out for this yet
-            } else if (Option == 5) {
+            } else if (UserInput == "5" ) {
                 cout << "What would you like to search for?" << endl;
                 Query newQuery;
-                cin >> query;
+                string q;
+                cin.ignore(INT_MAX,'\n');
+                cin.clear();cin.sync();
+                getline(cin,q);
+
                 QueryProcessor queryProcessor;
-                queryProcessor.setSearch(query);
+                queryProcessor.setSearch(q);
+                queryProcessor.genQuery();
+
 
                 newQuery.setIn(queryProcessor.getQuery().getIn());newQuery.setAndQ(queryProcessor.getQuery().getAnd());newQuery.setOr(queryProcessor.getQuery().getOr());newQuery.setNot(queryProcessor.getQuery().getNot());newQuery.setAuthor(queryProcessor.getQuery().getAuthor());
 
                 SearchEngine newSearch;
+                if(VectorOfJsons.empty()){
+                    newSearch.populateJsons(queryProcessor.getQuery(),p.getIndex(),file,stopWords,csvFile);
+                    VectorOfJsons = newSearch.getJsons();
+                }else{
+                    newSearch.setFiles(VectorOfJsons);
+                }
                 //Clears the Result Vectors before doing new Search
                 SearchResults.clear();
                 topRankedArticles.clear();
                 //This line pretty much takes List<string> and converts it to vector of string of unique ids and finds their object
                 //THen I put it into SearchResults
-                findObjects(createUniqueIds(newSearch.findDocs(newQuery,wordIndex)), VectorOfJsons);
+
+                findObjects(createUniqueIds(newSearch.findDocs(newQuery,p.getIndex())), VectorOfJsons);
                 if (SearchResults.size() > 1) {
                     bool run = true;
                     while (run) {
@@ -100,7 +111,7 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                 } else {
                     cout << "No Search Results" << endl;
                 }
-            } else if (Option == 6) {
+            } else if (UserInput == "6" ) {
                 cout << "Choose an Option" << endl << "~~~~~~~~~~~~~~~~~~~" << endl;
                 cout
                         << "1.Total number of individual articles indexed\n2.Average number of words indexed per article\n3.Total number of unique words indexed\n4.Total number of unique Authors\n5.Top 50 most frequent words\nAnything Else To EXIT"
@@ -126,7 +137,7 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                 } else {
                     cout << "Returning To Search Engine..." << endl << endl;
                 }
-            } else if (Option == 7) {
+            } else if (UserInput == "7" ) {
                 cout << "Exiting Search Engine" << endl;
                 RunUI = false;
             }
@@ -135,6 +146,7 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
         }
     }
 }
+
 
 //Here's the function you wanted just put the things in and it will return the object
 JsonObject UserInterface::findFile(string ID, const char *file,ifstream &stop, ifstream &csv) {
@@ -248,14 +260,16 @@ void UserInterface::processIndex(const char *file, const char *csv, const char *
     ifstream stopFile(stop);
     ifstream csvFile(csv);
     docParser.parseFiles(file,stopFile,csvFile);
-    IndexProcessor p;
     p.createIndex(docParser);
-    wordIndex=p.getIndex();
     //authorIndex=p.getAuthorIndex();
 }
 
 void UserInterface::clearIndex() {
-    wordIndex.Clear();
+    p.clearAvL();
+}
+
+void UserInterface::buildJsons() {
+
 }
 
 

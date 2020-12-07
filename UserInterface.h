@@ -26,8 +26,7 @@ class UserInterface
     vector<JsonObject> VectorOfJsons;
     vector<TopWordsObject> top50Words;
     vector<string> Authors;
-    AvLTree<Index> wordIndex;
-    HashTable<string,list<string>> authorIndex;
+    IndexProcessor p;
     long numberOfIndex;
     long numberOfWords;
     long sizeOfNode;
@@ -43,7 +42,7 @@ class UserInterface
     void processIndex(const char* file,const char* csv,const char* stop);
     void setCount(long Nodes);
     void printTop50();
-
+    void buildJsons();
     JsonObject findFile(string ID, const char *file,ifstream &stop, ifstream &csv);
 
 
