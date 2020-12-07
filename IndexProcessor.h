@@ -84,6 +84,7 @@ public:
         }
     }
     void addAuthorInd( string &author,  string &docID) {
+        transform(author.begin(),author.end(),author.begin(),::tolower);
         authorIndex.insert(author, docID);
     }
 
