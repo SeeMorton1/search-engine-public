@@ -39,6 +39,9 @@ public:
     long getSize(){
         return size;
     }
+    void clear(){
+        table.clear();
+    }
     void insert(K& k, V& v){
         long h = getHash(k);
 

@@ -150,7 +150,7 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                     findObjects(createUniqueIds(newSearch.findDocs(newQuery,p.getIndex(),p.getHash(),file,stopWords,csvFile)), VectorOfJsons);
                 }
 
-                if (SearchResults.size() > 1) {
+                if (!SearchResults.empty()) {
                     bool run = true;
                     while (run) {
                         cout << endl << "Printing top 15 Articles:" << endl;
@@ -216,7 +216,7 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                     findObjects(createUniqueIds(newSearch.findDocs(newQuery,p.getIndex(),p.getHash(),file,stopWords,csvFile)), VectorOfJsons);
                 }
 
-                if (SearchResults.size() > 1) {
+                if (!SearchResults.empty()) {
                     bool run = true;
                     while (run) {
                         cout << endl << "Printing top 15 Articles:" << endl;
