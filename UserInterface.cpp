@@ -16,6 +16,8 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
     bool RunUI = true;
 
     while (RunUI) {
+        numberOfIndex = 0;
+        numberOfWords = 0;
         string UserInput;
         cout << "Choose an Option" << endl << "~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "1.Write Index\n2.Create Index\n3.Open CSV File\n4.Clear Index\n5.Search\n6.Display Stats\n7.Exit"
@@ -43,6 +45,12 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                 newParse.parseFiles(file, stopWords, csvFile);
                 p.createIndex(newParse);
                 VectorOfJsons = newParse.getJsons();
+                numberOfIndex += newParse.getJsons().size();
+                for (int i=0; i<newParse.getJsons().size();i++){
+                    for (int j=0; j<newParse.getJsons().at(i).returnText().size();j++){
+                        numberOfWords++;
+                    }
+                }
             } else if (UserInput == "3" ) {
 
                 cout<<"Please input the absolute path to the csv file"<<endl;
@@ -190,8 +198,6 @@ void UserInterface::findObjects(vector<string> jsonIDS, vector<JsonObject> allFi
     for (int i = 0; i < jsonIDS.size(); i++) {
         for (int j = 0; j < allFiles.size(); j++) {
             if (allFiles.at(j).returnJsonFileName() == jsonIDS.at(i)) {
-                numberOfWords += allFiles.at(j).returnText().size();
-                numberOfIndex++;
                 SearchResults.push_back(allFiles.at(j));
             }
         }
