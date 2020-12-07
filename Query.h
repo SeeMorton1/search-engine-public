@@ -29,13 +29,13 @@ public:
 
     void setAuthor(const string &auth);
 
-    void setIn(string &n);
+    void setIn(basic_string<char> n);
 
-    void setAndQ(string &an);
+    void setAndQ(basic_string<char> an);
 
-    void setNot(string &n);
+    void setNot(basic_string<char> n);
 
-    void setOr(string &s);
+    void setOr(basic_string<char> s);
 
     string getIn(){
         return in;

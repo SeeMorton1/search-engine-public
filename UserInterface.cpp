@@ -85,19 +85,19 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                 newQuery.setIn(queryProcessor.getQuery().getIn());newQuery.setAndQ(queryProcessor.getQuery().getAnd());newQuery.setOr(queryProcessor.getQuery().getOr());newQuery.setNot(queryProcessor.getQuery().getNot());newQuery.setAuthor(queryProcessor.getQuery().getAuthor());
 
                 SearchEngine newSearch;
-                if(VectorOfJsons.empty()){
-                    newSearch.populateJsons(queryProcessor.getQuery(),p.getIndex(),file,stopWords,csvFile);
-                    VectorOfJsons = newSearch.getJsons();
-                }else{
-                    newSearch.setFiles(VectorOfJsons);
-                }
+//                if(VectorOfJsons.empty()){
+//                    newSearch.populateJsons(queryProcessor.getQuery(),p.getIndex(),file,stopWords,csvFile);
+//                    VectorOfJsons = newSearch.getJsons();
+//                }else{
+//                    newSearch.setFiles(VectorOfJsons);
+//                }
                 //Clears the Result Vectors before doing new Search
                 SearchResults.clear();
                 topRankedArticles.clear();
                 //This line pretty much takes List<string> and converts it to vector of string of unique ids and finds their object
                 //THen I put it into SearchResults
 
-                findObjects(createUniqueIds(newSearch.findDocs(newQuery,p.getIndex())), VectorOfJsons);
+                findObjects(createUniqueIds(newSearch.findDocs(newQuery,p.getIndex(),file,stopWords,csvFile)), VectorOfJsons);
                 if (SearchResults.size() > 1) {
                     bool run = true;
                     while (run) {

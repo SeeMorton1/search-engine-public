@@ -79,6 +79,7 @@ list<string> SearchEngine::findDocs(Query &q,AvLTree<Index>& wordIndex,const cha
         }
 
     } else {
+
         for (auto &it:toSearch) {
             f.push_back(it);
         }
