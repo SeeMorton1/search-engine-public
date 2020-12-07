@@ -12,12 +12,12 @@
  * 
  */
 void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csvFile) {
+    numberOfIndex = 0;
+    numberOfWords = 0;
     cout << "Starting Search Engine" << endl;
     bool RunUI = true;
 
     while (RunUI) {
-        numberOfIndex = 0;
-        numberOfWords = 0;
         string UserInput;
         cout << "Choose an Option" << endl << "~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "1.Write Index\n2.Create Index\n3.Open CSV File\n4.Clear Index\n5.Search\n6.Display Stats\n7.Exit"
@@ -47,9 +47,7 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                 VectorOfJsons = newParse.getJsons();
                 numberOfIndex += newParse.getJsons().size();
                 for (int i=0; i<newParse.getJsons().size();i++){
-                    for (int j=0; j<newParse.getJsons().at(i).returnText().size();j++){
-                        numberOfWords++;
-                    }
+                    numberOfWords += newParse.getJsons().at(i).returnText().size();
                 }
             } else if (UserInput == "3" ) {
 
@@ -120,29 +118,30 @@ void UserInterface::startUI(const char *file, ifstream &stopWords, ifstream &csv
                     cout << "No Search Results" << endl;
                 }
             } else if (UserInput == "6" ) {
+                string option;
                 cout << "Choose an Option" << endl << "~~~~~~~~~~~~~~~~~~~" << endl;
                 cout
                         << "1.Total number of individual articles indexed\n2.Average number of words indexed per article\n3.Total number of unique words indexed\n4.Total number of unique Authors\n5.Top 50 most frequent words\nAnything Else To EXIT"
                         << endl;
-                int option;
                 cin >> option;
-                if (option >= 1 && option <= 5) {
-                    if (option == 1) {
+                    if (option == "1") {
                         cout << "Total Number of Articles Indexed: " << returnArticlesIndexed() << endl;
-                    } else if (option == 2) {
+                    } else if (option == "2") {
                         cout << "Average number of Words per Article: " << averageNumberOfWordsPerArticle() << endl;
                     }
-                    else if (option == 3){
+                    else if (option == "3"){
+                        long size = p.getIndex().returnSize();
+                        setCount(size);
                         cout << "Number of Unique Words: " << returnUniqueWordsNumber() << endl;
                     }
-                    else if (option == 4){
+                    else if (option == "4"){
                         cout << "Number of Unique Authors: " <<returnUniqueAuthorsNumber() << endl;
                     }
-                    else if (option == 5){
+                    else if (option == "5"){
                         cout << "Printing Top 50 Words:" << endl;
                         printTop50();
                     }
-                } else {
+                 else {
                     cout << "Returning To Search Engine..." << endl << endl;
                 }
             } else if (UserInput == "7" ) {
